@@ -1,10 +1,9 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
-import { Router ,BrowserRouter } from 'react-router-dom'
+import { Router } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
-import {ConnectedRouter} from 'connected-react-router'
-// import './config/ReactotronConfig'
+import './config/ReactotronConfig'
 
 import Routes from './routes'
 
@@ -18,15 +17,11 @@ function App () {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <Router  history={history}>
-        {/* <ConnectedRouter history={history}> */}
-
+        <Router history={history}>
           <Routes />
           <GlobalStyle />
           <ToastContainer autoClose={3000} />
-        {/* </ConnectedRouter> */}
-        
-        </Router >
+        </Router>
       </PersistGate>
     </Provider>
   )

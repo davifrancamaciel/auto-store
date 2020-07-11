@@ -36,9 +36,9 @@ const RouterWrapper: React.FC<IRouteProps> = ({
   return (
     <ReactDOMRoute
       {...rest}
-      render={props => (
+      render={(props:any) => (
         <Layout>
-          <Component {...rest} />
+          <Component {...props} />
         </Layout>
       )}
     />
