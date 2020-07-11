@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { SubmitHandler, FormHandles } from '@unform/core'
 import { Form } from '@unform/web'
 import { Link } from 'react-router-dom'
@@ -9,6 +10,7 @@ import logo from '../../assets/icone.png'
 import api from '../../services/api'
 import getValidationErrors from '../../Utils/getValidationErrors'
 import FormData from './interfaces/ISignInFormData'
+import { signInRequest } from '../../store/modules/auth/actions'
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -18,7 +20,8 @@ const schema = Yup.object().shape({
 })
 
 const SignIn: React.FC = () => {
-  let loading = false
+  const dispatch = useDispatch()
+  const loading = useSelector<any>(state => state.auth.loading)
 
   const formRef = useRef<FormHandles>(null)
   const handleSubmit: SubmitHandler<FormData> = async data => {
@@ -26,10 +29,8 @@ const SignIn: React.FC = () => {
       await schema.validate(data, {
         abortEarly: false
       })
-      console.log(formRef)
-      console.log(data)
-      const response = await api.post('sessions', data)
-      console.log(response)
+      
+      dispatch(signInRequest(data.email, data.password))
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         // Validation failed

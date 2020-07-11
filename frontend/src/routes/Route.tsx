@@ -7,6 +7,7 @@ import {
 
 import AuthLayout from '../pages/_layouts/auth'
 import DefaultLayout from '../pages/_layouts/default'
+import { store } from '../store'
 
 interface IRouteProps extends ReactDOMRouteProps {
   isPrivate?: boolean
@@ -18,7 +19,9 @@ const RouterWrapper: React.FC<IRouteProps> = ({
   component: Component,
   ...rest
 }) => {
-  const signed = true
+  const storeState: any = store.getState()
+  const {signed }= storeState.auth
+  console.log(signed)
 
   if (!signed && isPrivate) {
     return <Redirect to='/' />
@@ -35,28 +38,28 @@ const RouterWrapper: React.FC<IRouteProps> = ({
       {...rest}
       render={props => (
         <Layout>
-          <Component {...rest} />          
+          <Component {...rest} />
         </Layout>
       )}
     />
   )
-//   return (
-//     <ReactDOMRoute
-//       {...rest}
-//       render={({ location }) => {
-//         return isPrivate === !!signed ? (
-//           <Component />
-//         ) : (
-//           <Redirect
-//             to={{
-//               pathname: isPrivate ? '/' : '/dashboard',
-//               state: { from: location }
-//             }}
-//           />
-//         )
-//       }}
-//     />
-//   )
+  //   return (
+  //     <ReactDOMRoute
+  //       {...rest}
+  //       render={({ location }) => {
+  //         return isPrivate === !!signed ? (
+  //           <Component />
+  //         ) : (
+  //           <Redirect
+  //             to={{
+  //               pathname: isPrivate ? '/' : '/dashboard',
+  //               state: { from: location }
+  //             }}
+  //           />
+  //         )
+  //       }}
+  //     />
+  //   )
 }
 
 export default RouterWrapper
