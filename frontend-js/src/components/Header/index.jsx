@@ -14,8 +14,9 @@ const Header = () => {
       <Container>
         <Content>
           <nav>
-            <img src={logo} alt='Gestão flex' />
-            <Link to='/dashboard'>DASHBOARD</Link>
+            <Link to='/dashboard'>
+              <img src={logo} alt='Gestão flex' />
+            </Link>
           </nav>
           <aside>
             {/* <Notifications /> */}

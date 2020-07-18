@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { USER_UPDATE_PROFILE_REQUEST } from '../../../constants/user'
 import api from '../../../services/api'
 import { updateProfileFailure, updateProfileSuccess } from './actions'
+import getValidationErrors from '../../../Utils/getValidationErrors'
 
 
 export function * updateProfile ({payload}) {
@@ -19,7 +20,7 @@ export function * updateProfile ({payload}) {
 
     yield put(updateProfileSuccess(response.data))
   } catch (error) {
-    toast.error('Erro ao alterar perfil')
+    getValidationErrors(error)
     yield put(updateProfileFailure())
   }
 }

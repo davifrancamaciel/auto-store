@@ -32,6 +32,7 @@ routes.get('/companies', CompanyController.index);
 routes.post('/companies', validateCompanyStore, CompanyController.store);
 routes.put('/companies', validateCompanyUpdate, CompanyController.update);
 routes.get('/companies/:id', CompanyController.find);
+routes.delete('/companies/:id', CompanyController.delete);
 
 routes.post('/users', validateUserStore, UserController.store);
 routes.get('/users', UserController.index);

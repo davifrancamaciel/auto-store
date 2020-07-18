@@ -34,26 +34,12 @@ export const Content = styled.div`
     }
 
     span {
-      color: #fb6f91;
+      color: var(--secondary-color);
       align-self: flex-start;
       margin: 0 0 10px;
       font-weight: bold;
     }
-
-    button {
-      margin: 10px 0 0;
-      height: 44px;
-      background: #ff8d08;
-      font-weight: bold;
-      color: #fff;
-      border: 0;
-      border-radius: 4px;
-      font-size: 16px;
-      transition: background 0.2s;
-      &:hover {
-        background: ${darken(0.03, '#ff8d08')};
-      }
-    }
+    
     a {
       color: #fff;
       margin-top: 15px;

@@ -24,15 +24,15 @@ class CompanyController {
         id: {
           [Op.ne]: userCompanyId,
         },
-        name: {
-          [Op.iLike]: `%${name}%`,
-        },
-        site: {
-          [Op.iLike]: `%${site}%`,
-        },
-        email: {
-          [Op.iLike]: `%${email}%`,
-        },
+        // name: {
+        //   [Op.iLike]: `%${name || ''}%`,
+        // },
+        // site: {
+        //   [Op.iLike]: `%${site || ''}%`,
+        // },
+        // email: {
+        //   [Op.iLike]: `%${email || ''}%`,
+        // },
         provider: false,
       },
       limit: 20,
@@ -84,7 +84,7 @@ class CompanyController {
     if (companyExist) {
       return res
         .status(400)
-        .json({ error: 'Já existe uma empresa com este email' });
+        .json({ error: 'Já existe uma loja com este email' });
     }
 
     const company = await Company.create(req.body);
@@ -124,6 +124,23 @@ class CompanyController {
     );
 
     return res.json({ id, name, email, provider, whatsapp, city, uf });
+  }
+
+  async delete(req, res) {
+    const { userCompanyProvider, userProvider, userCompanyId } = req;
+
+    if (!userCompanyProvider || !userProvider) {
+      return res
+        .status(401)
+        .json({ error: 'Usuário não tem permissão para deletar as lojas' });
+    }
+
+    const { id } = req.params;
+    const companies = await Company.destroy({
+      where: { id },
+    });
+
+    return res.json(companies);
   }
 }
 

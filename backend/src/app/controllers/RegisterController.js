@@ -13,7 +13,12 @@ class RegisterController {
         .json({ error: 'Já existe um usuário com este email' });
     }
 
-    const company = await Company.create({});
+    const company = await Company.create({
+      provider: false,
+      name: req.body.name,
+      latitude: req.body.latitude,
+      longitude: req.body.longitude,
+    });
 
     if (!company.id) {
       return res.status(400).json({ error: 'Oorreu um erro ao criar empresa' });

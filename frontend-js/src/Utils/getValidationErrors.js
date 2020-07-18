@@ -1,15 +1,11 @@
-import { ValidationError } from 'yup';
+import { toast } from 'react-toastify'
 
-interface IErrors {
-  [key: string]: string;
-}
+export default function getValidationErrors (err) {
 
-export default function getValidationErrors(err: ValidationError): IErrors {
-  const validationErrors: IErrors = {};
-
-  err.inner.forEach(error => {
-    validationErrors[error.path] = error.message;
-  });
-
-  return validationErrors;
+  if (!err || !err.response || !err.response.data || !err.response.data.error) {
+    return
+  }
+  const message = err.response.data.error
+  
+  toast.error(message)  
 }

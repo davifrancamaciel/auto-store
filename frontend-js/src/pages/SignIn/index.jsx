@@ -1,11 +1,13 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import * as Yup from 'yup'
+import { Form, Input } from '@rocketseat/unform'
+
+import { signInRequest } from '../../store/modules/auth/actions'
+import SubmitButton from '../../components/SubmitButton'
 
 import logo from '../../assets/icone.png'
-import { Form , Input} from '@rocketseat/unform'
-import { signInRequest } from '../../store/modules/auth/actions'
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -18,7 +20,6 @@ const SignIn = () => {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.auth.loading)
 
-  const formRef = useRef(null)
   function handleSubmit ({ email, password }) {
     dispatch(signInRequest(email, password))
   }
@@ -28,7 +29,7 @@ const SignIn = () => {
       <Form schema={schema} onSubmit={handleSubmit}>
         <Input name='email' type='email' placeholder='Seu e-mail' />
         <Input name='password' type='password' placeholder='Sua senha' />
-        <button type='submit'>{loading ? 'Carregando ...' : 'Acessar'}</button>
+        <SubmitButton loading={loading} text={'Acessar'} />
         <Link to='/register'>Criar conta </Link>
       </Form>
     </>

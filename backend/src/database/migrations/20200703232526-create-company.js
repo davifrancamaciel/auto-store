@@ -37,7 +37,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-
+      bairro: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       uf: {
         type: Sequelize.STRING,
         allowNull: true,

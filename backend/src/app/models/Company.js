@@ -11,6 +11,7 @@ class Company extends Model {
         cnpj: Sequelize.STRING,
         email: Sequelize.STRING,
         city: Sequelize.STRING,
+        bairro: Sequelize.STRING,
         uf: Sequelize.STRING,
         logradouro: Sequelize.STRING,
         cep: Sequelize.STRING,

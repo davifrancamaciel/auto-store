@@ -56,11 +56,6 @@ module.exports = {
         allowNull: true,
       },
 
-      perfil: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-
       latitude: {
         type: Sequelize.DECIMAL,
         allowNull: true,

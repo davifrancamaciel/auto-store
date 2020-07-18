@@ -1,11 +1,11 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Form ,Input} from '@rocketseat/unform'
-
 import { Link } from 'react-router-dom'
 import * as Yup from 'yup'
+import { Form, Input } from '@rocketseat/unform'
 
 import { signUpRequest } from '../../store/modules/auth/actions'
+import SubmitButton from '../../components/SubmitButton'
 
 import logo from '../../assets/icone.png'
 
@@ -26,7 +26,7 @@ const SignUp = () => {
   function handleSubmit ({ name, email, password }) {
     dispatch(signUpRequest(name, email, password))
   }
-  
+
   return (
     <>
       <img src={logo} alt='Gestão flex' />
@@ -34,13 +34,11 @@ const SignUp = () => {
         <Input name='name' type='text' placeholder='Nome completo' />
         <Input name='email' type='email' placeholder='Seu e-mail' />
         <Input name='password' type='password' placeholder='Sua senha' />
-        <button type='submit'>
-          {loading ? 'Criando conta ...' : 'Criar conta'}
-        </button>
+        <SubmitButton loading={loading} text={'Criar conta'} />
         <Link to='/'>Já tenho conta</Link>
       </Form>
     </>
   )
 }
 
-export default SignUp;
+export default SignUp

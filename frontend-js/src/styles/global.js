@@ -4,6 +4,12 @@ import 'react-toastify/dist/ReactToastify.css'
 
 export default createGlobalStyle`
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    
+    :root {
+        --primary-color: #00a0cb;
+        --secondary-color: #ff8d08 ;
+        --text-color: #6c6c80;
+    }
     * {
         margin: 0;
         padding: 0;

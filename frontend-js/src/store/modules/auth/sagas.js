@@ -11,6 +11,7 @@ import {
 } from '../../../constants/auth'
 import { signInSuccess, signFailure } from './actions'
 import api from '../../../services/api'
+import getValidationErrors from '../../../Utils/getValidationErrors'
 
 export function * signIn ({ payload }) {
   try {
@@ -33,15 +34,8 @@ export function * signIn ({ payload }) {
     yield put(signInSuccess(token, user))
 
     history.push('/dashboard')
-  } catch (err) {
-    
-    const message = err.response.data.error
-    
-    if (message) {
-      toast.error(message)
-    } else {
-      toast.error('Usuario não encontrado.')
-    }
+  } catch (error) {
+    getValidationErrors(error)    
     yield put(signFailure())
   }
 }
@@ -59,8 +53,7 @@ export function * signUp ({ payload }) {
 
     history.push('/')
   } catch (error) {
-    if (error.error) toast.error(error.error)
-    else toast.error('Falha no cadastro verifique seus dados')
+    getValidationErrors(error)    
     yield put(signFailure())
   }
 }
