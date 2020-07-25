@@ -11,6 +11,7 @@ import logo from '../../assets/icone.png'
 
 const schema = Yup.object().shape({
   name: Yup.string().required('O nome é obrigatório'),
+  whatsapp: Yup.string().required('O whatsapp é obrigatório'),
   email: Yup.string()
     .email('Insira um email válido')
     .required('O e-mail é obigatório'),
@@ -23,8 +24,8 @@ const SignUp = () => {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.auth.loading)
 
-  function handleSubmit ({ name, email, password }) {
-    dispatch(signUpRequest(name, email, password))
+  function handleSubmit ({ name, email, password, whatsapp }) {
+    dispatch(signUpRequest(name, email, password, whatsapp))
   }
 
   return (
@@ -32,6 +33,11 @@ const SignUp = () => {
       <img src={logo} alt='Gestão flex' />
       <Form schema={schema} onSubmit={handleSubmit}>
         <Input name='name' type='text' placeholder='Nome completo' />
+        <Input
+          name='whatsapp'
+          type='text'
+          placeholder='Seu whatsapp ou da loja'
+        />
         <Input name='email' type='email' placeholder='Seu e-mail' />
         <Input name='password' type='password' placeholder='Sua senha' />
         <SubmitButton loading={loading} text={'Criar conta'} />

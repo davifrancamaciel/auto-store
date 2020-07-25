@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { all, takeLatest, call, put } from 'redux-saga/effects'
-import { toast } from 'react-toastify'
 
 import history from '../../../services/browserhistory'
 import {
@@ -9,7 +8,7 @@ import {
   AUTH_SIGN_UP_REQUEST,
   AUTH_SIGN_OUT
 } from '../../../constants/auth'
-import { signInSuccess, signFailure } from './actions'
+import { signInSuccess, signFailure, signUpSuccess } from './actions'
 import api from '../../../services/api'
 import getValidationErrors from '../../../Utils/getValidationErrors'
 
@@ -20,7 +19,7 @@ export function * signIn ({ payload }) {
     const response = yield call(api.post, '/sessions', {
       email,
       password
-    })    
+    })
 
     const { token, user } = response.data
 
@@ -35,25 +34,27 @@ export function * signIn ({ payload }) {
 
     history.push('/dashboard')
   } catch (error) {
-    getValidationErrors(error)    
+    getValidationErrors(error)
     yield put(signFailure())
   }
 }
 
 export function * signUp ({ payload }) {
   try {
-    const { name, email, password } = payload
+    const { name, email, password, whatsapp } = payload
 
-    yield call(api.post, 'users', {
+    yield call(api.post, 'register', {
       name,
       email,
       password,
-      provider: true
+      provider: true,
+      whatsapp
     })
 
     history.push('/')
+    yield put(signUpSuccess())
   } catch (error) {
-    getValidationErrors(error)    
+    getValidationErrors(error)
     yield put(signFailure())
   }
 }

@@ -1,44 +1,52 @@
 import React from 'react'
-import { FiEdit, FiDelete } from 'react-icons/fi'
+import { FiEdit, FiDelete, FiPhone } from 'react-icons/fi'
+import { FaWhatsapp } from 'react-icons/fa'
 
 import { Container, Info, Actions } from './styles'
 
-function companyItem ({ company, onDeleteClick, onUpdateClick }) {
+function Item ({ item, onDeleteClick, onUpdateClick }) {
   return (
     <Container>
       <header>
         <img
-          src={`https://api.adorable.io/avatar/50/${company.name}.png`}
-          alt={company.name}
+          src={`https://api.adorable.io/avatar/50/${item.name}.png`}
+          alt={item.name}
         />
         <Info>
-          <strong>{company.name}</strong>
-          <span>{company.email}</span>
+          <strong>{item.name}</strong>
+          <span>{item.email}</span>
         </Info>
         <Actions>
-          <button className='edit' onClick={() => onUpdateClick(company.id)}>
+          <button className='edit' onClick={() => onUpdateClick(item.id)}>
             <FiEdit size={20} color='#FFFFFF' />
           </button>
-          <button className='delete' onClick={() => onDeleteClick(company.id)}>
+          <button className='delete' onClick={() => onDeleteClick(item)}>
             <FiDelete size={20} color='#FFFFFF' />
           </button>
         </Actions>
       </header>
       <p>
-        {company.uf}, {company.city}, {company.bairro}, {company.logradouro}
+        {item.uf} {item.city} {item.bairro} {item.logradouro}
       </p>
       <p>
-        {company.whatsapp} - {company.telefone}
+        <span>
+          {item.whatsapp && <FaWhatsapp size={20} />}
+          {item.whatsapp}
+        </span>
+        <span>
+          {item.telefone && <FiPhone size={20} />}
+          {item.telefone}
+        </span>
       </p>
 
-      <a
+      {/* <a
         href={`https://www.google.com/maps/search/?api=1&query=${company.latitude},${company.longitude}`}
         target='_blank'
         rel='noopener noreferrer'
       >
         Maps
-      </a>
+      </a> */}
     </Container>
   )
 }
-export default companyItem
+export default Item

@@ -1,40 +1,12 @@
-import React, { useEffect, useRef } from 'react';
-import { useField } from '@unform/core';
+import React from 'react'
+import { Input } from '@rocketseat/unform'
 
-interface Props {
-  name: string;
-  label?: string;
-};
-
-type InputProps = JSX.IntrinsicElements['input'] & Props;
-
-const Input: React.FC<InputProps> = ({ name, label, ...rest }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const { fieldName, defaultValue, registerField, error } = useField(name);
-
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      path: 'value',
-      ref: inputRef.current,
-    })
-  }, [fieldName, registerField]);
-
+const InputWrapper = props => {
   return (
-    <>
-      { label && <label htmlFor={fieldName}>{label}</label> }
+    <div className='field'>
+      <Input type={props.type || 'text'} {...props} autoComplete="none"/>
+    </div>
+  )
+}
 
-      <input
-        id={fieldName}
-        ref={inputRef}
-        defaultValue={defaultValue}
-        {...rest}
-      />
-
-      { error && <span>{error}</span> }
-    </>
-  );
-};
-
-export default Input;
+export default InputWrapper

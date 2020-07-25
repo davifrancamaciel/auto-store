@@ -12,15 +12,15 @@ export default async (req, res, next) => {
       cpf_cnpj: Yup.string().optional(),
       logradouro: Yup.string().optional(),
       cep: Yup.string().optional(),
-      city: Yup.string().required(),
+      city: Yup.string().optional(),
       uf: Yup.string()
         .max(2)
         .optional(),
       company_id: Yup.number().required(),
       latitude: Yup.number().optional(),
       longitude: Yup.number().optional(),
-      provider: Yup.boolean().required(),
-      active: Yup.boolean().required(),
+      provider: Yup.boolean().optional(),
+      active: Yup.boolean().optional(),
       oldPassword: Yup.string().min(6),
       password: Yup.string()
         .min(6)

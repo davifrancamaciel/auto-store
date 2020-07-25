@@ -8,6 +8,7 @@ import Dashboard from '../pages/Dashboard'
 import CompanyList from '../pages/Company/List'
 import CompanyCreateEdit from '../pages/Company/CreateEdit'
 import UserList from '../pages/User/List'
+import Profile from '../pages/Profile'
 // import UserCreateEdit from '../pages/User/CreateEdit'
 
 
@@ -20,7 +21,8 @@ const Routes = () => {
         <Route path='/user' exact component={UserList} isPrivate />        
         <Route path='/company' exact component={CompanyList} isPrivate />        
         <Route path='/company/create' component={CompanyCreateEdit} isPrivate />        
-        <Route path='/company/edit/:id' component={CompanyCreateEdit} isPrivate />        
+        <Route path='/company/edit/:id' component={CompanyCreateEdit} isPrivate />    
+        <Route path='/profile' component={Profile} isPrivate />    
         
       </Switch>    
   )

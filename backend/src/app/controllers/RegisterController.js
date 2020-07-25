@@ -18,6 +18,7 @@ class RegisterController {
       name: req.body.name,
       latitude: req.body.latitude,
       longitude: req.body.longitude,
+      whatsapp: req.body.whatsapp,
     });
 
     if (!company.id) {
@@ -27,6 +28,7 @@ class RegisterController {
     const newUser = {
       ...req.body,
       company_id: company.id,
+      provider: true,
     };
 
     const { id, name, email, provider, whatsapp, city, uf } = await User.create(

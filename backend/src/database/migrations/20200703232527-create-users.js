@@ -36,6 +36,11 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      bairro: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+
       city: {
         type: Sequelize.STRING,
         allowNull: true,

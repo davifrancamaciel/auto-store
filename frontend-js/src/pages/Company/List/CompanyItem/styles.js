@@ -29,6 +29,15 @@ export const Container = styled.li`
     margin-top: 2px;
     line-height: 20px;
     margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    span {
+      display: flex;
+      svg {
+        margin-right: 5px;
+      }
+    }
   }
 
   a {

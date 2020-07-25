@@ -1,21 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Form, Input } from '@rocketseat/unform'
+import { Form, Check, Select } from '@rocketseat/unform'
+
 import * as Yup from 'yup'
 import { FiArrowLeft } from 'react-icons/fi'
-import { toast } from 'react-toastify'
 
 import Container from '../../../components/Container'
 import SubmitButton from '../../../components/SubmitButton'
 import FormContainer from '../../../components/FormContainer'
+import Input from '../../../components/Input'
+import InputMask from '../../../components/InputMask'
 
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
 import getValidationErrors from '../../../Utils/getValidationErrors'
+import showToast from '../../../Utils/showToast'
 import getLocale from '../../../Utils/getLocale'
+import Dropzone from '../../../components/Dropzone'
 
 const schema = Yup.object().shape({
+  active: Yup.boolean(),
   name: Yup.string().required('O Nome é obigatório'),
   email: Yup.string()
     .email('Insira um email válido')
@@ -33,12 +38,18 @@ const schema = Yup.object().shape({
   logradouro: Yup.string()
 })
 
+const options = [
+  { id: 'true', title: 'Ativa' },
+  { id: 'false', title: 'Inativa' }
+]
+
 const CompanyCreateEdit = props => {
   const { id } = useParams()
 
   const [loading, setLoading] = useState(false)
   const [company, setCompany] = useState({})
   const [cepChanged, setCepChanged] = useState('')
+  const [selectedImage, setSelectedImage] = useState()
 
   useEffect(() => {
     if (id) {
@@ -76,9 +87,24 @@ const CompanyCreateEdit = props => {
         ...data,
         id: id ? id : 0,
         provider: false,
-        active: true
+        image: selectedImage
       }
+      let formData = new FormData()
+      formData.append('name', saveCompany.name)
+      formData.append('email', saveCompany.email)
+      formData.append('telefone', saveCompany.telefone)
+      formData.append('whatsapp', saveCompany.whatsapp)
+      formData.append('site', saveCompany.site)
+      formData.append('cnpj', saveCompany.cnpj)
+      formData.append('cep', saveCompany.cep)
+      formData.append('uf', saveCompany.uf)
+      formData.append('city', saveCompany.city)
+      formData.append('bairro', saveCompany.bairro)
+      formData.append('logradouro', saveCompany.logradouro)
+      formData.append('provider', saveCompany.provider)
+      formData.append('active', saveCompany.active)
 
+      console.log(data)
       console.log(saveCompany)
       setLoading(true)
 
@@ -88,7 +114,7 @@ const CompanyCreateEdit = props => {
         await api.post('companies', saveCompany)
       }
 
-      toast.success('Loja salva com sucesso!')
+      showToast.success('Loja salva com sucesso!')
 
       setLoading(false)
       history.push('/company')
@@ -103,7 +129,7 @@ const CompanyCreateEdit = props => {
         <Form schema={schema} onSubmit={handleSubmit} initialData={company}>
           <fieldset>
             <legend>
-              <h2>Dados</h2>
+              <h2>Logo da loja</h2>
               <span>
                 <span
                   onClick={() => {
@@ -115,37 +141,54 @@ const CompanyCreateEdit = props => {
                 </span>
               </span>
             </legend>
-            <div className='field'>
-              <label htmlFor='name'>Nome</label>
-              <Input name='name' type='text' />
-            </div>
-            <div className='field'>
-              <label htmlFor='email'>Email</label>
-              <Input name='email' type='email' />
+            <Dropzone onFileSelectedUpload={setSelectedImage} />
+          </fieldset>
+
+          <fieldset>
+            <legend>
+              <h2>Dados</h2>
+            </legend>
+            <Input name='name' type='text' label='Nome' />
+            <Input name='email' type='email' label='Email' />
+            <div className='field-group'>
+              <InputMask
+                mask='(99) 9999-99999'
+                name='telefone'
+                type='tel'
+                label='Telefone'
+              />
+              <InputMask
+                mask='(99) 9999-99999'
+                name='whatsapp'
+                type='tel'
+                label='Whatsapp'
+              />
             </div>
             <div className='field-group'>
-              <div className='field'>
-                <label htmlFor='telefone'>Telefone</label>
-                <Input name='telefone' type='tel' />
-              </div>
-              <div className='field'>
-                <label htmlFor='whatsapp'>Whatsapp</label>
-                <Input name='whatsapp' type='tel' />
-              </div>
+              <Input
+                label='Site'
+                name='site'
+                type='text'
+                placeholder='url do site da loja'
+              />
+              <InputMask
+                mask='99.999.999/9999-9'
+                name='cnpj'
+                type='tel'
+                label='CNPJ'
+              />
             </div>
-            <div className='field-group'>
-              <div className='field'>
-                <label htmlFor='site'>Site</label>
-                <Input
-                  name='site'
-                  type='text'
-                  placeholder='url do site da loja'
-                />
-              </div>
-              <div className='field'>
-                <label htmlFor='cnpj'>CNPJ</label>
-                <Input name='cnpj' type='text' placeholder='' />
-              </div>
+            <div className='field'>
+              <label className='alt-check'>
+                <Check name='active' />
+                <span>Loja ativa</span>
+              </label>
+              {/* <Select
+                name='active'
+                options={options}
+                defaultValue= {String(company.active)}
+                label='Situação da loja no sistema'
+              /> */}
             </div>
           </fieldset>
 
@@ -154,37 +197,23 @@ const CompanyCreateEdit = props => {
               <h2>Endereço</h2>
             </legend>
             <div className='field-group'>
-              <div className='field'>
-                <label htmlFor='cep'>Cep</label>
-                <Input
-                  name='cep'
-                  type='text'
-                  onChange={e => setCepChanged(e.target.value)}
-                />
-              </div>
-              <div className='field'>
-                <label htmlFor='uf'>UF</label>
-                <Input name='uf' type='text' />
-              </div>
-              <div className='field'>
-                <label htmlFor='city'>Cidade</label>
-                <Input name='city' type='text' />
-              </div>
+              <InputMask
+                mask='99999-999'
+                label='Cep'
+                name='cep'
+                type='tel'
+                onChangeCep={setCepChanged}
+              />
+              <Input name='uf' type='text' label='UF' />
+              <Input name='city' type='text' label='Cidade' />
             </div>
             <div className='field-group'>
-              <div className='field'>
-                <label htmlFor='bairro'>Bairro</label>
-                <Input name='bairro' type='text' />
-              </div>
-
-              <div className='field'>
-                <label htmlFor='logradouro'>Logradouro</label>
-                <Input name='logradouro' type='text' />
-              </div>
+              <Input name='bairro' type='text' label='Bairro' />
+              <Input name='logradouro' type='text' label='Logradouro' />
             </div>
           </fieldset>
 
-          <SubmitButton loading={loading} text={'Salvar'} />
+          <SubmitButton loading={loading ? true : false} text={'Salvar'} />
         </Form>
       </FormContainer>
     </Container>

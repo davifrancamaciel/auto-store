@@ -22,13 +22,14 @@ export const Button = styled.button`
   border: 0;
   border-radius: 4px;
   font-size: 16px;
-  opacity: ${props => (props.loading ? 0.5 : 1)};
+  opacity: ${props => (props && props.loading ? 0.5 : 1)};
   transition: background 0.2s;
   &:hover {
     background: ${darken(0.03, '#ff8d08')};
   }
 
   ${props =>
+    props &&
     props.loading &&
     css`
       svg {

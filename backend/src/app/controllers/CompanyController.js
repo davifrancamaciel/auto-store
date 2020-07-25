@@ -93,6 +93,7 @@ class CompanyController {
   }
 
   async update(req, res) {
+
     const { userCompanyProvider, userProvider, userCompanyId } = req;
     const { email, id } = req.body;
 
@@ -119,9 +120,7 @@ class CompanyController {
 
     await company.update(req.body);
 
-    const { name, provider, whatsapp, city, uf } = await Company.findByPk(
-      req.userId
-    );
+    const { name, provider, whatsapp, city, uf } = await Company.findByPk(id);
 
     return res.json({ id, name, email, provider, whatsapp, city, uf });
   }

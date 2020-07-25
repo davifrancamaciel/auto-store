@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { lighten } from 'polished'
 
 export const Container = styled.div`
-  margin: 80px auto;
+  margin: 45px auto;
   padding: 64px;
   max-width: 730px;
   background: #fff;
@@ -62,7 +62,11 @@ export const Container = styled.div`
     opacity: ${props => (props.loading ? 0.5 : 1)};
   }
 
-  .field input {
+  .field input[type='text'],
+  .field input[type='email'],
+  .field input[type='number'],
+  .field input[type='password'],
+  .field input[type='tel'] {
     flex: 1;
     background: #f0f0f5;
     border-radius: 4px;
@@ -75,6 +79,24 @@ export const Container = styled.div`
     width: 100%;
     margin: 0 0 0px;
   }
+  .feld .alt-check{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .field .alt-check span{
+    font-size: 14px;
+    margin-bottom: -2px;
+    color: #6c6c80;
+    font-weight: initial;
+    margin-left: 5px;
+    align-items: baseline;
+
+  }
+  .field input[type='checkbox'] {
+    
+  }
+
   .field input::placeholder {
     color: #a0a0b2;
   }
@@ -84,11 +106,13 @@ export const Container = styled.div`
     appearance: none;
     flex: 1;
     background: #f0f0f5;
-    border-radius: 8px;
+    border-radius: 4px;
     border: 0;
-    padding: 15px 24px;
+    padding: 13px 15px;
     font-size: 16px;
     color: #6c6c80;
+    height: 44px;
+    max-height: 44px;
   }
 
   .field label {
@@ -118,7 +142,7 @@ export const Container = styled.div`
   button {
     width: 260px;
     align-self: flex-end;
-    float: right;    
+    float: right;
   }
   @media (max-width: 720px) {
     button {

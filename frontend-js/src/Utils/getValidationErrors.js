@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify'
+import showToast from './showToast'
 
 export default function getValidationErrors (err) {
 
@@ -7,5 +7,5 @@ export default function getValidationErrors (err) {
   }
   const message = err.response.data.error
   
-  toast.error(message)  
+  showToast.error(message)  
 }
