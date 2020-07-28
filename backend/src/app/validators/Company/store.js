@@ -23,7 +23,7 @@ export default async (req, res, next) => {
     });
 
     await schema.validate(req.body, {
-      abortEarly: false,
+      abortEarly: true,
     });
     return next();
   } catch (err) {

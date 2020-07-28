@@ -1,32 +1,25 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FiUpload } from 'react-icons/fi'
 
 import { Container } from './styles'
 
-function Dropzone ({ onFileSelectedUpload }) {
+function Dropzone ({ onFileSelectedUpload, image }) {
+  console.log(image)
   const [selectedFileUrl, setSelectedFileUrl] = useState('')
 
-  function getBase64(file) {
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      setSelectedFileUrl(reader.result);
-      onFileSelectedUpload(reader.result)
-    };
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
-    };
- }
+  useEffect(() => {
+    if (image) {
+      setSelectedFileUrl(image)
+    }
+  }, [image])
 
   const onDrop = useCallback(
     acceptedFiles => {
-      // Do something with the files 1 e 5
       const file = acceptedFiles[0]
       const fileUrl = URL.createObjectURL(file)
-      const  base64data = getBase64(file)
-      setSelectedFileUrl(base64data)
-      onFileSelectedUpload(base64data)
+      setSelectedFileUrl(fileUrl)
+      onFileSelectedUpload(file)
     },
     [onFileSelectedUpload]
   )

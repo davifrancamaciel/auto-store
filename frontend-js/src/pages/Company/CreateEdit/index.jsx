@@ -17,6 +17,7 @@ import history from '../../../services/browserhistory'
 import getValidationErrors from '../../../Utils/getValidationErrors'
 import showToast from '../../../Utils/showToast'
 import getLocale from '../../../Utils/getLocale'
+import getImage from '../../../Utils/getImage'
 import Dropzone from '../../../components/Dropzone'
 
 const schema = Yup.object().shape({
@@ -36,6 +37,7 @@ const schema = Yup.object().shape({
   city: Yup.string().required('A cidade é obigatória'),
   bairro: Yup.string().required('O bairro é obigatório'),
   logradouro: Yup.string()
+  // file: Yup.object()
 })
 
 const options = [
@@ -58,7 +60,10 @@ const CompanyCreateEdit = props => {
           setLoading(true)
           const response = await api.get(`companies/${id}`)
 
-          setCompany(response.data)
+          setCompany({
+            ...response.data,
+            image: getImage(response.data.image, response.data.name)
+          })
           setLoading(false)
         } catch (error) {
           setLoading(false)
@@ -66,6 +71,11 @@ const CompanyCreateEdit = props => {
         }
       }
       loadCompany(id)
+    } else {
+      setCompany({
+        ...company,
+        active: true
+      })
     }
   }, [])
 
@@ -89,7 +99,9 @@ const CompanyCreateEdit = props => {
         provider: false,
         image: selectedImage
       }
+
       let formData = new FormData()
+
       formData.append('name', saveCompany.name)
       formData.append('email', saveCompany.email)
       formData.append('telefone', saveCompany.telefone)
@@ -103,15 +115,19 @@ const CompanyCreateEdit = props => {
       formData.append('logradouro', saveCompany.logradouro)
       formData.append('provider', saveCompany.provider)
       formData.append('active', saveCompany.active)
+      if (saveCompany.id) {
+        formData.append('id', saveCompany.id)
+      }
+      if (selectedImage) {
+        formData.append('file', selectedImage)
+      }
 
-      console.log(data)
-      console.log(saveCompany)
       setLoading(true)
 
-      if (id) {
-        await api.put('companies', saveCompany)
+      if (saveCompany.id) {
+        await api.put('companies', formData)
       } else {
-        await api.post('companies', saveCompany)
+        await api.post('companies', formData)
       }
 
       showToast.success('Loja salva com sucesso!')
@@ -141,7 +157,11 @@ const CompanyCreateEdit = props => {
                 </span>
               </span>
             </legend>
-            <Dropzone onFileSelectedUpload={setSelectedImage} />
+            <Dropzone
+              onFileSelectedUpload={setSelectedImage}
+              image={company.image}
+            />
+            {/* <input name='file' accept='image/*' type='file'/> */}
           </fieldset>
 
           <fieldset>

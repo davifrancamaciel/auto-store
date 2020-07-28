@@ -17,6 +17,7 @@ export const Container = styled.li`
     width: 54px;
     height: 54px;
     border-radius: 50%;
+    object-fit: cover;
   }
 
   header .user-info {

@@ -5,6 +5,7 @@ class Company extends Model {
     super.init(
       {
         name: Sequelize.STRING,
+        image: Sequelize.STRING,
         site: Sequelize.STRING,
         whatsapp: Sequelize.STRING,
         telefone: Sequelize.STRING,

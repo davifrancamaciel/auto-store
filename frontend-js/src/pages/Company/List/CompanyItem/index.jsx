@@ -8,10 +8,7 @@ function Item ({ item, onDeleteClick, onUpdateClick }) {
   return (
     <Container>
       <header>
-        <img
-          src={`https://api.adorable.io/avatar/50/${item.name}.png`}
-          alt={item.name}
-        />
+        <img src={item.image} alt={item.name} />
         <Info>
           <strong>{item.name}</strong>
           <span>{item.email}</span>

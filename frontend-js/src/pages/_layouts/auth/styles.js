@@ -14,7 +14,13 @@ export const Content = styled.div`
   width: 100%;
   max-width: 315px;
   text-align: center;
-
+  >span{
+    color: #fff;
+    font-weight: bold;
+    width: 100%;
+    display: inline-grid;
+    margin-top: 10px;
+  }
   form {
     display: flex;
     flex-direction: column;

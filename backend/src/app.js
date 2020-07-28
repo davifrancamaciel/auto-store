@@ -5,7 +5,9 @@ import path from 'path'
 import express from 'express'
 import cors from 'cors'
 import 'express-async-errors'
-
+import bodyParser from 'body-parser'
+// import multer from 'multer'
+// var forms = multer();
 import routes from './routes'
 
 // Uncomment this line to enable database access
@@ -22,10 +24,14 @@ class App {
   }
 
   middlewares () {
-
     this.server.use(express.json())
 
     this.server.use(cors())
+
+    // this.server.use(bodyParser.urlencoded({ extended: true }))
+    this.server.use(bodyParser.json())
+    // this.server.use(forms.array())
+    // this.server.use(bodyParser())
 
     // uso de rescursos staticos do servidor para o acesso get de css, imagens ...
     this.server.use(

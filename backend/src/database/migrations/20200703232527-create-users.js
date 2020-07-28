@@ -14,6 +14,10 @@ module.exports = {
         onDelete: 'SET NULL',
         allowNull: false,
       },
+      image: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       name: {
         type: Sequelize.STRING,
         allowNull: false,

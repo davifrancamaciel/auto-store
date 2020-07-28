@@ -1,12 +1,9 @@
 import { Router } from 'express'
 
-
 import multer from 'multer'
-import { celebrate, Joi } from 'celebrate'
 import multerConfig from './config/multerConfig'
 
 import authMiddleware from './app/middlewares/auth'
-import fileUpload from './app/middlewares/fileUpload'
 
 import CompanyController from './app/controllers/CompanyController'
 import validateCompanyStore from './app/validators/Company/store'
@@ -36,36 +33,37 @@ routes.post('/sessions', validateSessionStore, SessionController.store)
 // rotas privadas
 routes.use(authMiddleware)
 routes.get('/companies', CompanyController.index)
-routes.post('/companies', validateCompanyStore, CompanyController.store)
-routes.put(
-  '/companies2',
-  // celebrate(
-  //   {
-  //     body: Joi.object().keys({
-  //       name: Joi.string().required(),
-  //       email: Joi.string()
-  //         .required()
-  //         .email(),
-  //       telefone: Joi.number().required(),
-  //       city: Joi.string().required(),
-  //       uf: Joi.string()
-  //       .max(2),
-  //     }),
-  //   },
-  //   { abortEarly: false }
-  // ),
-  upload.single('file'),
 
+routes.post(
+  '/companies',
+  upload.single('file'),
+  validateCompanyStore,
+  CompanyController.store
+)
+
+routes.put(
+  '/companies',
+  upload.single('file'),
+  validateCompanyUpdate,
   CompanyController.update
 )
-routes.put('/companies', validateCompanyUpdate,upload.single('file'), CompanyController.update);
 routes.get('/companies/:id', CompanyController.find)
 routes.delete('/companies/:id', CompanyController.delete)
 
-routes.post('/users', validateUserStore, UserController.store)
 routes.get('/users', UserController.index)
-routes.put('/users', validateUserUpdate, UserController.update)
+routes.post(
+  '/users',
+  upload.single('file'),
+  validateUserStore,
+  UserController.store
+)
+routes.put(
+  '/users',
+  upload.single('file'),
+  validateUserUpdate,
+  UserController.update
+)
 routes.get('/users/:id', UserController.find)
 
-routes.put('/files', upload.single('file'),  UserController.index)
+routes.put('/files', upload.single('file'), UserController.index)
 export default routes

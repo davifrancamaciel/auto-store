@@ -7,6 +7,7 @@ class User extends Model {
       {
         company_id: Sequelize.NUMBER,
         name: Sequelize.STRING,
+        image: Sequelize.STRING,
         email: Sequelize.STRING,
         whatsapp: Sequelize.STRING,
         telefone: Sequelize.STRING,

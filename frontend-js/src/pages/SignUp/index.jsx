@@ -31,6 +31,7 @@ const SignUp = () => {
   return (
     <>
       <img src={logo} alt='Gestão flex' />
+      <span>GESTÃO FLEX</span>
       <Form schema={schema} onSubmit={handleSubmit}>
         <Input name='name' type='text' placeholder='Nome completo' />
         <Input

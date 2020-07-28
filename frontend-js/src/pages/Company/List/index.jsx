@@ -10,6 +10,7 @@ import CompanyItem from './CompanyItem'
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
 import getValidationErrors from '../../../Utils/getValidationErrors'
+import getImage from '../../../Utils/getImage'
 import showToast from '../../../Utils/showToast'
 
 import { Main } from './styles'
@@ -25,8 +26,12 @@ const CompanyList = () => {
         const response = await api.get('companies', {
           params: {}
         })
-        setCompanies(response.data)
-        console.log(response.data)
+        const comaniesFormated = response.data.map(company => ({
+          ...company,
+          image: getImage(company.image, company.name)
+        }))
+        setCompanies(comaniesFormated)
+        console.log(comaniesFormated)
       } catch (error) {
         getValidationErrors(error)
       }
@@ -48,13 +53,15 @@ const CompanyList = () => {
 
   async function handleDeleteConfirm (id) {
     try {
-    await api.delete(`companies/${id}`)
+      await api.delete(`companies/${id}`)
 
-    showToast.success('Loja excluída com sucesso!')
-    const updateCompanies = companies.filter(c => c.id !== id)
-    setCompanies(updateCompanies)      
+      showToast.success('Loja excluída com sucesso!')
+      const updateCompanies = companies.filter(c => c.id !== id)
+      setCompanies(updateCompanies)
     } catch (error) {
-      showToast.error('Verfique se a loja ainda está vinculada a usuarios, clientes, despesas e etc... ')
+      showToast.error(
+        'Verfique se a loja ainda está vinculada a usuarios, clientes, despesas e etc... '
+      )
       getValidationErrors(error)
     }
   }
