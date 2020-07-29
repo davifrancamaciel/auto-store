@@ -5,7 +5,7 @@ import { FiUpload } from 'react-icons/fi'
 import { Container } from './styles'
 
 function Dropzone ({ onFileSelectedUpload, image }) {
-  console.log(image)
+  
   const [selectedFileUrl, setSelectedFileUrl] = useState('')
 
   useEffect(() => {

@@ -9,7 +9,7 @@ export const Main = styled.main`
         list-style: none;
     }
 
-    @media (max-width:720px) {
+    @media (max-width:780px) {
         ul {
             grid-template-columns: 1fr;
         }

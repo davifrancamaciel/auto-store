@@ -9,7 +9,7 @@ import CompanyList from '../pages/Company/List'
 import CompanyCreateEdit from '../pages/Company/CreateEdit'
 import UserList from '../pages/User/List'
 import Profile from '../pages/Profile'
-// import UserCreateEdit from '../pages/User/CreateEdit'
+
 
 
 const Routes = () => {

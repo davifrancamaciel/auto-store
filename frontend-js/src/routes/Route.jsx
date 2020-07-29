@@ -11,7 +11,7 @@ const RouterWrapper = ({
   ...rest
 }) => {
   const { signed } = store.getState().auth
-  console.log(signed)
+  
 
   if (!signed && isPrivate) {
     return <Redirect to='/' />

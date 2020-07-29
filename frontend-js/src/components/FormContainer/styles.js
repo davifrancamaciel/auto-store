@@ -145,6 +145,14 @@ export const Container = styled.div`
     float: right;
   }
   @media (max-width: 720px) {
+    padding-right: 20px;
+    padding-left: 20px;
+    .field-group .field + .field {
+      margin-left: 0px;
+    }
+    .field-group {      
+      display: block;
+    }
     button {
       width: 100%;
     }

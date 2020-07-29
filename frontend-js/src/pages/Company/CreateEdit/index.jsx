@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { Form, Check, Select } from '@rocketseat/unform'
+import { Form, Check } from '@rocketseat/unform'
 
 import * as Yup from 'yup'
 import { FiArrowLeft } from 'react-icons/fi'
@@ -9,7 +9,9 @@ import { FiArrowLeft } from 'react-icons/fi'
 import Container from '../../../components/Container'
 import SubmitButton from '../../../components/SubmitButton'
 import FormContainer from '../../../components/FormContainer'
+import Dropzone from '../../../components/Dropzone'
 import Input from '../../../components/Input'
+// import InputMaskPhone from '../../../components/InputMaskPhone'
 import InputMask from '../../../components/InputMask'
 
 import api from '../../../services/api'
@@ -18,11 +20,11 @@ import getValidationErrors from '../../../Utils/getValidationErrors'
 import showToast from '../../../Utils/showToast'
 import getLocale from '../../../Utils/getLocale'
 import getImage from '../../../Utils/getImage'
-import Dropzone from '../../../components/Dropzone'
 
 const schema = Yup.object().shape({
   active: Yup.boolean(),
   name: Yup.string().required('O Nome é obigatório'),
+  responsavel: Yup.string(),
   email: Yup.string()
     .email('Insira um email válido')
     .required('O e-mail é obigatório'),
@@ -30,20 +32,12 @@ const schema = Yup.object().shape({
   whatsapp: Yup.string().required('O whatsapp é obigatório'),
   site: Yup.string(),
   cnpj: Yup.string(),
-  cep: Yup.string()
-    .max(9, 'O máximo são 9 caracteres')
-    .matches(/[0-9]{5}-[\d]{3}/g, 'O cep esta em formato incorreto'),
+  cep: Yup.string().max(9, 'O máximo são 9 caracteres'),
   uf: Yup.string().max(2, 'O máximo são 2 caracteres'),
   city: Yup.string().required('A cidade é obigatória'),
   bairro: Yup.string().required('O bairro é obigatório'),
   logradouro: Yup.string()
-  // file: Yup.object()
 })
-
-const options = [
-  { id: 'true', title: 'Ativa' },
-  { id: 'false', title: 'Inativa' }
-]
 
 const CompanyCreateEdit = props => {
   const { id } = useParams()
@@ -62,7 +56,9 @@ const CompanyCreateEdit = props => {
 
           setCompany({
             ...response.data,
-            image: getImage(response.data.image, response.data.name)
+            image: response.data.image
+              ? getImage(response.data.image, response.data.name)
+              : null
           })
           setLoading(false)
         } catch (error) {
@@ -104,6 +100,7 @@ const CompanyCreateEdit = props => {
 
       formData.append('name', saveCompany.name)
       formData.append('email', saveCompany.email)
+      formData.append('responsavel', saveCompany.responsavel)
       formData.append('telefone', saveCompany.telefone)
       formData.append('whatsapp', saveCompany.whatsapp)
       formData.append('site', saveCompany.site)
@@ -161,7 +158,6 @@ const CompanyCreateEdit = props => {
               onFileSelectedUpload={setSelectedImage}
               image={company.image}
             />
-            {/* <input name='file' accept='image/*' type='file'/> */}
           </fieldset>
 
           <fieldset>
@@ -169,16 +165,26 @@ const CompanyCreateEdit = props => {
               <h2>Dados</h2>
             </legend>
             <Input name='name' type='text' label='Nome' />
+            <Input
+              name='responsavel'
+              type='text'
+              label='Resposável'
+              placeholder='Responsáveis pela loja ex. Walter/Tiago'
+            />
             <Input name='email' type='email' label='Email' />
             <div className='field-group'>
+              {/* <InputMaskPhone                
+                name='telefone'
+                label='Telefone'
+              /> */}
               <InputMask
-                mask='(99) 9999-99999'
+                mask='(99) 99999-9999'
                 name='telefone'
                 type='tel'
                 label='Telefone'
               />
               <InputMask
-                mask='(99) 9999-99999'
+                mask='(99) 99999-9999'
                 name='whatsapp'
                 type='tel'
                 label='Whatsapp'
@@ -203,12 +209,6 @@ const CompanyCreateEdit = props => {
                 <Check name='active' />
                 <span>Loja ativa</span>
               </label>
-              {/* <Select
-                name='active'
-                options={options}
-                defaultValue= {String(company.active)}
-                label='Situação da loja no sistema'
-              /> */}
             </div>
           </fieldset>
 

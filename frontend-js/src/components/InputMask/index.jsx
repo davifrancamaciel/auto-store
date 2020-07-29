@@ -30,7 +30,7 @@ const InputMaskWrapper = (
         value={maskValue}
         ref={ref}
         onChange={e => handleMask(e)}
-      >
+        >
         {() => (
           <Input name={name} type={type || 'text'} autoComplete='none' />
         )}

@@ -15,6 +15,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      responsavel: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       site: {
         type: Sequelize.STRING,
         allowNull: true,

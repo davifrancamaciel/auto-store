@@ -4,6 +4,7 @@ export default async (req, res, next) => {
   try {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
+      responsavel: Yup.string().optional(),
       email: Yup.string()
         .email()
         .required(),
