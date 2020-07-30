@@ -6,6 +6,7 @@ import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 
 import CompanyItem from './CompanyItem'
+import Search from './Search'
 
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
@@ -19,12 +20,17 @@ const CompanyList = () => {
   const profile = useSelector(state => state.user.profile)
 
   const [companies, setCompanies] = useState([])
+  const [search, setSearch] = useState()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     async function loadCompanies () {
       try {
+        setLoading(true)
         const response = await api.get('companies', {
-          params: {}
+          params: {
+            ...search
+          }
         })
         const comaniesFormated = response.data.map(company => ({
           ...company,
@@ -32,7 +38,9 @@ const CompanyList = () => {
         }))
         setCompanies(comaniesFormated)
         console.log(comaniesFormated)
+        setLoading(false)
       } catch (error) {
+        setLoading(false)
         getValidationErrors(error)
       }
     }
@@ -43,7 +51,7 @@ const CompanyList = () => {
     }
 
     loadCompanies()
-  }, [])
+  }, [search])
 
   async function handleDelete (item) {
     ShowConfirm('Atenção', `Confirma a remoção da loja ${item.name}?`, () => {
@@ -71,7 +79,8 @@ const CompanyList = () => {
   }
 
   return (
-    <Container title='Lojas'>
+    <Container title='Lojas' loading={loading}>
+      <Search onSearch={setSearch}/>
       <Link to='/company/create'>Cadastrar</Link>
       <Main>
         <ul>

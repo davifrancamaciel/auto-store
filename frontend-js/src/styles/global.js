@@ -1,4 +1,4 @@
-import {createGlobalStyle} from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 // import 'react-perfect-scrollbar/dist/css/styles.css'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -40,4 +40,47 @@ export default createGlobalStyle`
     button {
         cursor: pointer;
     }
-`;
+        
+    .gf-layout-default {
+        
+        input[type='text'],
+        input[type='email'],
+        input[type='number'],
+        input[type='password'],
+        input[type='tel'] {
+            flex: 1;
+            background: #f0f0f5;
+            border-radius: 4px;
+            border: 0;
+            padding: 13px 15px;
+            font-size: 16px;
+            color: #6c6c80;
+            height: 44px;
+            max-height: 44px;
+            width: 100%;
+            margin: 0 0 0px;
+        }
+        input::placeholder {
+            color: #a0a0b2;
+        }
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            flex: 1;
+            background: #f0f0f5;
+            border-radius: 4px;
+            border: 0;
+            padding: 13px 15px;
+            font-size: 16px;
+            color: #6c6c80;
+            height: 44px;
+            max-height: 44px;
+        }
+        label {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #6c6c80;
+          }
+    }
+`

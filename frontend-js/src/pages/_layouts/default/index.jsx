@@ -5,7 +5,7 @@ import { Wrapper } from './styles'
 
 const DefaultLayout = ({ children }) => {
   return (
-    <Wrapper>
+    <Wrapper className='gf-layout-default'>
       <Header />
       {children}
     </Wrapper>

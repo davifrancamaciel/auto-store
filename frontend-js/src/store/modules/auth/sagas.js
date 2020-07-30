@@ -10,6 +10,7 @@ import {
 } from '../../../constants/auth'
 import { signInSuccess, signFailure, signUpSuccess } from './actions'
 import api from '../../../services/api'
+import showToast from '../../../Utils/showToast'
 import getValidationErrors from '../../../Utils/getValidationErrors'
 
 export function * signIn ({ payload }) {
@@ -22,12 +23,7 @@ export function * signIn ({ payload }) {
     })
 
     const { token, user } = response.data
-
-    // if (!user.provider) {
-    //   toast.error('Usuario não é prestador de serviços.')
-    //   return
-    // }
-
+    
     api.defaults.headers['Authorization'] = `Bearer ${token}`
 
     yield put(signInSuccess(token, user))
@@ -52,6 +48,7 @@ export function * signUp ({ payload }) {
     })
 
     history.push('/')
+    showToast.success('Sua conta foi criada com sucesso!')
     yield put(signUpSuccess())
   } catch (error) {
     getValidationErrors(error)

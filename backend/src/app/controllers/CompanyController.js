@@ -5,12 +5,7 @@ import removeFile from '../utils/removeFile'
 
 class CompanyController {
   async index (req, res) {
-    // return res.json({
-    //   userId: req.userId,
-    //   userProvider: req.userProvider,
-    //   userCompanyId: req.userCompanyId,
-    //   userCompanyProvider: req.userCompanyProvider,
-    // });
+
     const { userCompanyProvider, userProvider, userCompanyId } = req
 
     if (!userCompanyProvider || !userProvider) {
@@ -19,23 +14,27 @@ class CompanyController {
         .json({ error: 'Usuário não tem permissão para listar as lojas' })
     }
 
-    const { name, email, site, page = 1 } = req.query
-    const companies = await Company.findAll({
-      where: {
-        id: {
-          [Op.ne]: userCompanyId,
-        },
-        // name: {
-        //   [Op.iLike]: `%${name || ''}%`,
-        // },
-        // site: {
-        //   [Op.iLike]: `%${site || ''}%`,
-        // },
-        // email: {
-        //   [Op.iLike]: `%${email || ''}%`,
-        // },
-        provider: false,
+    const { name, email, page = 1 } = req.query
+
+    let whereStatement = {
+      id: {
+        [Op.ne]: userCompanyId,
       },
+      provider: false,
+    }
+
+    if (name)
+      whereStatement.name = {
+        [Op.iLike]: `%${name}%`,
+      }
+
+    if (email)
+      whereStatement.email = {
+        [Op.iLike]: `%${email}%`,
+      }
+
+    const companies = await Company.findAll({
+      where: whereStatement,
       limit: 20,
       order: ['name'],
       offset: (page - 1) * 20,
@@ -48,11 +47,7 @@ class CompanyController {
     const { id } = req.params
 
     const { userProvider, userCompanyId, userCompanyProvider } = req
-    // return res.json({
-    //   userProvider,
-    //   userCompanyId,
-    //   id: Number(id),
-    // });
+
     if (!userCompanyProvider) {
       if (!userProvider || userCompanyId !== Number(id)) {
         return res
@@ -70,7 +65,6 @@ class CompanyController {
   }
 
   async store (req, res) {
-    console.log(req.body)
     const { email } = req.body
     const { userCompanyProvider, userProvider } = req
 

@@ -62,23 +62,6 @@ export const Container = styled.div`
     opacity: ${props => (props.loading ? 0.5 : 1)};
   }
 
-  .field input[type='text'],
-  .field input[type='email'],
-  .field input[type='number'],
-  .field input[type='password'],
-  .field input[type='tel'] {
-    flex: 1;
-    background: #f0f0f5;
-    border-radius: 4px;
-    border: 0;
-    padding: 13px 15px;
-    font-size: 16px;
-    color: #6c6c80;
-    height: 44px;
-    max-height: 44px;
-    width: 100%;
-    margin: 0 0 0px;
-  }
   .feld .alt-check{
     display: flex;
     flex-direction: row;
@@ -91,35 +74,7 @@ export const Container = styled.div`
     font-weight: initial;
     margin-left: 5px;
     align-items: baseline;
-
-  }
-  .field input[type='checkbox'] {
-    
-  }
-
-  .field input::placeholder {
-    color: #a0a0b2;
-  }
-  .field select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    flex: 1;
-    background: #f0f0f5;
-    border-radius: 4px;
-    border: 0;
-    padding: 13px 15px;
-    font-size: 16px;
-    color: #6c6c80;
-    height: 44px;
-    max-height: 44px;
-  }
-
-  .field label {
-    font-size: 14px;
-    margin-bottom: 8px;
-    color: #6c6c80;
-  }
+  }  
 
   .field span {
     color: var(--secondary-color);
