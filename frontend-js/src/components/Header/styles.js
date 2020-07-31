@@ -47,6 +47,7 @@ export const Profile = styled.div`
     strong {
       display: block;
       color: #333;
+      
     }
 
     a {
@@ -60,5 +61,6 @@ export const Profile = styled.div`
     width: 32px;
     height: 32px;
     border-radius: 50%;
+    object-fit: cover;
   }
 `

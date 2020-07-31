@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { FiPlus } from 'react-icons/fi'
 
 import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
@@ -61,12 +62,15 @@ const CompanyList = () => {
 
   async function handleDeleteConfirm (id) {
     try {
+      setLoading(true)
       await api.delete(`companies/${id}`)
 
       showToast.success('Loja excluída com sucesso!')
       const updateCompanies = companies.filter(c => c.id !== id)
       setCompanies(updateCompanies)
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       showToast.error(
         'Verfique se a loja ainda está vinculada a usuarios, clientes, despesas e etc... '
       )
@@ -80,8 +84,12 @@ const CompanyList = () => {
 
   return (
     <Container title='Lojas' loading={loading}>
-      <Search onSearch={setSearch}/>
-      <Link to='/company/create'>Cadastrar</Link>
+      <Search onSearch={setSearch} />
+      <span>
+        <Link to='/company/create'>
+          <FiPlus size={20} /> Cadastrar
+        </Link>
+      </span>
       <Main>
         <ul>
           {companies.map(company => (

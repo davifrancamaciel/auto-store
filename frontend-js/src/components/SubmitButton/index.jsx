@@ -1,5 +1,5 @@
 import React from 'react'
-import { FiRefreshCw } from 'react-icons/fi'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 import { Button } from './styles'
 
@@ -9,7 +9,7 @@ function SubmitButton (props) {
   
   return (
     <Button loading={_loading} type='submit'>
-      {_loading ? <FiRefreshCw size={26} /> : props.text}
+      {_loading ? <AiOutlineLoading3Quarters size={26} /> : props.text}
     </Button>
   )
 }

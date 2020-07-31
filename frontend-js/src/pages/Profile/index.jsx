@@ -1,26 +1,64 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Form } from '@rocketseat/unform'
-import { FiArrowLeft } from 'react-icons/fi'
+import * as Yup from 'yup'
 
 import { signOut } from '../../store/modules/auth/actions'
 import { updateProfileRequest } from '../../store/modules/user/actions'
-import AvatarInput from './AvatarInput'
 
 import Container from '../../components/Container'
 import SubmitButton from '../../components/SubmitButton'
 import FormContainer from '../../components/FormContainer'
 import Input from '../../components/Input'
+import InputMask from '../../components/InputMask'
+import Dropzone from '../../components/Dropzone'
+import BackPage from '../../components/BackPage'
 
-import history from '../../services/browserhistory'
+
+import getImage from '../../Utils/getImage'
+import showToast from '../../Utils/showToast'
+
+import { ProfileContainer, LogoutButton } from './styles'
+
+const schema = Yup.object().shape({
+  name: Yup.string().required('O nome é obrigatório'),
+  whatsapp: Yup.string().required('O whatsapp é obrigatório'),
+  email: Yup.string()
+    .email('Insira um email válido')
+    .required('O e-mail é obrigatório'),
+  oldPassword: Yup.string(),
+  password: Yup.string(),
+  confirmPassword: Yup.string()
+})
 
 function Profile () {
+  const [selectedImage, setSelectedImage] = useState()
   const dispatch = useDispatch()
   const profile = useSelector(state => state.user.profile)
+  const profileFormated = {
+    ...profile,
+    image: profile.image ? getImage(profile.image, profile.name) : null
+  }
   const loading = useSelector(state => state.user.loading)
 
   function handleSubmit (data) {
-    dispatch(updateProfileRequest(data))
+    const user = {
+      ...data,
+      company_id: profile.company_id,
+      image: selectedImage
+    }
+    if (data.oldPassword && (!data.password || !data.confirmPassword)) {
+      showToast.error(
+        'Para alterar a sua senha preencha também os campos de nova senha e confirmação'
+      )
+      return
+    }
+    if (data.password && data.password !== data.confirmPassword) {
+      showToast.error('As senhas informadas estão diferentes')
+      return
+    }
+
+    dispatch(updateProfileRequest(user))
   }
 
   function handleSignOut () {
@@ -29,55 +67,74 @@ function Profile () {
   return (
     <Container title='Minha conta'>
       <FormContainer loading={loading}>
-        <Form initialData={profile} onSubmit={handleSubmit}>
-          <fieldset>
-            <legend>
-              <h2></h2>
-              <span>
-                <span
-                  onClick={() => {
-                    history.goBack()
-                  }}
-                >
-                  <FiArrowLeft />
-                  Voltar
-                </span>
-              </span>
-            </legend>
-            <AvatarInput name='avatar_id' />
-          </fieldset>
+        <ProfileContainer>
+          <Form
+            schema={schema}
+            initialData={profileFormated}
+            onSubmit={handleSubmit}
+          >
+            <fieldset>
+              <legend>
+                <h2></h2>
+                <BackPage />
+              </legend>
 
-          <fieldset>
-            <legend>
-              <h2>Dados</h2>
-            </legend>
+              <Dropzone
+                onFileSelectedUpload={setSelectedImage}
+                image={profileFormated.image}
+              />
+            </fieldset>
 
-            <Input name='name' label='Nome' />
-            <Input name='email' type='email' label='Email' />
-          </fieldset>
-          <fieldset>
-            <legend>
-              <h2>Credenciais</h2>
-            </legend>
-
-            <Input type='password' name='oldPassword' label='Sua senha atual' />
-            <Input type='password' name='password' label='Nova senha' />
-            <Input
-              type='password'
-              name='confirmPassword'
-              label='Confirme a nova senha'
-            />
-          </fieldset>
-
-          <SubmitButton
-            loading={loading ? true : false}
-            text={'Atualizar perfil'}
-          />
-
-          {/* <button onClick={handleSignOut} type='button'>
-            Sair
-          </button> */}
-        </Form>
+            <fieldset>
+              <legend>
+                <h2>Dados</h2>
+              </legend>
+              <Input name='name' label='Nome' />
+              <div className='field-group'>
+                <Input name='email' type='email' label='Email' />
+                <InputMask
+                  mask='(99) 99999-9999'
+                  name='whatsapp'
+                  type='tel'
+                  label='Whatsapp'
+                />
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>
+                <h2>Credenciais</h2>
+              </legend>
+              <div className='field-group'>
+                <Input
+                  type='password'
+                  name='oldPassword'
+                  label='Sua senha atual'
+                />
+                <Input type='password' name='password' label='Nova senha' />
+                <Input
+                  type='password'
+                  name='confirmPassword'
+                  label='Confirme a nova senha'
+                />
+              </div>
+            </fieldset>
+            <fieldset>
+              <div className='field-group'>
+                <div className='field'>
+                  <LogoutButton onClick={handleSignOut} type='button'>
+                    Sair
+                  </LogoutButton>
+                </div>
+                <div className='field'>
+                  <SubmitButton
+                    loading={loading ? true : false}
+                    text={'Atualizar perfil'}
+                  />
+                </div>
+              </div>
+            </fieldset>
+          </Form>
+        </ProfileContainer>
       </FormContainer>
     </Container>
   )

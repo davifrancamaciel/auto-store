@@ -29,7 +29,7 @@ function Dropzone ({ onFileSelectedUpload, image }) {
   })
 
   return (
-    <Container {...getRootProps()}>
+    <Container {...getRootProps()} className='gf-dropzone'>
       <input {...getInputProps()} accept='image/*' />
       {selectedFileUrl ? (
         <img src={selectedFileUrl} alt='Imagem' />

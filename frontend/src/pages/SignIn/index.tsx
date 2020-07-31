@@ -15,8 +15,8 @@ import { signInRequest } from '../../store/modules/auth/actions'
 const schema = Yup.object().shape({
   email: Yup.string()
     .email('Insira um email válido')
-    .required('O e-mail é obigatório'),
-  password: Yup.string().required('A senha é obigatória')
+    .required('O e-mail é obrigatório'),
+  password: Yup.string().required('A senha é obrigatória')
 })
 
 const SignIn: React.FC = () => {

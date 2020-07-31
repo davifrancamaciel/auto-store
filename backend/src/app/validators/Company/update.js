@@ -1,8 +1,8 @@
-import * as Yup from 'yup';
+import * as Yup from 'yup'
+
 
 export default async (req, res, next) => {
   try {
-
     const schema = Yup.object().shape({
       id: Yup.number().required(),
       name: Yup.string().required(),
@@ -23,15 +23,16 @@ export default async (req, res, next) => {
       longitude: Yup.number().optional(),
       provider: Yup.boolean().required(),
       active: Yup.boolean().required(),
-    });
+    })
 
     await schema.validate(req.body, {
       abortEarly: false,
-    });
-    return next();
+    })
+    return next()
   } catch (err) {
+
     return res
       .status(400)
-      .json({ error: 'A validação falhou', messages: err.inner });
+      .json({ error: 'A validação falhou', messages: err.inner })
   }
-};
+}

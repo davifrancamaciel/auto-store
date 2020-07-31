@@ -14,10 +14,10 @@ const schema = Yup.object().shape({
   whatsapp: Yup.string().required('O whatsapp é obrigatório'),
   email: Yup.string()
     .email('Insira um email válido')
-    .required('O e-mail é obigatório'),
+    .required('O e-mail é obrigatório'),
   password: Yup.string()
     .min(6, 'No minimo 6 carcteres')
-    .required('A senha é obigatória')
+    .required('A senha é obrigatória')
 })
 
 const SignUp = () => {

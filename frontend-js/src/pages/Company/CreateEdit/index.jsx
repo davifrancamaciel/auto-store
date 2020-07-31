@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom'
 import { Form, Check } from '@rocketseat/unform'
 
 import * as Yup from 'yup'
-import { FiArrowLeft } from 'react-icons/fi'
 
 import Container from '../../../components/Container'
 import SubmitButton from '../../../components/SubmitButton'
@@ -13,6 +12,8 @@ import Dropzone from '../../../components/Dropzone'
 import Input from '../../../components/Input'
 // import InputMaskPhone from '../../../components/InputMaskPhone'
 import InputMask from '../../../components/InputMask'
+import BackPage from '../../../components/BackPage'
+
 
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
@@ -23,19 +24,19 @@ import getImage from '../../../Utils/getImage'
 
 const schema = Yup.object().shape({
   active: Yup.boolean(),
-  name: Yup.string().required('O Nome é obigatório'),
+  name: Yup.string().required('O Nome é obrigatório'),
   responsavel: Yup.string(),
   email: Yup.string()
     .email('Insira um email válido')
-    .required('O e-mail é obigatório'),
+    .required('O e-mail é obrigatório'),
   telefone: Yup.string(),
-  whatsapp: Yup.string().required('O whatsapp é obigatório'),
+  whatsapp: Yup.string().required('O whatsapp é obrigatório'),
   site: Yup.string(),
   cnpj: Yup.string(),
   cep: Yup.string().max(9, 'O máximo são 9 caracteres'),
   uf: Yup.string().max(2, 'O máximo são 2 caracteres'),
-  city: Yup.string().required('A cidade é obigatória'),
-  bairro: Yup.string().required('O bairro é obigatório'),
+  city: Yup.string().required('A cidade é obrigatória'),
+  bairro: Yup.string().required('O bairro é obrigatório'),
   logradouro: Yup.string()
 })
 
@@ -143,16 +144,7 @@ const CompanyCreateEdit = props => {
           <fieldset>
             <legend>
               <h2>Logo da loja</h2>
-              <span>
-                <span
-                  onClick={() => {
-                    history.goBack()
-                  }}
-                >
-                  <FiArrowLeft />
-                  Voltar
-                </span>
-              </span>
+              <BackPage />
             </legend>
             <Dropzone
               onFileSelectedUpload={setSelectedImage}

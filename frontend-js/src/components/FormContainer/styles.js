@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { lighten } from 'polished'
 
 export const Container = styled.div`
   margin: 45px auto;
@@ -28,26 +27,7 @@ export const Container = styled.div`
   legend h2 {
     font-size: 24px;
     color: var(--secondary-color);
-  }
-
-  legend span {
-    font-size: 14px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    color: var(--text-color);
-    > span {
-      cursor: pointer;
-      transition: color 0.2s;
-      &:hover {
-        color: ${lighten(0.08, '#6c6c80')};
-      }
-      > svg {
-        color: var(--secondary-color);
-        margin-right: 16px;
-      }
-    }
-  }
+  }  
 
   .field-group {
     flex: 1;
@@ -74,6 +54,7 @@ export const Container = styled.div`
     font-weight: initial;
     margin-left: 5px;
     align-items: baseline;
+
   }  
 
   .field span {
@@ -94,7 +75,7 @@ export const Container = styled.div`
     margin: 0 0 0 8px;
   }
 
-  button {
+  button[type=submit] {
     width: 260px;
     align-self: flex-end;
     float: right;
@@ -108,7 +89,7 @@ export const Container = styled.div`
     .field-group {      
       display: block;
     }
-    button {
+    button[type=submit] {
       width: 100%;
     }
   }

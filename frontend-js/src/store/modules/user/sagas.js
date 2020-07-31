@@ -1,22 +1,37 @@
 import { all, takeLatest, put, call } from 'redux-saga/effects'
-import { toast } from 'react-toastify'
 
 import { USER_UPDATE_PROFILE_REQUEST } from '../../../constants/user'
 import api from '../../../services/api'
 import { updateProfileFailure, updateProfileSuccess } from './actions'
 import getValidationErrors from '../../../Utils/getValidationErrors'
+import showToast from '../../../Utils/showToast'
 
-
-export function * updateProfile ({payload}) {
+export function * updateProfile ({ payload }) {
   try {
-    const { name, email, avatar_id, ...rest } = payload.data
+    const { name, email, image, company_id, whatsapp, ...rest } = payload.data
     const profile = Object.assign(
-      { name, email, avatar_id },
+      { name, email, image, company_id, whatsapp },
       rest.oldPassword ? rest : {}
     )
 
-    const response = yield call(api.put, 'users', profile)
-    toast.success('Perfil alterado com sucesso.')
+    let formData = new FormData()
+
+    formData.append('name', profile.name)
+    formData.append('email', profile.email)
+    formData.append('whatsapp', profile.whatsapp)
+    formData.append('company_id', profile.company_id)
+
+    if (profile.oldPassword) {
+      formData.append('oldPassword', profile.oldPassword)
+      formData.append('password', profile.password)
+      formData.append('confirmPassword', profile.confirmPassword)
+    }
+    if (image) {
+      formData.append('file', image)
+    }
+
+    const response = yield call(api.put, 'users', formData)
+    showToast.success('Perfil alterado com sucesso.')
 
     yield put(updateProfileSuccess(response.data))
   } catch (error) {

@@ -5,7 +5,6 @@ import removeFile from '../utils/removeFile'
 
 class CompanyController {
   async index (req, res) {
-
     const { userCompanyProvider, userProvider, userCompanyId } = req
 
     if (!userCompanyProvider || !userProvider) {
@@ -65,67 +64,84 @@ class CompanyController {
   }
 
   async store (req, res) {
-    const { email } = req.body
-    const { userCompanyProvider, userProvider } = req
+    try {
+      const { email } = req.body
+      const { userCompanyProvider, userProvider } = req
 
-    if (!userCompanyProvider || !userProvider) {
-      return res
-        .status(401)
-        .json({ error: 'Usuário não tem permissão criar lojas' })
-    }
+      if (!userCompanyProvider || !userProvider) {
+        return res
+          .status(401)
+          .json({ error: 'Usuário não tem permissão criar lojas' })
+      }
 
-    const companyExist = await Company.findOne({
-      where: { email },
-    })
+      const companyExist = await Company.findOne({
+        where: { email },
+      })
 
-    if (companyExist) {
-      return res
-        .status(400)
-        .json({ error: 'Já existe uma loja com este email' })
-    }
-    const image = (req.file && req.file.filename) || null
-    const company = await Company.create({ ...req.body, image })
-
-    return res.json(company)
-  }
-
-  async update (req, res) {
-    console.log(req.body)
-    const { email, id } = req.body
-    const { userCompanyProvider, userProvider, userCompanyId } = req
-
-    if (!userProvider) {
-      return res
-        .status(401)
-        .json({ error: 'Usuário não tem permissão alterar lojas' })
-    }
-
-    if (!userCompanyProvider && userCompanyId !== id) {
-      return res
-        .status(401)
-        .json({ error: 'Você não possui permissão para alterar esta loja' })
-    }
-    const company = await Company.findByPk(id)
-    // return res.json({me:'chegou aqui',obj:company})
-
-    if (company.email !== email) {
-      const companyExist = await Company.findOne({ where: { email } })
       if (companyExist) {
         return res
           .status(400)
           .json({ error: 'Já existe uma loja com este email' })
       }
+      const image = (req.file && req.file.filename) || null
+      const company = await Company.create({ ...req.body, image })
+
+      return res.json(company)
+    } catch (error) {
+      if (req.file && req.file.filename) {
+        removeFile(req.file.filename)
+      }
+      return res
+        .status(500)
+        .json({ error: 'Ocoreu um erro interno', messages: error.inner })
     }
+  }
 
-    const image = (req.file && req.file.filename) || company.image
-    if (image !== company.image) {
-      removeFile(company.image)
+  async update (req, res) {
+    console.log(req.body)
+    try {
+      const { email, id } = req.body
+      const { userCompanyProvider, userProvider, userCompanyId } = req
+
+      if (!userProvider) {
+        return res
+          .status(401)
+          .json({ error: 'Usuário não tem permissão alterar lojas' })
+      }
+
+      if (!userCompanyProvider && userCompanyId !== id) {
+        return res
+          .status(401)
+          .json({ error: 'Você não possui permissão para alterar esta loja' })
+      }
+      const company = await Company.findByPk(id)
+
+      if (company.email !== email) {
+        const companyExist = await Company.findOne({ where: { email } })
+        if (companyExist) {
+          return res
+            .status(400)
+            .json({ error: 'Já existe uma loja com este email' })
+        }
+      }
+
+      const image = (req.file && req.file.filename) || company.image
+      if (image !== company.image) {
+        removeFile(company.image)
+      }
+      await company.update({ ...req.body, image })
+
+      const { name, provider, whatsapp, city, uf } = await Company.findByPk(id)
+
+      return res.json({ id, name, email, provider, whatsapp, city, uf })
+    } catch (error) {
+      if (req.file && req.file.filename) {
+        removeFile(req.file.filename)
+      }
+      return res
+        .status(500)
+        .json({ error: 'Ocoreu um erro interno', messages: error.inner })
     }
-    await company.update({ ...req.body, image })
-
-    const { name, provider, whatsapp, city, uf } = await Company.findByPk(id)
-
-    return res.json({ id, name, email, provider, whatsapp, city, uf })
   }
 
   async delete (req, res) {

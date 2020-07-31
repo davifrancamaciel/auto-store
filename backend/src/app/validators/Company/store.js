@@ -1,4 +1,4 @@
-import * as Yup from 'yup';
+import * as Yup from 'yup'
 
 export default async (req, res, next) => {
   try {
@@ -21,15 +21,16 @@ export default async (req, res, next) => {
       longitude: Yup.number().optional(),
       provider: Yup.boolean().required(),
       active: Yup.boolean().required(),
-    });
+    })
 
     await schema.validate(req.body, {
       abortEarly: true,
-    });
-    return next();
+    })
+    return next()
   } catch (err) {
+
     return res
       .status(400)
-      .json({ error: 'A validação falhou', messages: err.inner });
+      .json({ error: 'A validação falhou', messages: err.inner })
   }
-};
+}

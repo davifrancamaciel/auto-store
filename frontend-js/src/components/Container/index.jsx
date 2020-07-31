@@ -1,5 +1,5 @@
 import React from 'react'
-import { FiRefreshCw } from 'react-icons/fi'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 import { Container } from './styles'
 
@@ -8,7 +8,7 @@ function WrapperContainer ({ children, title, loading }) {
     <Container loading={loading}>
       {title && <h1>{title}</h1>}
       <div className='gf-loading'>
-        <FiRefreshCw size={90} />
+        <AiOutlineLoading3Quarters size={90} />
       </div>
       {children}
     </Container>

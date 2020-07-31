@@ -13,20 +13,34 @@ export const Container = styled.div`
   max-width: 1120px;
   margin: 0 auto;
   padding: 40px 20px;
-  opacity: ${props => (props && props.loading ? 0.5 : 1)};
+  
   h1 {
     color: var(--secondary-color);
     margin-bottom: 30px;
   }
-  > a {
-    color: var(--secondary-color);
-    margin-bottom: 15px;
-    font-size: 16px;
-    opacity: 0.8;
-    justify-content: end;
-    display: grid;
-    &:hover {
+  > span {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: flex-end;
+
+    > a {
+      color: var(--text-color);
+      margin-bottom: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      justify-content: end;
+      display: flex;
       opacity: 1;
+      align-items: center;
+
+      > svg {
+        color: var(--secondary-color);
+        margin-right: 10px;
+      }
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
   .gf-loading {
@@ -35,14 +49,19 @@ export const Container = styled.div`
       props &&
       props.loading &&
       css`
-        left: 0;
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        position: absolute;
-        height: 100%;
-        margin-top: 100px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 99;
+      background: rgba(255,255,255,0.5);
+      left: 0;      
+      display: flex;      
+      flex-direction: row;      
+      justify-content: center;      
+      min-height: 100%;      
+      align-items: center;
 
         > svg {
           color: var(--secondary-color);
