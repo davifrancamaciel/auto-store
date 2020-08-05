@@ -1,17 +1,17 @@
-import styled from 'styled-components'
+// import styled from 'styled-components'
 
-export const Main = styled.main`
-    flex: 1;
-    ul {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        list-style: none;
-    }
+// export const Main = styled.main`
+//     flex: 1;
+//     ul {
+//         display: grid;
+//         grid-template-columns: 1fr 1fr;
+//         gap: 20px;
+//         list-style: none;
+//     }
 
-    @media (max-width:780px) {
-        ul {
-            grid-template-columns: 1fr;
-        }
-    }
-`
+//     @media (max-width:780px) {
+//         ul {
+//             grid-template-columns: 1fr;
+//         }
+//     }
+// `

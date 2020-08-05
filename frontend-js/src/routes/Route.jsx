@@ -12,7 +12,6 @@ const RouterWrapper = ({
 }) => {
   const { signed } = store.getState().auth
   
-
   if (!signed && isPrivate) {
     return <Redirect to='/' />
   }
@@ -27,8 +26,8 @@ const RouterWrapper = ({
     <ReactDOMRoute
       {...rest}
       render={props => (
-        <Layout>
-          <Component {...props} />
+        <Layout>          
+          <Component {...props} {...rest} />
         </Layout>
       )}
     />

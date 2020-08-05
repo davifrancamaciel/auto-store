@@ -160,7 +160,7 @@ const CompanyCreateEdit = props => {
             <Input
               name='responsavel'
               type='text'
-              label='Resposável'
+              label='Administrador(es)'
               placeholder='Responsáveis pela loja ex. Walter/Tiago'
             />
             <Input name='email' type='email' label='Email' />

@@ -6,7 +6,7 @@ import { FiPlus } from 'react-icons/fi'
 import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 
-import CompanyItem from './CompanyItem'
+import CompanyItem from './ListItem'
 import Search from './Search'
 
 import api from '../../../services/api'
@@ -15,7 +15,8 @@ import getValidationErrors from '../../../Utils/getValidationErrors'
 import getImage from '../../../Utils/getImage'
 import showToast from '../../../Utils/showToast'
 
-import { Main } from './styles'
+import { Main , Ul} from '../../../components/ListContainer/styles'
+
 
 const CompanyList = () => {
   const profile = useSelector(state => state.user.profile)
@@ -91,7 +92,7 @@ const CompanyList = () => {
         </Link>
       </span>
       <Main>
-        <ul>
+        <Ul>
           {companies.map(company => (
             <CompanyItem
               item={company}
@@ -100,7 +101,7 @@ const CompanyList = () => {
               onDeleteClick={handleDelete}
             />
           ))}
-        </ul>
+        </Ul>
       </Main>
     </Container>
   )

@@ -8,39 +8,63 @@ class UserController {
   async index (req, res) {
     const { userCompanyProvider, userProvider, userCompanyId } = req
 
-    const { name, email, provider, company_id, page = 1 } = req.query
-    console.log(provider)
-    let params = {
-      name: {
-        [Op.iLike]: `%${name || ''}%`,
-      },
-      email: {
-        [Op.iLike]: `%${email || ''}%`,
-      },
-    }
-
-    // return res.json({ userProvider, userCompanyId, userCompanyProvider });
-
     if (!userProvider) {
       return res
         .status(401)
         .json({ error: 'Usuário não tem permissão para listar os usuários' })
     }
 
-    let users = []
-    if (!userCompanyProvider) {
-      params = {
-        ...params,
-        company_id: userCompanyId,
+    const {
+      name,
+      email,
+      provider,
+      company_id,
+      provider_company,
+      company_name,
+      page = 1,
+    } = req.query
+
+    let whereStatementCompany = {}
+
+    if (provider_company) whereStatementCompany.provider = provider_company
+
+    if (company_name)
+      whereStatementCompany.name = {
+        [Op.iLike]: `%${company_name}%`,
       }
-    }
 
+    let whereStatement = {}
+
+    if (provider != undefined) whereStatement.provider = provider
+
+    if (company_id) whereStatement.company_id = company_id
+
+    if (!userCompanyProvider) whereStatement.company_id = userCompanyId
+
+    if (name)
+      whereStatement.name = {
+        [Op.iLike]: `%${name}%`,
+      }
+
+    if (email)
+      whereStatement.email = {
+        [Op.iLike]: `%${email}%`,
+      }
+
+    let users = []
     users = await User.findAll({
-      where: params,
-
+      where: whereStatement,
       limit: 20,
       order: ['name'],
       offset: (page - 1) * 20,
+      include: [
+        {
+          model: Company,
+          as: 'company',
+          attributes: ['name'],
+          where: whereStatementCompany,
+        },
+      ],
     })
     return res.json(users)
   }
@@ -147,13 +171,9 @@ class UserController {
 
     await user.update({ ...userUpdate, image })
 
-    const {
-      id,
-      name,
-      provider,
-      company_id,
-      whatsapp,
-    } = await User.findByPk(req.userId)
+    const { id, name, provider, company_id, whatsapp } = await User.findByPk(
+      req.userId
+    )
 
     return res.json({
       id,

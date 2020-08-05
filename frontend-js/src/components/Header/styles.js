@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-//   background: #fff;
-  background: linear-gradient(-90deg, rgb(47, 135, 191), #0db5bc );
+  //   background: #fff;
+  background: linear-gradient(-90deg, rgb(47, 135, 191), #0db5bc);
   padding: 0 30px;
 `
 export const Content = styled.div`
@@ -26,7 +26,11 @@ export const Content = styled.div`
 
     a {
       font-weight: bold;
-      color: #FFF;
+      color: #fff;
+      margin-right: 15px;
+    }
+    a.active {
+      color: var(--secondary-color);
     }
   }
   aside {
@@ -47,7 +51,6 @@ export const Profile = styled.div`
     strong {
       display: block;
       color: #333;
-      
     }
 
     a {
