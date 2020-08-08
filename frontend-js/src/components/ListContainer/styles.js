@@ -16,6 +16,7 @@ export const Ul = styled.ul`
 `
 
 export const Li = styled.li`
+  opacity: ${props => (props.active == false ? 0.5 : 1)};
   background: #fff;
   box-shadow: 0 0 14px 0 #00000033;
   border-radius: 2px;
@@ -32,10 +33,7 @@ export const Li = styled.li`
     height: 54px;
     border-radius: 50%;
     object-fit: cover;
-  }
-
-  header .user-info {
-    margin-left: 10px;
+    margin-right: 10px;
   }
 
   p {
@@ -66,7 +64,6 @@ export const Li = styled.li`
   }
 `
 export const Info = styled.div`
-  margin-left: 10px;
   strong {
     display: block;
     font-size: 16px;

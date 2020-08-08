@@ -13,7 +13,7 @@ export const Container = styled.div`
   max-width: 1120px;
   margin: 0 auto;
   padding: 40px 20px;
-  
+
   h1 {
     color: var(--secondary-color);
     margin-bottom: 30px;
@@ -46,22 +46,21 @@ export const Container = styled.div`
   .gf-loading {
     display: none;
     ${props =>
-      props &&
       props.loading &&
       css`
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 99;
-      background: rgba(255,255,255,0.5);
-      left: 0;      
-      display: flex;      
-      flex-direction: row;      
-      justify-content: center;      
-      min-height: 100%;      
-      align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 99;
+        background: rgba(255, 255, 255, 0.5);
+        left: 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        min-height: 100%;
+        align-items: center;
 
         > svg {
           color: var(--secondary-color);

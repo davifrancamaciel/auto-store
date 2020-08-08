@@ -15,8 +15,7 @@ import getValidationErrors from '../../../Utils/getValidationErrors'
 import getImage from '../../../Utils/getImage'
 import showToast from '../../../Utils/showToast'
 
-import { Main , Ul} from '../../../components/ListContainer/styles'
-
+import { Main, Ul } from '../../../components/ListContainer/styles'
 
 const CompanyList = () => {
   const profile = useSelector(state => state.user.profile)
@@ -84,7 +83,7 @@ const CompanyList = () => {
   }
 
   return (
-    <Container title='Lojas' loading={loading}>
+    <Container title='Lojas' loading={loading ? Boolean(loading) : undefined}>
       <Search onSearch={setSearch} />
       <span>
         <Link to='/company/create'>

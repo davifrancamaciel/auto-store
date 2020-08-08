@@ -3,8 +3,6 @@ import { useParams } from 'react-router-dom'
 
 import { Form, Check } from '@rocketseat/unform'
 
-import * as Yup from 'yup'
-
 import Container from '../../../components/Container'
 import SubmitButton from '../../../components/SubmitButton'
 import FormContainer from '../../../components/FormContainer'
@@ -14,31 +12,14 @@ import Input from '../../../components/Input'
 import InputMask from '../../../components/InputMask'
 import BackPage from '../../../components/BackPage'
 
-
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
 import getValidationErrors from '../../../Utils/getValidationErrors'
 import showToast from '../../../Utils/showToast'
 import getLocale from '../../../Utils/getLocale'
 import getImage from '../../../Utils/getImage'
+import validation from './validation'
 
-const schema = Yup.object().shape({
-  active: Yup.boolean(),
-  name: Yup.string().required('O Nome é obrigatório'),
-  responsavel: Yup.string(),
-  email: Yup.string()
-    .email('Insira um email válido')
-    .required('O e-mail é obrigatório'),
-  telefone: Yup.string(),
-  whatsapp: Yup.string().required('O whatsapp é obrigatório'),
-  site: Yup.string(),
-  cnpj: Yup.string(),
-  cep: Yup.string().max(9, 'O máximo são 9 caracteres'),
-  uf: Yup.string().max(2, 'O máximo são 2 caracteres'),
-  city: Yup.string().required('A cidade é obrigatória'),
-  bairro: Yup.string().required('O bairro é obrigatório'),
-  logradouro: Yup.string()
-})
 
 const CompanyCreateEdit = props => {
   const { id } = useParams()
@@ -140,7 +121,7 @@ const CompanyCreateEdit = props => {
   return (
     <Container title='Cadastro de lojas'>
       <FormContainer loading={loading}>
-        <Form schema={schema} onSubmit={handleSubmit} initialData={company}>
+        <Form schema={validation()} onSubmit={handleSubmit} initialData={company}>
           <fieldset>
             <legend>
               <h2>Logo da loja</h2>
@@ -171,15 +152,15 @@ const CompanyCreateEdit = props => {
               /> */}
               <InputMask
                 mask='(99) 99999-9999'
-                name='telefone'
-                type='tel'
-                label='Telefone'
-              />
-              <InputMask
-                mask='(99) 99999-9999'
                 name='whatsapp'
                 type='tel'
                 label='Whatsapp'
+              />
+              <InputMask
+                mask='(99) 99999-9999'
+                name='telefone'
+                type='tel'
+                label='Telefone'
               />
             </div>
             <div className='field-group'>

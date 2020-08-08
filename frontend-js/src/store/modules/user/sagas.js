@@ -5,6 +5,7 @@ import api from '../../../services/api'
 import { updateProfileFailure, updateProfileSuccess } from './actions'
 import getValidationErrors from '../../../Utils/getValidationErrors'
 import showToast from '../../../Utils/showToast'
+import history from '../../../services/browserhistory'
 
 export function * updateProfile ({ payload }) {
   try {
@@ -30,8 +31,10 @@ export function * updateProfile ({ payload }) {
       formData.append('file', image)
     }
 
-    const response = yield call(api.put, 'users', formData)
+    const response = yield call(api.put, 'profile', formData)
     showToast.success('Perfil alterado com sucesso.')
+    
+    history.goBack()
 
     yield put(updateProfileSuccess(response.data))
   } catch (error) {

@@ -12,6 +12,7 @@ import validateCompanyUpdate from './app/validators/Company/update'
 import RegisterController from './app/controllers/RegisterController'
 import validateRegisterStore from './app/validators/Register/store'
 
+import ProfileController from './app/controllers/ProfileController'
 import UserController from './app/controllers/UserController'
 import validateUserStore from './app/validators/User/store'
 import validateUserUpdate from './app/validators/User/update'
@@ -32,7 +33,6 @@ routes.post('/sessions', validateSessionStore, SessionController.store)
 
 // rotas privadas
 routes.use(authMiddleware)
-routes.get('/companies', CompanyController.index)
 
 routes.post(
   '/companies',
@@ -40,30 +40,28 @@ routes.post(
   validateCompanyStore,
   CompanyController.store
 )
-
 routes.put(
   '/companies',
   upload.single('file'),
   validateCompanyUpdate,
   CompanyController.update
 )
+routes.get('/companies', CompanyController.index)
+routes.get('/companies/list', CompanyController.list)
 routes.get('/companies/:id', CompanyController.find)
 routes.delete('/companies/:id', CompanyController.delete)
 
+routes.post('/users', validateUserStore, UserController.store)
+routes.put('/users', validateUserUpdate, UserController.update)
 routes.get('/users', UserController.index)
-routes.post(
-  '/users',
-  upload.single('file'),
-  validateUserStore,
-  UserController.store
-)
+routes.get('/users/:id', UserController.find)
+routes.delete('/users/:id', UserController.delete)
+
 routes.put(
-  '/users',
+  '/profile',
   upload.single('file'),
   validateUserUpdate,
-  UserController.update
+  ProfileController.update
 )
-routes.get('/users/:id', UserController.find)
 
-routes.put('/files', upload.single('file'), UserController.index)
 export default routes

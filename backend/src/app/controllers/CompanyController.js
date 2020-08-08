@@ -166,6 +166,37 @@ class CompanyController {
 
     return res.json(companies)
   }
+
+  async list (req, res) {
+    const { userCompanyProvider, userProvider, userCompanyId } = req
+
+    if (!userCompanyProvider || !userProvider) {
+      return res
+        .status(401)
+        .json({ error: 'Usuário não tem permissão para listar as lojas' })
+    }
+
+    const { active } = req.query
+
+    let whereStatement = {
+      provider: Boolean(false),
+    }
+    if (active != undefined) whereStatement.active = Boolean(active)
+
+    const companies = await Company.findAll({
+      where: whereStatement,
+      order: ['name'],
+      attributes: ['id', 'name', 'active'],
+    })
+
+    const companyFormated = companies.map(c => ({
+      id: c.id,
+      title: c.name,
+      active: c.active,
+    }))
+
+    return res.json(companyFormated)
+  }
 }
 
 export default new CompanyController()

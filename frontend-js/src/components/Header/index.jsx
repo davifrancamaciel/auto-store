@@ -32,9 +32,9 @@ const Header = () => {
     )
   }, [])
 
-  useEffect(() => {
-    console.log(path)
-  }, [path])
+  // useEffect(() => {
+  //   console.log(path)
+  // }, [path])
 
   // console.log(profile)
   return (

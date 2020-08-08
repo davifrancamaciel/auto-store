@@ -20,9 +20,10 @@ const UserList = ({ provider }) => {
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState()
   const [users, setUsers] = useState([])
+  const profile = useSelector(state => state.user.profile)
 
   useEffect(() => {
-    console.log(provider)
+    setUsers([])
     async function loadUsers () {
       try {
         setLoading(true)
@@ -50,9 +51,13 @@ const UserList = ({ provider }) => {
   }, [provider, search])
 
   async function handleDelete (item) {
-    ShowConfirm('Atenção', `Confirma a remoção da loja ${item.name}?`, () => {
-      handleDeleteConfirm(item.id)
-    })
+    ShowConfirm(
+      'Atenção',
+      `Confirma a remoção do ${provider ? 'usuário' : 'cliente'} ${item.name}?`,
+      () => {
+        handleDeleteConfirm(item.id)
+      }
+    )
   }
 
   async function handleDeleteConfirm (id) {
@@ -60,21 +65,24 @@ const UserList = ({ provider }) => {
       setLoading(true)
       await api.delete(`users/${id}`)
 
-      showToast.success('Loja excluída com sucesso!')
+      showToast.success(
+        `${provider ? 'Usuário' : 'Cliente'} excluído com sucesso!`
+      )
       const updateUsers = users.filter(c => c.id !== id)
       setUsers(updateUsers)
       setLoading(false)
     } catch (error) {
       setLoading(false)
-      showToast.error(
-        'Verfique se a loja ainda está vinculada a usuarios, clientes, despesas e etc... '
-      )
       getValidationErrors(error)
     }
   }
 
   function handleUpdate (id) {
-    history.push(`/${provider ? 'user' : 'client'}/edit/${id}`)
+    if (profile.id === id) {
+      history.push(`/profile`)
+    } else {
+      history.push(`/${provider ? 'user' : 'client'}/edit/${id}`)
+    }
   }
 
   return (
@@ -92,6 +100,7 @@ const UserList = ({ provider }) => {
         <Ul>
           {users.map(users => (
             <UserItem
+              provider={provider}
               item={users}
               key={users.id}
               onUpdateClick={handleUpdate}

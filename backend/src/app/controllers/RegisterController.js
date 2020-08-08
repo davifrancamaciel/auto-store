@@ -22,7 +22,7 @@ class RegisterController {
     });
 
     if (!company.id) {
-      return res.status(400).json({ error: 'Oorreu um erro ao criar empresa' });
+      return res.status(400).json({ error: 'Oorreu um erro ao criar a loja' });
     }
 
     const newUser = {

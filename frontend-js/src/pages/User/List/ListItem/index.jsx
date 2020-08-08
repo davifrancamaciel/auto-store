@@ -2,13 +2,13 @@ import React from 'react'
 import { FiEdit, FiDelete, FiPhone } from 'react-icons/fi'
 import { FaWhatsapp } from 'react-icons/fa'
 
-import { Li, Info, Actions} from '../../../../components/ListContainer/styles'
+import { Li, Info, Actions } from '../../../../components/ListContainer/styles'
 
-function Item ({ item, onDeleteClick, onUpdateClick }) {
+function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
   return (
-    <Li>
+    <Li active={item.active}>
       <header>
-        <img src={item.image} alt={item.name} />
+        {provider && <img src={item.image} alt={item.name} />}
         <Info>
           <strong>{item.name}</strong>
           <span>{item.email}</span>
@@ -28,8 +28,13 @@ function Item ({ item, onDeleteClick, onUpdateClick }) {
       <p>{item.company.name}</p>
       <p>
         <span>
-          {item.whatsapp && <FaWhatsapp size={20} />}          
-          <a href={`https://api.whatsapp.com/send?phone=+55${item.whatsapp}&text=`} target='_blank'>{item.whatsapp}</a>
+          {item.whatsapp && <FaWhatsapp size={20} />}
+          <a
+            href={`https://api.whatsapp.com/send?phone=+55${item.whatsapp}&text=`}
+            target='_blank'
+          >
+            {item.whatsapp}
+          </a>
         </span>
         <span>
           {item.telefone && <FiPhone size={20} />}

@@ -9,7 +9,7 @@ class SessionController {
     const { email, password } = req.body
 
     const user = await User.findOne({
-      where: { email },
+      where: { email, provider: true },
       include: [
         {
           model: Company,
@@ -18,7 +18,7 @@ class SessionController {
         },
       ],
     })
-    // return res.json(user);
+
     if (!user) {
       return res.status(401).json({ error: 'Usuário não encontrado' })
     }
@@ -27,7 +27,16 @@ class SessionController {
       return res.status(401).json({ error: 'Senha invalida' })
     }
 
-    const { id, company_id, name, image, provider, active, company, whatsapp } = user
+    const {
+      id,
+      company_id,
+      name,
+      image,
+      provider,
+      active,
+      company,
+      whatsapp,
+    } = user
 
     if (!company.active) {
       return res.status(401).json({ error: 'Loja inativa' })
@@ -46,7 +55,7 @@ class SessionController {
         provider,
         company_id,
         company_provider,
-        whatsapp
+        whatsapp,
       },
       token: jwt.sign(
         { id, provider, company_id, company_provider },

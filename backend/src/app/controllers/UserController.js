@@ -57,6 +57,21 @@ class UserController {
       limit: 20,
       order: ['name'],
       offset: (page - 1) * 20,
+      attributes: [
+        'id',
+        'name',
+        'image',
+        'email',
+        'whatsapp',
+        'telefone',
+        'cep',
+        'uf',
+        'city',
+        'bairro',
+        'logradouro',
+        'provider',
+        'active',
+      ],
       include: [
         {
           model: Company,
@@ -72,18 +87,21 @@ class UserController {
   async find (req, res) {
     const { id } = req.params
     const { userProvider, userCompanyId, userCompanyProvider } = req
-    if (!userCompanyProvider) {
-      if (!userProvider || userCompanyId !== Number(id)) {
-        return res
-          .status(401)
-          .json({ error: 'Usuário não permissão ver esta usuario' })
-      }
-    }
 
     const user = await User.findByPk(id)
     if (!user) {
       return res.status(400).json({ error: 'Usuário não encontrado' })
     }
+
+    if (!userCompanyProvider) {
+      if (!userProvider || userCompanyId !== user.company_id) {
+        return res
+          .status(401)
+          .json({ error: 'Usuário não permissão ver este usuario' })
+      }
+    }
+
+
 
     return res.json(user)
   }
@@ -94,7 +112,7 @@ class UserController {
     if (!userProvider) {
       return res
         .status(401)
-        .json({ error: 'Usuário não tem permissão para listar as lojas' })
+        .json({ error: 'Usuário não tem permissão para criar' })
     }
 
     const userExist = await User.findOne({
@@ -102,9 +120,11 @@ class UserController {
     })
 
     if (userExist) {
-      return res
-        .status(400)
-        .json({ error: 'Já existe um usuário com este email' })
+      return res.status(400).json({
+        error: `Já existe um ${
+          req.body.provider ? 'usuário' : 'cliente'
+        } com este email`,
+      })
     }
     let { company_id } = req.body
 
@@ -141,20 +161,20 @@ class UserController {
 
   async update (req, res) {
     const { userCompanyProvider, userProvider, userCompanyId } = req
-    const { email, oldPassword } = req.body
-    const user = await User.findByPk(req.userId)
+    const { id, email } = req.body
+    const user = await User.findByPk(id)
 
     if (user.email !== email) {
       const userExist = await User.findOne({ where: { email } })
       if (userExist) {
-        return res
-          .status(400)
-          .json({ error: 'Já existe um usuário com este email' })
+        return res.status(400).json({
+          error: `Já existe um ${
+            req.body.provider ? 'usuário' : 'cliente'
+          } com este email`,
+        })
       }
     }
-    if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      return res.status(401).json({ error: 'A Senha antiga está icorreta' })
-    }
+
     const userUpdate = req.body
     if (!userProvider) {
       userUpdate.provider = false
@@ -164,27 +184,57 @@ class UserController {
       userUpdate.company_id = userCompanyId
     }
 
-    const image = (req.file && req.file.filename) || user.image
-    if (image !== user.image) {
-      removeFile(user.image)
-    }
+    await user.update(userUpdate)
 
-    await user.update({ ...userUpdate, image })
-
-    const { id, name, provider, company_id, whatsapp } = await User.findByPk(
-      req.userId
-    )
+    const { name, provider, company_id, whatsapp } = await User.findByPk(id)
 
     return res.json({
       id,
       name,
-      image,
       email,
       provider,
       company_id,
       company_provider: userCompanyProvider,
       whatsapp,
     })
+  }
+
+  async delete (req, res) {
+    const { userCompanyProvider, userProvider, userCompanyId } = req
+
+    if (!userProvider) {
+      return res
+        .status(401)
+        .json({ error: 'Usuário não tem permissão para deletar' })
+    }
+
+    const { id } = req.params
+
+    if (Number(id) === Number(req.userId)) {
+      return res
+        .status(401)
+        .json({ error: 'Você não pode remover o seu próprio registro' })
+    }
+
+    const user = await User.findByPk(id)
+
+    if (!userProvider) {
+      return res.status(400).json({ error: 'Registo não encontrado' })
+    }
+
+    if (!userCompanyProvider && user.company_id != userCompanyId) {
+      return res
+        .status(401)
+        .json({ error: 'Não é possivel deletar um registro de outra loja' })
+    }
+
+    if (user) {
+      removeFile(user.image)
+    }
+
+    await User.destroy({ where: { id } })
+
+    return res.json({ message: `${user.name} deletado` })
   }
 }
 

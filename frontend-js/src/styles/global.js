@@ -76,6 +76,9 @@ export default createGlobalStyle`
             color: #6c6c80;
             height: 44px;
             max-height: 44px;
+            option {
+                padding: 10px;
+            }
         }
         label {
             font-size: 14px;

@@ -6,13 +6,12 @@ import { Li, Info, Actions } from '../../../../components/ListContainer/styles'
 
 function Item ({ item, onDeleteClick, onUpdateClick }) {
   return (
-    <Li>
+    <Li active={item.active}>
       <header>
         <img src={item.image} alt={item.name} />
         <Info>
           <strong>{item.name}</strong>
           <span>{item.email}</span>
-          <span>{item.responsavel}</span>
         </Info>
         <Actions>
           <button className='edit' onClick={() => onUpdateClick(item.id)}>
