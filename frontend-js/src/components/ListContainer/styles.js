@@ -126,3 +126,15 @@ export const Actions = styled.div`
     }
   }
 `
+
+export const InfoStatus = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
+export const ExpiredStatus = styled.span`
+  color: ${props => (props.expired ? '#f04d5a' : ' #666')};
+`
+export const ActiveStatus = styled.span`
+  color: ${props => (props.active ? 'var(--primary-color)' : '#f04d5a')};
+`

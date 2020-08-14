@@ -2,8 +2,17 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FiPlus } from 'react-icons/fi'
-import { parseISO, formatDistance } from 'date-fns'
+import {
+  parseISO,
+  formatDistance,
+  setHours,
+  setMinutes,
+  setSeconds,
+  setMilliseconds,
+  isBefore
+} from 'date-fns'
 import pt from 'date-fns/locale/pt'
+import { utcToZonedTime } from 'date-fns-tz'
 
 import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
@@ -30,21 +39,36 @@ const CompanyList = () => {
     async function loadCompanies () {
       try {
         setLoading(true)
-        
+
         const response = await api.get('companies', { params: search })
 
-        const comaniesFormated = response.data.map(company => ({
-          ...company,
-          image: getImage(company.image, company.name),
-          expires_at: `Expira ${formatDistance(
-            parseISO(company.expires_at),
-            new Date(),
-            {
-              addSuffix: true,
-              locale: pt
-            }
-          )}`
-        }))
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+        const comaniesFormated = response.data.map(company => {
+          const checkDate = setMilliseconds(
+            setSeconds(
+              setMinutes(setHours(parseISO(company.expires_at), 0), 0),
+              0
+            ),
+            0
+          )
+          const compareDate = utcToZonedTime(checkDate, timezone)
+
+          const expired = isBefore(compareDate, new Date())
+          return {
+            ...company,
+            image: getImage(company.image, company.name),
+            expired,
+            expires_at: `Expira${expired ? 'da' : ''} ${formatDistance(
+              parseISO(company.expires_at),
+              new Date(),
+              {
+                addSuffix: true,
+                locale: pt
+              }
+            )}`
+          }
+        })
         setCompanies(comaniesFormated)
         console.log(comaniesFormated)
         setLoading(false)

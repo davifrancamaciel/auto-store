@@ -2,7 +2,14 @@ import React from 'react'
 import { FiEdit, FiDelete, FiPhone } from 'react-icons/fi'
 import { FaWhatsapp } from 'react-icons/fa'
 
-import { Li, Info, Actions } from '../../../../components/ListContainer/styles'
+import {
+  Li,
+  Info,
+  Actions,
+  InfoStatus,
+  ExpiredStatus,
+  ActiveStatus
+} from '../../../../components/ListContainer/styles'
 
 function Item ({ item, onDeleteClick, onUpdateClick }) {
   return (
@@ -42,7 +49,12 @@ function Item ({ item, onDeleteClick, onUpdateClick }) {
         </span>
       </p>
 
-      <p>{item.expires_at}</p>
+      <InfoStatus>
+        <ExpiredStatus expired={item.expired}>{item.expires_at}</ExpiredStatus>
+        <ActiveStatus active={item.active}>{`${
+          item.active ? 'Ativa' : 'Inativa'
+        }`}</ActiveStatus>
+      </InfoStatus>
     </Li>
   )
 }
