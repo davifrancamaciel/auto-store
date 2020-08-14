@@ -16,21 +16,19 @@ class Company extends Model {
         bairro: Sequelize.STRING,
         uf: Sequelize.STRING,
         logradouro: Sequelize.STRING,
+        complement: Sequelize.STRING,
         cep: Sequelize.STRING,
         latitude: Sequelize.DECIMAL,
         longitude: Sequelize.DECIMAL,
         provider: Sequelize.BOOLEAN,
         active: Sequelize.BOOLEAN,
+        expires_at: Sequelize.DATE,
       },
       { sequelize }
     );
 
     return this;
   }
-
-  // static associate(models) {
-  //   this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
-  // }
 }
 
 export default Company;

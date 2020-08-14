@@ -72,7 +72,7 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
-      cnh_copia: {
+      chave_copia: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false,

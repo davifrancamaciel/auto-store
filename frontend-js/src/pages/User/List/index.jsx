@@ -38,8 +38,8 @@ const UserList = ({ provider }) => {
           ...user,
           image: getImage(user.image, user.name)
         }))
+        
         setUsers(usersFormated)
-        console.log(usersFormated)
         setLoading(false)
       } catch (error) {
         setLoading(false)

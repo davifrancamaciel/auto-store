@@ -103,12 +103,14 @@ const UserCreateEdit = () => {
 
             <div className='field-group'>
               <Input name='email' type='email' label='Email' />
-              <InputMask
-                mask='(99) 99999-9999'
-                name='whatsapp'
-                type='tel'
-                label='Whatsapp'
-              />
+              <div className='field'>
+                <InputMask
+                  mask='(99) 99999-9999'
+                  name='whatsapp'
+                  type='tel'
+                  label='Whatsapp'
+                />
+              </div>
             </div>
             {profile.company_provider && (
               <div className='field'>
@@ -118,7 +120,12 @@ const UserCreateEdit = () => {
                   name='company_id'
                   options={companies}
                 /> */}
-                <Select label='Loja' name='company_id' options={companies} />
+                <Select
+                  label='Loja'
+                  name='company_id'
+                  options={companies}
+                  defaultValue={user.company_id}
+                />
                 {/* <label>Loja</label>
                 <select>
                   <option value=''>Selecione...</option>

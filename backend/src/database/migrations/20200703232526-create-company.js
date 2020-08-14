@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
       },
       image: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(100),
         allowNull: true,
       },
       name: {
@@ -20,37 +20,37 @@ module.exports = {
         allowNull: true,
       },
       site: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(100),
         allowNull: true,
       },
       whatsapp: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
         allowNull: true,
       },
       telefone: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
         allowNull: true,
       },
 
       cnpj: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
         allowNull: true,
       },
       email: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(100),
         allowNull: true,
         unique: true,
       },
       city: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(100),
         allowNull: true,
       },
       bairro: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(100),
         allowNull: true,
       },
       uf: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(2),
         allowNull: true,
       },
 
@@ -59,8 +59,13 @@ module.exports = {
         allowNull: true,
       },
 
+      complement: {
+        type: Sequelize.STRING(100),
+        allowNull: true,
+      },
+
       cep: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(10),
         allowNull: true,
       },
       latitude: {
@@ -80,6 +85,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: true,
+      },
+      expires_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,

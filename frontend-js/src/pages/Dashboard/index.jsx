@@ -1,12 +1,47 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { parseISO, formatDistance } from 'date-fns'
+import pt from 'date-fns/locale/pt'
+import api from '../../services/api'
 
 import Container from '../../components/Container'
 
 import { CardContainer, Card } from './styles'
+import getValidationErrors from '../../Utils/getValidationErrors'
 
 const Dashboard = () => {
-  
+  const [dashboard, setDashboard] = useState({})
+
+  useEffect(() => {
+    async function loadDashboard () {
+      try {
+        const response = await api.get('dashboard')
+        const model = response.data
+
+        const dashboardFormated = {
+          ...model,
+          company: {
+            expires_at: `Expira ${formatDistance(
+              parseISO(model.company.expires_at),
+              new Date(),
+              {
+                addSuffix: true,
+                locale: pt
+              }
+            )}`
+          }
+        }
+        setDashboard(dashboardFormated)
+
+        console.log(dashboardFormated)
+      } catch (error) {
+        getValidationErrors(error)
+      }
+    }
+
+    loadDashboard()
+  }, [])
+
   return (
     <Container title='Dashboard'>
       <CardContainer>

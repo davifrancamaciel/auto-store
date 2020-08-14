@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Form, Check } from '@rocketseat/unform'
+import { Form as FormT } from '@unform/web'
 
 import Container from '../../../components/Container'
 import SubmitButton from '../../../components/SubmitButton'
 import FormContainer from '../../../components/FormContainer'
 import Dropzone from '../../../components/Dropzone'
 import Input from '../../../components/Input'
+import Datepiker from '../../../components/Datepiker'
 // import InputMaskPhone from '../../../components/InputMaskPhone'
 import InputMask from '../../../components/InputMask'
 import BackPage from '../../../components/BackPage'
@@ -19,7 +21,6 @@ import showToast from '../../../Utils/showToast'
 import getLocale from '../../../Utils/getLocale'
 import getImage from '../../../Utils/getImage'
 import validation from './validation'
-
 
 const CompanyCreateEdit = props => {
   const { id } = useParams()
@@ -42,6 +43,7 @@ const CompanyCreateEdit = props => {
               ? getImage(response.data.image, response.data.name)
               : null
           })
+          console.log(response.data)
           setLoading(false)
         } catch (error) {
           setLoading(false)
@@ -77,7 +79,7 @@ const CompanyCreateEdit = props => {
         provider: false,
         image: selectedImage
       }
-
+      console.log(saveCompany)
       let formData = new FormData()
 
       formData.append('name', saveCompany.name)
@@ -94,6 +96,8 @@ const CompanyCreateEdit = props => {
       formData.append('logradouro', saveCompany.logradouro)
       formData.append('provider', saveCompany.provider)
       formData.append('active', saveCompany.active)
+      formData.append('complement', saveCompany.complement)
+      formData.append('expires_at', saveCompany.expires_at)
       if (saveCompany.id) {
         formData.append('id', saveCompany.id)
       }
@@ -121,7 +125,11 @@ const CompanyCreateEdit = props => {
   return (
     <Container title='Cadastro de lojas'>
       <FormContainer loading={loading}>
-        <Form schema={validation()} onSubmit={handleSubmit} initialData={company}>
+        <Form
+          schema={validation()}
+          onSubmit={handleSubmit}
+          initialData={company}
+        >
           <fieldset>
             <legend>
               <h2>Logo da loja</h2>
@@ -150,18 +158,22 @@ const CompanyCreateEdit = props => {
                 name='telefone'
                 label='Telefone'
               /> */}
-              <InputMask
-                mask='(99) 99999-9999'
-                name='whatsapp'
-                type='tel'
-                label='Whatsapp'
-              />
-              <InputMask
-                mask='(99) 99999-9999'
-                name='telefone'
-                type='tel'
-                label='Telefone'
-              />
+              <div className='field'>
+                <InputMask
+                  mask='(99) 99999-9999'
+                  name='whatsapp'
+                  type='tel'
+                  label='Whatsapp'
+                />
+              </div>
+              <div className='field'>
+                <InputMask
+                  mask='(99) 99999-9999'
+                  name='telefone'
+                  type='tel'
+                  label='Telefone'
+                />
+              </div>
             </div>
             <div className='field-group'>
               <Input
@@ -170,18 +182,32 @@ const CompanyCreateEdit = props => {
                 type='text'
                 placeholder='url do site da loja'
               />
-              <InputMask
-                mask='99.999.999/9999-9'
-                name='cnpj'
-                type='tel'
-                label='CNPJ'
-              />
+              <div className='field'>
+                <InputMask
+                  mask='99.999.999/9999-9'
+                  name='cnpj'
+                  type='tel'
+                  label='CNPJ'
+                />
+              </div>
             </div>
-            <div className='field'>
-              <label className='alt-check'>
-                <Check name='active' />
-                <span>Loja ativa</span>
-              </label>
+            <div className='field-group'>
+              <div className='field'>
+                {/* <Input name='expires_at' type='text' label='Data de expiração' /> */}
+                <Datepiker
+                  name='expires_at'
+                  label='Data de expiração'
+                  sselected={
+                    company.expires_at ? new Date(company.expires_at) : null
+                  }
+                />
+              </div>
+              <div className='field'>
+                <label className='alt-check'>
+                  <Check name='active' />
+                  <span>Loja ativa</span>
+                </label>
+              </div>
             </div>
           </fieldset>
 
@@ -190,13 +216,15 @@ const CompanyCreateEdit = props => {
               <h2>Endereço</h2>
             </legend>
             <div className='field-group'>
-              <InputMask
-                mask='99999-999'
-                label='Cep'
-                name='cep'
-                type='tel'
-                onChangeCep={setCepChanged}
-              />
+              <div className='field'>
+                <InputMask
+                  mask='99999-999'
+                  label='Cep'
+                  name='cep'
+                  type='tel'
+                  onChangeCep={setCepChanged}
+                />
+              </div>
               <Input name='uf' type='text' label='UF' />
               <Input name='city' type='text' label='Cidade' />
             </div>
@@ -204,6 +232,12 @@ const CompanyCreateEdit = props => {
               <Input name='bairro' type='text' label='Bairro' />
               <Input name='logradouro' type='text' label='Logradouro' />
             </div>
+            <Input
+              name='complement'
+              type='text'
+              label='Complemento'
+              placeholder='Ex.: Nº 0000, fundos etc...'
+            />
           </fieldset>
 
           <SubmitButton loading={loading ? true : false} text={'Salvar'} />

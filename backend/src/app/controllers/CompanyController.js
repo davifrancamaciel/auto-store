@@ -2,6 +2,7 @@ import { Op } from 'sequelize'
 
 import Company from '../models/Company'
 import removeFile from '../utils/removeFile'
+import getExpireDate from '../utils/addDays'
 
 class CompanyController {
   async index (req, res) {
@@ -13,7 +14,7 @@ class CompanyController {
         .json({ error: 'Usuário não tem permissão para listar as lojas' })
     }
 
-    const { name, email, page = 1 } = req.query
+    const { status, name, email, page = 1 } = req.query
 
     let whereStatement = {
       id: {
@@ -21,6 +22,8 @@ class CompanyController {
       },
       provider: false,
     }
+
+    if (status !== '' && status !== undefined) whereStatement.active = status
 
     if (name)
       whereStatement.name = {
@@ -84,7 +87,10 @@ class CompanyController {
           .json({ error: 'Já existe uma loja com este email' })
       }
       const image = (req.file && req.file.filename) || null
-      const company = await Company.create({ ...req.body, image })
+      const expires_at = req.body.expires_at
+        ? req.body.expires_at
+        : getExpireDate(process.env.DAYS_EXPIRES)
+      const company = await Company.create({ ...req.body, expires_at, image })
 
       return res.json(company)
     } catch (error) {
@@ -129,7 +135,14 @@ class CompanyController {
       if (image !== company.image) {
         removeFile(company.image)
       }
-      await company.update({ ...req.body, image })
+
+      const expires_at = req.body.expires_at
+        ? req.body.expires_at
+        : getExpireDate(process.env.DAYS_EXPIRES)
+
+      console.log(expires_at)
+
+      await company.update({ ...req.body, expires_at, image })
 
       const { name, provider, whatsapp, city, uf } = await Company.findByPk(id)
 

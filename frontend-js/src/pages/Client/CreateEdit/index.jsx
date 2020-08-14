@@ -118,26 +118,32 @@ const ClientCreateEdit = () => {
 
             <div className='field-group'>
               <Input name='email' type='email' label='Email' />
-              <InputMask
-                mask='999.999.999-99'
-                name='cpf_cnpj'
-                type='tel'
-                label='CPF'
-              />
+              <div className='field'>
+                <InputMask
+                  mask='999.999.999-99'
+                  name='cpf_cnpj'
+                  type='tel'
+                  label='CPF'
+                />
+              </div>
             </div>
             <div className='field-group'>
-              <InputMask
-                mask='(99) 99999-9999'
-                name='whatsapp'
-                type='tel'
-                label='Whatsapp'
-              />
-              <InputMask
-                mask='(99) 99999-9999'
-                name='telefone'
-                type='tel'
-                label='Telefone'
-              />
+              <div className='field'>
+                <InputMask
+                  mask='(99) 99999-9999'
+                  name='whatsapp'
+                  type='tel'
+                  label='Whatsapp'
+                />
+              </div>
+              <div className='field'>
+                <InputMask
+                  mask='(99) 99999-9999'
+                  name='telefone'
+                  type='tel'
+                  label='Telefone'
+                />
+              </div>
             </div>
             <div className='field-group'>
               {profile.company_provider && (
@@ -159,13 +165,15 @@ const ClientCreateEdit = () => {
               <h2>Endereço</h2>
             </legend>
             <div className='field-group'>
-              <InputMask
-                mask='99999-999'
-                label='Cep'
-                name='cep'
-                type='tel'
-                onChangeCep={setCepChanged}
-              />
+              <div className='field'>
+                <InputMask
+                  mask='99999-999'
+                  label='Cep'
+                  name='cep'
+                  type='tel'
+                  onChangeCep={setCepChanged}
+                />
+              </div>
               <Input name='uf' type='text' label='UF' />
               <Input name='city' type='text' label='Cidade' />
             </div>
@@ -173,6 +181,12 @@ const ClientCreateEdit = () => {
               <Input name='bairro' type='text' label='Bairro' />
               <Input name='logradouro' type='text' label='Logradouro' />
             </div>
+            <Input
+              name='complement'
+              type='text'
+              label='Complemento'
+              placeholder='Ex.: Nº 0000, fundos etc...'
+            />
           </fieldset>
 
           {/* <Adress /> */}

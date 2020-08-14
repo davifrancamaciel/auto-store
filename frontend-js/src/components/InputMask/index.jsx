@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import InputMask from 'react-input-mask'
 
 const InputMaskWrapper = (
-  { mask, name, label, type, onChangeCep }  
+  { mask, name, label, type, onChangeCep, placeholder }  
 ) => {
   const { defaultValue } = useField(name)
   const ref = useRef(null)
@@ -23,7 +23,7 @@ const InputMaskWrapper = (
   }
 
   return (
-    <div className='field'>
+    <>
       {label && <label htmlFor={name}>{label}</label>}
 
       <InputMask
@@ -32,9 +32,9 @@ const InputMaskWrapper = (
         ref={ref}
         onChange={e => handleMask(e)}
       >
-        {() => <Input name={name} type={type} autoComplete='none' />}
+        {() => <Input name={name} type={type} placeholder={placeholder} autoComplete='none' />}
       </InputMask>
-    </div>
+    </>
   )
 }
 

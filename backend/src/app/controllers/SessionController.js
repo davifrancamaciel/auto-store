@@ -10,11 +10,22 @@ class SessionController {
 
     const user = await User.findOne({
       where: { email, provider: true },
+      attributes: [
+        'id',
+        'company_id',
+        'name',
+        'email',
+        'whatsapp',
+        'provider',
+        'active',
+        'password_hash',
+        'image',
+      ],
       include: [
         {
           model: Company,
           as: 'company',
-          attributes: ['id', 'active', 'provider'],
+          attributes: ['id', 'active', 'provider', 'expires_at'],
         },
       ],
     })
@@ -40,6 +51,15 @@ class SessionController {
 
     if (!company.active) {
       return res.status(401).json({ error: 'Loja inativa' })
+    }
+
+    if (!company.provider && company.expires_at) {
+      if (new Date(company.expires_at).getTime() < new Date().getTime()) {
+        return res.status(401).json({
+          error:
+            'O tempo de utilização do sistema Gestão flex expirou. Entre em contato conosco e renove sua assinatura.',
+        })
+      }
     }
 
     if (!active) {

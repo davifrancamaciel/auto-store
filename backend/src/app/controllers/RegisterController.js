@@ -1,5 +1,6 @@
 import Company from '../models/Company';
 import User from '../models/User';
+import getExpireDate from '../utils/addDays'
 
 class RegisterController {
   async store(req, res) {
@@ -19,6 +20,7 @@ class RegisterController {
       latitude: req.body.latitude,
       longitude: req.body.longitude,
       whatsapp: req.body.whatsapp,
+      expires_at: getExpireDate(process.env.DAYS_EXPIRES)
     });
 
     if (!company.id) {

@@ -5,6 +5,8 @@ import multerConfig from './config/multerConfig'
 
 import authMiddleware from './app/middlewares/auth'
 
+import DashboardController from './app/controllers/DashboardController'
+
 import CompanyController from './app/controllers/CompanyController'
 import validateCompanyStore from './app/validators/Company/store'
 import validateCompanyUpdate from './app/validators/Company/update'
@@ -33,6 +35,8 @@ routes.post('/sessions', validateSessionStore, SessionController.store)
 
 // rotas privadas
 routes.use(authMiddleware)
+
+routes.get('/dashboard', DashboardController.index)
 
 routes.post(
   '/companies',

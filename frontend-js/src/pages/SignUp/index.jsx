@@ -6,19 +6,10 @@ import { Form, Input } from '@rocketseat/unform'
 
 import { signUpRequest } from '../../store/modules/auth/actions'
 import SubmitButton from '../../components/SubmitButton'
+import InputMask from '../../components/InputMask'
+import validation from './validation'
 
 import logo from '../../assets/icone.png'
-
-const schema = Yup.object().shape({
-  name: Yup.string().required('O nome é obrigatório'),
-  whatsapp: Yup.string().required('O whatsapp é obrigatório'),
-  email: Yup.string()
-    .email('Insira um email válido')
-    .required('O e-mail é obrigatório'),
-  password: Yup.string()
-    .min(6, 'No minimo 6 carcteres')
-    .required('A senha é obrigatória')
-})
 
 const SignUp = () => {
   const dispatch = useDispatch()
@@ -32,11 +23,12 @@ const SignUp = () => {
     <>
       <img src={logo} alt='Gestão flex' />
       <span>GESTÃO FLEX</span>
-      <Form schema={schema} onSubmit={handleSubmit}>
+      <Form schema={validation()} onSubmit={handleSubmit}>
         <Input name='name' type='text' placeholder='Nome completo' />
-        <Input
+        <InputMask
+          mask='(99) 99999-9999'
           name='whatsapp'
-          type='text'
+          type='tel'
           placeholder='Seu whatsapp ou da loja'
         />
         <Input name='email' type='email' placeholder='Seu e-mail' />

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FiPlus } from 'react-icons/fi'
+import { parseISO, formatDistance } from 'date-fns'
+import pt from 'date-fns/locale/pt'
 
 import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
@@ -28,14 +30,20 @@ const CompanyList = () => {
     async function loadCompanies () {
       try {
         setLoading(true)
-        const response = await api.get('companies', {
-          params: {
-            ...search
-          }
-        })
+        
+        const response = await api.get('companies', { params: search })
+
         const comaniesFormated = response.data.map(company => ({
           ...company,
-          image: getImage(company.image, company.name)
+          image: getImage(company.image, company.name),
+          expires_at: `Expira ${formatDistance(
+            parseISO(company.expires_at),
+            new Date(),
+            {
+              addSuffix: true,
+              locale: pt
+            }
+          )}`
         }))
         setCompanies(comaniesFormated)
         console.log(comaniesFormated)

@@ -17,6 +17,7 @@ class User extends Model {
         city: Sequelize.STRING,
         bairro: Sequelize.STRING,
         logradouro: Sequelize.STRING,
+        complement: Sequelize.STRING,
         latitude: Sequelize.DECIMAL,
         longitude: Sequelize.DECIMAL,
         password: Sequelize.VIRTUAL,

@@ -14,7 +14,6 @@ import InputMask from '../../components/InputMask'
 import Dropzone from '../../components/Dropzone'
 import BackPage from '../../components/BackPage'
 
-
 import getImage from '../../Utils/getImage'
 import showToast from '../../Utils/showToast'
 
@@ -92,12 +91,14 @@ function Profile () {
               <Input name='name' label='Nome' />
               <div className='field-group'>
                 <Input name='email' type='email' label='Email' />
-                <InputMask
-                  mask='(99) 99999-9999'
-                  name='whatsapp'
-                  type='tel'
-                  label='Whatsapp'
-                />
+                <div className='field'>
+                  <InputMask
+                    mask='(99) 99999-9999'
+                    name='whatsapp'
+                    type='tel'
+                    label='Whatsapp'
+                  />
+                </div>
               </div>
             </fieldset>
             <fieldset>

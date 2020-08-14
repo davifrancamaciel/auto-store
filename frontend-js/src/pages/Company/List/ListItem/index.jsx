@@ -42,13 +42,7 @@ function Item ({ item, onDeleteClick, onUpdateClick }) {
         </span>
       </p>
 
-      {/* <a
-        href={`https://www.google.com/maps/search/?api=1&query=${company.latitude},${company.longitude}`}
-        target='_blank'
-        rel='noopener noreferrer'
-      >
-        Maps
-      </a> */}
+      <p>{item.expires_at}</p>
     </Li>
   )
 }

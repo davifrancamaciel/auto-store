@@ -15,7 +15,7 @@ module.exports = {
         allowNull: false,
       },
       image: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(100),
         allowNull: true,
       },
       name: {
@@ -23,35 +23,35 @@ module.exports = {
         allowNull: false,
       },
       whatsapp: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
         allowNull: false,
       },
       telefone: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
         allowNull: true,
       },
 
       cpf_cnpj: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
         allowNull: true,
       },
       email: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(100),
         allowNull: false,
         unique: true,
       },
       bairro: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(100),
         allowNull: true,
       },
 
       city: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(100),
         allowNull: true,
       },
 
       uf: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(2),
         allowNull: true,
       },
 
@@ -60,8 +60,13 @@ module.exports = {
         allowNull: true,
       },
 
+      complement: {
+        type: Sequelize.STRING(100),
+        allowNull: true,
+      },
+
       cep: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(10),
         allowNull: true,
       },
 
