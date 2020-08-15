@@ -23,7 +23,7 @@ export function * signIn ({ payload }) {
     })
 
     const { token, user } = response.data
-    
+
     api.defaults.headers['Authorization'] = `Bearer ${token}`
 
     yield put(signInSuccess(token, user))
@@ -37,14 +37,15 @@ export function * signIn ({ payload }) {
 
 export function * signUp ({ payload }) {
   try {
-    const { name, email, password, whatsapp } = payload
+    const { name, email, password, whatsapp, company_name } = payload
 
     yield call(api.post, 'register', {
       name,
       email,
       password,
       provider: true,
-      whatsapp
+      whatsapp,
+      company_name
     })
 
     history.push('/')

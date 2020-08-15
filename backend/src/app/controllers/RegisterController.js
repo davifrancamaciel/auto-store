@@ -16,7 +16,7 @@ class RegisterController {
 
     const company = await Company.create({
       provider: false,
-      name: req.body.name,
+      name: req.body.company_name,
       latitude: req.body.latitude,
       longitude: req.body.longitude,
       whatsapp: req.body.whatsapp,

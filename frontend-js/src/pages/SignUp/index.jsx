@@ -14,8 +14,8 @@ const SignUp = () => {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.auth.loading)
 
-  function handleSubmit ({ name, email, password, whatsapp }) {
-    dispatch(signUpRequest(name, email, password, whatsapp))
+  function handleSubmit ({ name, email, password, whatsapp, company_name }) {
+    dispatch(signUpRequest(name, email, password, whatsapp, company_name))
   }
 
   return (
@@ -23,6 +23,7 @@ const SignUp = () => {
       <img src={logo} alt='Gestão flex' />
       <span>GESTÃO FLEX</span>
       <Form schema={validation()} onSubmit={handleSubmit}>
+        <Input name='company_name' type='text' placeholder='Nome da loja' />
         <Input name='name' type='text' placeholder='Seu nome completo' />
         <InputMask
           mask='(99) 99999-9999'

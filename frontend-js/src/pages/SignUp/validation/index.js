@@ -2,6 +2,9 @@ import * as Yup from 'yup'
 
 export default function validation () {
   const schema = Yup.object().shape({
+    company_name: Yup.string()
+      .required('O Nome da loja é obrigatório')
+      .max(250, 'Máximo 250 caracteres'),
     name: Yup.string()
       .required('O Nome é obrigatório')
       .max(250, 'Máximo 250 caracteres'),
