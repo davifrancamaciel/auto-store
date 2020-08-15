@@ -16,6 +16,7 @@ import { utcToZonedTime } from 'date-fns-tz'
 
 import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
+import NoData from '../../../components/NoData'
 
 import CompanyItem from './ListItem'
 import Search from './Search'
@@ -34,6 +35,7 @@ const CompanyList = () => {
   const [companies, setCompanies] = useState([])
   const [search, setSearch] = useState()
   const [loading, setLoading] = useState(false)
+  const [noData, setNoData] = useState(false)
 
   useEffect(() => {
     async function loadCompanies () {
@@ -71,6 +73,7 @@ const CompanyList = () => {
         })
         setCompanies(comaniesFormated)
         console.log(comaniesFormated)
+        setNoData(comaniesFormated.length == 0)
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -81,6 +84,7 @@ const CompanyList = () => {
     if (!profile.company_provider) {
       history.push('/dashboard')
       showToast.error('Usuário sem permissão para acessar lista de lojas.')
+      return;
     }
 
     loadCompanies()
@@ -122,6 +126,8 @@ const CompanyList = () => {
           <FiPlus size={20} /> Cadastrar
         </Link>
       </span>
+      
+      {noData && <NoData text={`Não há dados para exibir :(`} />}
       <Main>
         <Ul>
           {companies.map(company => (

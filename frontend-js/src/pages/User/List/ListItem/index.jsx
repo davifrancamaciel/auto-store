@@ -2,7 +2,13 @@ import React from 'react'
 import { FiEdit, FiDelete, FiPhone } from 'react-icons/fi'
 import { FaWhatsapp } from 'react-icons/fa'
 
-import { Li, Info, Actions } from '../../../../components/ListContainer/styles'
+import {
+  Li,
+  Info,
+  Actions,
+  InfoStatus,
+  ActiveStatus
+} from '../../../../components/ListContainer/styles'
 
 function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
   return (
@@ -42,13 +48,13 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
         </span>
       </p>
 
-      {/* <a
-        href={`https://www.google.com/maps/search/?api=1&query=${company.latitude},${company.longitude}`}
-        target='_blank'
-        rel='noopener noreferrer'
-      >
-        Maps
-      </a> */}
+      {item.provider && (
+        <InfoStatus>
+          <ActiveStatus active={item.active}>{`${
+            item.active ? 'Ativo' : 'Inativo'
+          }`}</ActiveStatus>
+        </InfoStatus>
+      )}
     </Li>
   )
 }

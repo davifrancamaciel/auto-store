@@ -8,9 +8,19 @@ export const HeaderContainer = styled.section`
     max-width: 1120px;
     margin: 0 auto;
     padding: 40px 20px;
-    > h1 {
-      color: var(--secondary-color);
+
+    > span {
+      display: flex;
+      justify-content: space-between;
+      > h1 {
+        color: var(--secondary-color);
+      }
+      > a {
+        font-weight: bold;
+        color: #fff;
+      }
     }
+
     > h2 {
       color: #fff;
       margin-top: 20px;
@@ -29,29 +39,5 @@ export const CardContainer = styled.section`
   }
   @media (max-width: 530px) {
     grid-template-columns: repeat(1, 1fr);
-  }
-`
-
-export const Card = styled.div`
-  background: ${({ total }) => (total ? '#ff8d08' : '#fff')};
-  padding: 22px 32px;
-  border-radius: 2px;
-  color: ${({ total }) => (total ? '#fff' : '#363F5F')};
-
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    p {
-      font-size: 16px;
-    }
-  }
-
-  h1 {
-    margin-top: 14px;
-    font-size: 36px;
-    font-weight: normal;
-    line-height: 54px;
   }
 `

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import { Form, Check } from '@rocketseat/unform'
 import { Form as FormT } from '@unform/web'
@@ -24,14 +25,20 @@ import validation from './validation'
 
 const CompanyCreateEdit = props => {
   const { id } = useParams()
+  const profile = useSelector(state => state.user.profile)
 
+  const [companyId, setCompanyId] = useState(id || 0)
   const [loading, setLoading] = useState(false)
   const [company, setCompany] = useState({})
   const [cepChanged, setCepChanged] = useState('')
   const [selectedImage, setSelectedImage] = useState()
 
   useEffect(() => {
-    if (id) {
+    if (!profile.company_provider) {
+      setCompanyId(profile.company_id)
+    }
+
+    if (companyId) {
       async function loadCompany (id) {
         try {
           setLoading(true)
@@ -50,14 +57,14 @@ const CompanyCreateEdit = props => {
           getValidationErrors(error)
         }
       }
-      loadCompany(id)
+      loadCompany(companyId)
     } else {
       setCompany({
         ...company,
         active: true
       })
     }
-  }, [])
+  }, [companyId])
 
   useEffect(() => {
     async function loadCep () {
@@ -75,7 +82,7 @@ const CompanyCreateEdit = props => {
     try {
       const saveCompany = {
         ...data,
-        id: id ? id : 0,
+        id: companyId,
         provider: false,
         image: selectedImage
       }
@@ -95,9 +102,13 @@ const CompanyCreateEdit = props => {
       formData.append('bairro', saveCompany.bairro)
       formData.append('logradouro', saveCompany.logradouro)
       formData.append('provider', saveCompany.provider)
-      formData.append('active', saveCompany.active)
       formData.append('complement', saveCompany.complement)
-      formData.append('expires_at', saveCompany.expires_at)
+
+      if (profile.company_provider) {
+        formData.append('active', saveCompany.active)
+        formData.append('expires_at', saveCompany.expires_at)
+      }
+
       if (saveCompany.id) {
         formData.append('id', saveCompany.id)
       }
@@ -116,14 +127,20 @@ const CompanyCreateEdit = props => {
       showToast.success('Loja salva com sucesso!')
 
       setLoading(false)
-      history.push('/company')
+      if (profile.company_provider) {
+        history.push('/company')
+      } else {
+        history.push('/dashboard')
+      }
     } catch (error) {
       getValidationErrors(error)
       setLoading(false)
     }
   }
   return (
-    <Container title='Cadastro de lojas'>
+    <Container
+      title={profile.company_provider ? 'Cadastro de lojas' : 'Minha loja'}
+    >
       <FormContainer loading={loading}>
         <Form
           schema={validation()}
@@ -191,24 +208,26 @@ const CompanyCreateEdit = props => {
                 />
               </div>
             </div>
-            <div className='field-group'>
-              <div className='field'>
-                {/* <Input name='expires_at' type='text' label='Data de expiração' /> */}
-                <Datepiker
-                  name='expires_at'
-                  label='Data de expiração'
-                  sselected={
-                    company.expires_at ? new Date(company.expires_at) : null
-                  }
-                />
+            {profile.company_provider && (
+              <div className='field-group'>
+                <div className='field'>
+                  {/* <Input name='expires_at' type='text' label='Data de expiração' /> */}
+                  <Datepiker
+                    name='expires_at'
+                    label='Data de expiração'
+                    sselected={
+                      company.expires_at ? new Date(company.expires_at) : null
+                    }
+                  />
+                </div>
+                <div className='field'>
+                  <label className='alt-check'>
+                    <Check name='active' />
+                    <span>Loja ativa</span>
+                  </label>
+                </div>
               </div>
-              <div className='field'>
-                <label className='alt-check'>
-                  <Check name='active' />
-                  <span>Loja ativa</span>
-                </label>
-              </div>
-            </div>
+            )}
           </fieldset>
 
           <fieldset>

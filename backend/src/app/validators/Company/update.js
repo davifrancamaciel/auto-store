@@ -22,7 +22,7 @@ export default async (req, res, next) => {
       latitude: Yup.number().optional(),
       longitude: Yup.number().optional(),
       provider: Yup.boolean().required(),
-      active: Yup.boolean().required(),
+      active: Yup.boolean().optional(),
     })
 
     await schema.validate(req.body, {

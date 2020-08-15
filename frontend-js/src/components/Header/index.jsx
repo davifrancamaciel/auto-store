@@ -19,8 +19,9 @@ const Header = () => {
   const { path } = history.location
   const [itensMenuUser, setItensMenuUser] = useState([])
   const profile = useSelector(state => state.user.profile)
-  const profileFormated = {
+  const profileFormated = { 
     ...profile,
+    name: profile.name.split(' ')[0],
     image: getImage(profile.image, profile.name)
   }
 

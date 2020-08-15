@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import api from '../../services/api'
+import {
+  AiOutlineShop,
+  AiOutlineCar,
+  AiOutlineUsergroupDelete
+} from 'react-icons/ai'
 
 import Container from '../../components/Container'
 import SignatureControl from './SignatureControl'
+import Card from './Card'
 
-import {
-  CardContainer,
-  Card,
-  HeaderContainer,
-  DashboardContainer
-} from './styles'
+import { CardContainer, HeaderContainer, DashboardContainer } from './styles'
 import getValidationErrors from '../../Utils/getValidationErrors'
 
 const Dashboard = () => {
@@ -37,7 +38,15 @@ const Dashboard = () => {
     <>
       <HeaderContainer>
         <div>
-          <h1>Dashboard</h1>
+          <span>
+            <h1>Dashboard</h1>
+            {!profile.company_provider && (
+              <Link to={`/company/edit/${profile.company_id}`}>
+                Dados da minha loja
+              </Link>
+            )}
+          </span>
+
           {!profile.company_provider && loaded && (
             <SignatureControl company={dashboard.company} />
           )}
@@ -46,29 +55,31 @@ const Dashboard = () => {
       <Container>
         <DashboardContainer>
           <CardContainer>
-            <Link to='/company'>
-              <Card>
-                <header>
-                  <p>Lojas</p>
-                  {/* <img src={''} alt='Lojas' /> */}
-                </header>
-                <h1 data-testid='balance-income'>{10}</h1>
-              </Card>
-            </Link>
-            <Card>
-              <header>
-                <p>Saídas</p>
-                {/* <img src={''} alt='Saídas' /> */}
-              </header>
-              <h1 data-testid='balance-outcome'>{2}</h1>
-            </Card>
-            <Card total>
-              <header>
-                <p>Total</p>
-                {/* <img src={''} alt='Total' /> */}
-              </header>
-              <h1 data-testid='balance-total'>{12}</h1>
-            </Card>
+            <Card
+              route={'company'}
+              loaded={loaded}
+              item={dashboard.companies}
+              title={'Lojas'}
+              icon={<AiOutlineShop size={26} />}
+              preposition='a'
+            />
+            <Card
+              route={'vehicle'}
+              loaded={loaded}
+              item={dashboard.companies}
+              title={'Veículos'}
+              icon={<AiOutlineCar size={26} />}
+              preposition='o'
+            />
+            <Card
+              route={'client'}
+              loaded={loaded}
+              item={dashboard.clients}
+              title={'Clientes'}
+              icon={<AiOutlineUsergroupDelete size={26} />}
+              preposition='o'
+              total
+            />
           </CardContainer>
         </DashboardContainer>
       </Container>

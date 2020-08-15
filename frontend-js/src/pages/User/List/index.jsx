@@ -5,6 +5,7 @@ import { FiPlus } from 'react-icons/fi'
 
 import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
+import NoData from '../../../components/NoData'
 
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
@@ -20,6 +21,7 @@ const UserList = ({ provider }) => {
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState()
   const [users, setUsers] = useState([])
+  const [noData, setNoData] = useState(false)
   const profile = useSelector(state => state.user.profile)
 
   useEffect(() => {
@@ -38,8 +40,9 @@ const UserList = ({ provider }) => {
           ...user,
           image: getImage(user.image, user.name)
         }))
-        
+
         setUsers(usersFormated)
+        setNoData(usersFormated.length == 0)
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -96,6 +99,8 @@ const UserList = ({ provider }) => {
           <FiPlus size={20} /> Cadastrar
         </Link>
       </span>
+
+      {noData && <NoData text={`Não há dados para exibir :(`} />}
       <Main>
         <Ul>
           {users.map(users => (

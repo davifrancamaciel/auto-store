@@ -50,10 +50,10 @@ function Item ({ item, onDeleteClick, onUpdateClick }) {
       </p>
 
       <InfoStatus>
-        <ExpiredStatus expired={item.expired}>{item.expires_at}</ExpiredStatus>
         <ActiveStatus active={item.active}>{`${
           item.active ? 'Ativa' : 'Inativa'
         }`}</ActiveStatus>
+        <ExpiredStatus expired={item.expired}>{item.expires_at}</ExpiredStatus>
       </InfoStatus>
     </Li>
   )

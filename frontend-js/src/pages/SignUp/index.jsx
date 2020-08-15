@@ -1,7 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import * as Yup from 'yup'
 import { Form, Input } from '@rocketseat/unform'
 
 import { signUpRequest } from '../../store/modules/auth/actions'
@@ -24,14 +23,14 @@ const SignUp = () => {
       <img src={logo} alt='Gestão flex' />
       <span>GESTÃO FLEX</span>
       <Form schema={validation()} onSubmit={handleSubmit}>
-        <Input name='name' type='text' placeholder='Nome completo' />
+        <Input name='name' type='text' placeholder='Seu nome completo' />
         <InputMask
           mask='(99) 99999-9999'
           name='whatsapp'
           type='tel'
           placeholder='Seu whatsapp ou da loja'
         />
-        <Input name='email' type='email' placeholder='Seu e-mail' />
+        <Input name='email' type='email' placeholder='Seu email para acesso' />
         <Input name='password' type='password' placeholder='Sua senha' />
         <SubmitButton loading={loading} text={'Criar conta'} />
         <Link to='/'>Já tenho conta</Link>

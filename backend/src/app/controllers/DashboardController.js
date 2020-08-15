@@ -11,38 +11,30 @@ class DashboardController {
       attributes: ['name', 'expires_at'],
     })
 
-    // const companiesCount = await Company.count({
-    //   where: { provider: false },
-    //   attributes: ['name', 'expires_at'],
-    // })
-    // const companiesCount = await Company.findAll({
-    //   where: { provider: false },
-    //   attributes: {
-    //     attributes: [],
-    //     include: [[Sequelize.fn('COUNT', Sequelize.col('companies.id')), 'total']],
+    const companiesActive = await Company.count({
+      where: { provider: false, active: true },
+    })
+    const companiesInactive = await Company.count({
+      where: { provider: false, active: false },
+    })
 
-    //   },
-    //   include: [
-    //     {
-    //       model: Sensor,
-    //       attributes: [],
-    //     },
-    //   ],
-    // })
-    // const users = await Sequelize.query("SELECT * FROM `users`", { type: QueryTypes.SELECT })
-
-    // await Sequelize.query(
-    //   'SELECT COUNT(c.id) FROM companies as c WHERE provider = $provider',
-    //   'SELECT *, "text with literal $$1 and literal $$status" as t FROM projects WHERE status = $status',
-    //   {
-    //     bind: { provider: false },
-    //     type: QueryTypes.SELECT
-    //   }
-    // );
+    const clientsActive = await User.count({
+      where: { provider: false, active: true },
+    })
+    const clientsInactive = await User.count({
+      where: { provider: false, active: false },
+    })
 
     const model = {
       company,
-      // companiesCount
+      companies: {
+        active: companiesActive,
+        inactive: companiesInactive,
+      },
+      clients: {
+        active: clientsActive,
+        inactive: clientsInactive,
+      },
     }
 
     return res.json(model)

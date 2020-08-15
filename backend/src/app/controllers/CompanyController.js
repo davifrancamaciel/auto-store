@@ -115,7 +115,7 @@ class CompanyController {
           .json({ error: 'Usuário não tem permissão alterar lojas' })
       }
 
-      if (!userCompanyProvider && userCompanyId !== id) {
+      if (!userCompanyProvider && Number(userCompanyId) !== Number(id)) {
         return res
           .status(401)
           .json({ error: 'Você não possui permissão para alterar esta loja' })
@@ -136,13 +136,7 @@ class CompanyController {
         removeFile(company.image)
       }
 
-      const expires_at = req.body.expires_at
-        ? req.body.expires_at
-        : getExpireDate(process.env.DAYS_EXPIRES)
-
-      console.log(expires_at)
-
-      await company.update({ ...req.body, expires_at, image })
+      await company.update({ ...req.body, image })
 
       const { name, provider, whatsapp, city, uf } = await Company.findByPk(id)
 
