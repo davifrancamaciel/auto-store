@@ -16,6 +16,7 @@ import api from '../../../services/api'
 import history from '../../../services/browserhistory'
 import getValidationErrors from '../../../Utils/getValidationErrors'
 import validation from './validation'
+import Forms from './Forms'
 
 const UserCreateEdit = () => {
   const { id } = useParams()
@@ -23,6 +24,12 @@ const UserCreateEdit = () => {
   const [loading, setLoading] = useState(false)
   const [companies, setCompanies] = useState([])
   const profile = useSelector(state => state.user.profile)
+  const [companySelected, setCompanySelected] = useState({})
+
+  useEffect(() => {
+    if (companies.length > 0 && user)
+      setCompanySelected(companies.find(x => x.id == user.company_id))
+  }, [user])
 
   useEffect(() => {
     async function loadCompanies () {
@@ -93,6 +100,7 @@ const UserCreateEdit = () => {
   return (
     <Container title={`Cadastro de usuários do sistema`}>
       <FormContainer loading={loading}>
+        <Forms companies={companies} />
         <Form onSubmit={handleSubmit} initialData={user} schema={validation()}>
           <fieldset>
             <legend>
@@ -114,27 +122,24 @@ const UserCreateEdit = () => {
             </div>
             {profile.company_provider && (
               <div className='field'>
-                {/* <SelectR
-                 
+                <SelectR
                   label='Loja'
                   name='company_id'
                   options={companies}
-                /> */}
-                <Select
+                  onItemSelected={companySelected}
+                  // value={companySelected}
+                  // defaultValue={companySelected}
+                  onChange={e => {
+                    console.log('mexeu', e)
+                    setCompanySelected(e)
+                  }}
+                />
+                {/* <Select
                   label='Loja'
                   name='company_id'
                   options={companies}
                   defaultValue={user.company_id}
-                />
-                {/* <label>Loja</label>
-                <select>
-                  <option value=''>Selecione...</option>
-                  {companies.map(c => (
-                    <option value={c.id} key={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select> */}
+                /> */}
               </div>
             )}
 

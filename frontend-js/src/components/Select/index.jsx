@@ -1,66 +1,44 @@
-import React, { useRef, useEffect, useState } from 'react'
-import Select from 'react-select'
-
-import { useField } from '@rocketseat/unform'
-
+import React, { useRef, useEffect,selectRef } from 'react'
 import { SelectCustom, Container } from './styles'
+import { useField } from '@rocketseat/unform'
 
 export default function ReactSelect ({
   name,
   label,
   options,
   multiple,
+  defaultValue,
+  onItemSelected,
   ...rest
 }) {
   const ref = useRef(null)
-  const { fieldName, registerField, defaultValue, error } = useField(name)
-
-  
-  // console.log(defaultValue)
+  const { fieldName, registerField, defaultValues, error } = useField(name)
 
   function parseSelectValue (selectRef) {
-    // console.log('parseSelectValue')
     const selectValue = selectRef.state.value
-    // const selectValue = defaultValue
-
     if (!multiple) {
       return selectValue ? selectValue.id : ''
     }
+    
 
     return selectValue ? selectValue.map(option => option.id) : []
   }
 
   useEffect(() => {
-    
-    // console.log('useEffect')
     registerField({
       name: fieldName,
-      ref: ref.current,     
-      // path: 'state.value',
-      
-      // parseValue: parseSelectValue,
-      // clearValue: selectRef => {
-      //   selectRef.select.clearValue()
-      // },
-      getValue: (ref) => {
-        if (rest.isMulti) {
-          if (!ref.select.state.value) {
-            return [];
-          }
-          return ref.select.state.value.map(
-            (option) => option.value,
-          );
-        }
-        if (!ref.select.state.value) {
-          return '';
-        }
-        return ref.select.state.value.value;
-      },
+      ref: ref.current,
+      path: 'state.value',
+      parseValue: parseSelectValue,
+      clearValue: selectRef => {
+        selectRef.select.clearValue()
+      }
     })
+    console.log(onItemSelected)
   }, [ref.current, fieldName]) // eslint-disable-line
+  
 
   function getDefaultValue () {
-    
     if (!defaultValue) return null
 
     if (!multiple) {
@@ -75,20 +53,20 @@ export default function ReactSelect ({
       {label && <label htmlFor={fieldName}>{label}</label>}
 
       <SelectCustom
-        classNamePrefix='react-select'
+        
         name={fieldName}
         aria-label={fieldName}
         options={options}
-        isLoading={options.length === 0}
         isMulti={multiple}
-        // defaultValue={getDefaultValue()}
-        defaultValue={defaultValue}
+        value={defaultValue}
+        defaultValue={getDefaultValue()}
         ref={ref}
-        // getOptionValue={option => option.id}
-        // getOptionLabel={option => option.title}
-        placeholder='Selecione...'
+        getOptionValue={option => option.id}
+        getOptionLabel={option => option.title}
+        classNamePrefix='react-select8'
+        isLoading={options.length === 0}
+        placeholder=''
         noOptionsMessage={() => 'Nenhum item encontrado'}
-        menuPlacement="auto"
         {...rest}
       />
 
@@ -97,49 +75,100 @@ export default function ReactSelect ({
   )
 }
 
+// import React, { useRef, useEffect, useState } from 'react'
+// import Select from 'react-select'
 
-// import React, { useRef, useEffect } from "react";
-// import ReactSelect from "react-select";
-// import { useField } from "@unform/core";
-// // import { useField } from '@rocketseat/unform'
+// import { useField } from '@rocketseat/unform'
 
-// const Select = ({ name, options, ...rest }) => {
-//   const selectRef = useRef(null);
-//   const { fieldName, defaultValue, registerField, error } = useField(name);
+// import { SelectCustom, Container } from './styles'
 
-//   console.log(defaultValue);
+// export default function ReactSelect ({
+//   name,
+//   label,
+//   options,
+//   multiple,
+//   ...rest
+// }) {
+//   const ref = useRef(null)
+//   const { fieldName, registerField, defaultValue, error } = useField(name)
+
+//   // console.log(defaultValue)
+
+//   function parseSelectValue (selectRef) {
+//     // console.log('parseSelectValue')
+//     const selectValue = selectRef.state.value
+//     // const selectValue = defaultValue
+
+//     if (!multiple) {
+//       return selectValue ? selectValue.id : ''
+//     }
+
+//     return selectValue ? selectValue.map(option => option.id) : []
+//   }
 
 //   useEffect(() => {
+
+//     // console.log('useEffect')
 //     registerField({
 //       name: fieldName,
-//       ref: selectRef.current,
-//       path: "state.value",
-//       getValue: ref => {
+//       ref: ref.current,
+//       // path: 'state.value',
+
+//       // parseValue: parseSelectValue,
+//       // clearValue: selectRef => {
+//       //   selectRef.select.clearValue()
+//       // },
+//       getValue: (ref) => {
 //         if (rest.isMulti) {
-//           if (!ref.state.value) {
+//           if (!ref.select.state.value) {
 //             return [];
 //           }
-//           return ref.state.value.map(option => option.value);
-//         } else {
-//           if (!ref.state.value) {
-//             return "";
-//           }
-//           return ref.state.value.value;
+//           return ref.select.state.value.map(
+//             (option) => option.value,
+//           );
 //         }
-//       }
-//     });
-//   }, [fieldName, registerField, rest.isMulti]);
+//         if (!ref.select.state.value) {
+//           return '';
+//         }
+//         return ref.select.state.value.value;
+//       },
+//     })
+//   }, [ref.current, fieldName]) // eslint-disable-line
+
+//   function getDefaultValue () {
+
+//     if (!defaultValue) return null
+
+//     if (!multiple) {
+//       return options.find(option => option.id === defaultValue)
+//     }
+
+//     return options.filter(option => defaultValue.includes(option.id))
+//   }
 
 //   return (
-//     <ReactSelect
-//       defaultValue={
-//         defaultValue && options.find(option => option.value === defaultValue)
-//       }
-//       ref={selectRef}
-//       classNamePrefix="react-select"
-//       options={options}
-//       {...rest}
-//     />
-//   );
-// };
-// export default Select;
+//     <Container>
+//       {label && <label htmlFor={fieldName}>{label}</label>}
+
+//       <SelectCustom
+//         classNamePrefix='react-select'
+//         name={fieldName}
+//         aria-label={fieldName}
+//         options={options}
+//         isLoading={options.length === 0}
+//         isMulti={multiple}
+//         // defaultValue={getDefaultValue()}
+//         defaultValue={defaultValue}
+//         ref={ref}
+//         getOptionValue={option => option.id}
+//         getOptionLabel={option => option.title}
+//         placeholder=''
+//         noOptionsMessage={() => 'Nenhum item encontrado'}
+//         menuPlacement="auto"
+//         {...rest}
+//       />
+
+//       {error && <span>{error}</span>}
+//     </Container>
+//   )
+// }

@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { parseISO } from 'date-fns'
 
 import { Form, Check } from '@rocketseat/unform'
-import { Form as FormT } from '@unform/web'
 
 import Container from '../../../components/Container'
 import SubmitButton from '../../../components/SubmitButton'
 import FormContainer from '../../../components/FormContainer'
 import Dropzone from '../../../components/Dropzone'
 import Input from '../../../components/Input'
-import Datepiker from '../../../components/Datepiker'
+import Datepicker from '../../../components/Datepicker'
 // import InputMaskPhone from '../../../components/InputMaskPhone'
 import InputMask from '../../../components/InputMask'
 import BackPage from '../../../components/BackPage'
@@ -21,6 +21,7 @@ import getValidationErrors from '../../../Utils/getValidationErrors'
 import showToast from '../../../Utils/showToast'
 import getLocale from '../../../Utils/getLocale'
 import getImage from '../../../Utils/getImage'
+import addDays from '../../../Utils/addDays'
 import validation from './validation'
 
 const CompanyCreateEdit = props => {
@@ -32,6 +33,12 @@ const CompanyCreateEdit = props => {
   const [company, setCompany] = useState({})
   const [cepChanged, setCepChanged] = useState('')
   const [selectedImage, setSelectedImage] = useState()
+  const [expireDate, setExpireDate] = useState()
+
+  const handleChange = date => {
+    console.log(date)
+    setExpireDate(date)
+  }
 
   useEffect(() => {
     if (!profile.company_provider) {
@@ -46,11 +53,13 @@ const CompanyCreateEdit = props => {
 
           setCompany({
             ...response.data,
+            expires_at: parseISO(response.data.expires_at),
             image: response.data.image
               ? getImage(response.data.image, response.data.name)
               : null
           })
-          console.log(response.data)
+          setExpireDate(parseISO(response.data.expires_at))
+
           setLoading(false)
         } catch (error) {
           setLoading(false)
@@ -63,13 +72,14 @@ const CompanyCreateEdit = props => {
         ...company,
         active: true
       })
+      setExpireDate(addDays(process.env.REACT_APP_DAYS_EXPIRES))
     }
   }, [companyId])
 
   useEffect(() => {
     async function loadCep () {
       const response = await getLocale(cepChanged)
-      console.log(response)
+
       setCompany({
         ...company,
         ...response
@@ -137,6 +147,7 @@ const CompanyCreateEdit = props => {
       setLoading(false)
     }
   }
+
   return (
     <Container
       title={profile.company_provider ? 'Cadastro de lojas' : 'Minha loja'}
@@ -169,7 +180,19 @@ const CompanyCreateEdit = props => {
               label='Administrador(es)'
               placeholder='Responsáveis pela loja ex. Walter/Tiago'
             />
-            <Input name='email' type='email' label='Email' />
+            <div className='field-group'>
+              <Input name='email' type='email' label='Email' />
+              {profile.company_provider && (
+                <div className='field'>
+                  <Datepicker
+                    name='expires_at'
+                    label='Data de expiração'
+                    selected={expireDate}
+                    onChange={handleChange}
+                  />
+                </div>
+              )}
+            </div>
             <div className='field-group'>
               {/* <InputMaskPhone                
                 name='telefone'
@@ -193,12 +216,6 @@ const CompanyCreateEdit = props => {
               </div>
             </div>
             <div className='field-group'>
-              <Input
-                label='Site'
-                name='site'
-                type='text'
-                placeholder='url do site da loja'
-              />
               <div className='field'>
                 <InputMask
                   mask='99.999.999/9999-9'
@@ -207,25 +224,19 @@ const CompanyCreateEdit = props => {
                   label='CNPJ'
                 />
               </div>
+              <Input
+                label='Site'
+                name='site'
+                type='text'
+                placeholder='url do site da loja'
+              />
             </div>
             {profile.company_provider && (
-              <div className='field-group'>
-                <div className='field'>
-                  {/* <Input name='expires_at' type='text' label='Data de expiração' /> */}
-                  <Datepiker
-                    name='expires_at'
-                    label='Data de expiração'
-                    sselected={
-                      company.expires_at ? new Date(company.expires_at) : null
-                    }
-                  />
-                </div>
-                <div className='field'>
-                  <label className='alt-check'>
-                    <Check name='active' />
-                    <span>Loja ativa</span>
-                  </label>
-                </div>
+              <div className='field'>
+                <label className='alt-check'>
+                  <Check name='active' />
+                  <span>Loja ativa</span>
+                </label>
               </div>
             )}
           </fieldset>
