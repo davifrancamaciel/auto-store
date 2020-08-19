@@ -79,7 +79,7 @@ module.exports = {
       },
       quantidade_oleo: {
         type: Sequelize.DECIMAL,
-        allowNull: false,
+        allowNull: true,
       },
       opicionais: {
         type: Sequelize.STRING,

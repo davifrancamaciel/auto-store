@@ -18,7 +18,7 @@ import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
 
-import CompanyItem from './ListItem'
+import ListItem from './ListItem'
 import Search from './Search'
 
 import api from '../../../services/api'
@@ -131,7 +131,7 @@ const CompanyList = () => {
       <Main>
         <Ul>
           {companies.map(company => (
-            <CompanyItem
+            <ListItem
               item={company}
               key={company.id}
               onUpdateClick={handleUpdate}

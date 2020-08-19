@@ -8,18 +8,18 @@ import { Container, Content, Profile } from './styles'
 import history from '../../services/browserhistory'
 
 const itensMenu = [
-  { path: 'dashboard', label: 'Dashboard', private: false },
-  { path: 'company', label: 'Lojas', private: true },
-  { path: 'user', label: 'Usuários', private: false },
-  { path: 'client', label: 'Clientes', private: false },
-  { path: 'vehicle', label: 'Veículos', private: false }
+  { path: 'dashboard', label: 'Dashboard', provider: 'false|true' },
+  { path: 'company', label: 'Lojas', provider: 'true' },
+  { path: 'client', label: 'Clientes', provider: 'false|true' },
+  { path: 'vehicle', label: 'Veículos', provider: 'false' },
+  { path: 'user', label: 'Usuários', provider: 'false|true' },
 ]
 
 const Header = () => {
   const { path } = history.location
   const [itensMenuUser, setItensMenuUser] = useState([])
   const profile = useSelector(state => state.user.profile)
-  const profileFormated = { 
+  const profileFormated = {
     ...profile,
     name: profile.name.split(' ')[0],
     image: getImage(profile.image, profile.name)
@@ -27,9 +27,7 @@ const Header = () => {
 
   useEffect(() => {
     setItensMenuUser(
-      profile.company_provider
-        ? itensMenu
-        : itensMenu.filter(i => i.private === false)
+      itensMenu.filter(i => i.provider.includes(profile.company_provider.toString()))
     )
   }, [])
 

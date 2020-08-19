@@ -22,6 +22,8 @@ import validateUserUpdate from './app/validators/User/update'
 import SessionController from './app/controllers/SessionController'
 import validateSessionStore from './app/validators/Session/store'
 
+import VehicleController from './app/controllers/VehicleController'
+
 const routes = new Router()
 const upload = multer(multerConfig)
 
@@ -67,5 +69,21 @@ routes.put(
   validateUserUpdate,
   ProfileController.update
 )
+
+routes.post(
+  '/vehicles',
+  // upload.single('file'),
+  // validateVehicleStore,
+  VehicleController.store
+)
+routes.put(
+  '/vehicles',
+  upload.single('file'),
+  // validateVehicleUpdate,
+  VehicleController.update
+)
+routes.get('/vehicles', VehicleController.index)
+routes.get('/vehicles/:id', VehicleController.find)
+routes.delete('/vehicles/:id', VehicleController.delete)
 
 export default routes

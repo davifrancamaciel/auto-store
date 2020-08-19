@@ -10,6 +10,8 @@ import CompanyCreateEdit from '../pages/Company/CreateEdit'
 import UserList from '../pages/User/List'
 import UserCreateEdit from '../pages/User/CreateEdit'
 import ClientCreateEdit from '../pages/Client/CreateEdit'
+import VehicleList from '../pages/Vehicle/List'
+import VehicleCreateEdit from '../pages/Vehicle/CreateEdit'
 
 import Profile from '../pages/Profile'
 
@@ -35,6 +37,11 @@ const Routes = () => {
       <Route exact path='/client/edit/:id' component={ClientCreateEdit} isPrivate />
       
       <Route exact path='/profile' component={Profile} isPrivate />
+
+      <Route exact path='/vehicle' component={VehicleList} isPrivate />
+      <Route exact path='/vehicle/create' component={VehicleCreateEdit} isPrivate />
+      <Route exact path='/vehicle/edit/:id' component={VehicleCreateEdit} isPrivate />
+
       <Redirect from='*' to='/' />
     </Switch>
   )

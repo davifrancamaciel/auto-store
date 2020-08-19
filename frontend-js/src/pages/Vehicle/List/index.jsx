@@ -2,47 +2,37 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FiPlus } from 'react-icons/fi'
-
 import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
+
+import ListItem from './ListItem'
+import Search from './Search'
 
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
 import getValidationErrors from '../../../Utils/getValidationErrors'
 import getImage from '../../../Utils/getImage'
 import showToast from '../../../Utils/showToast'
-import ListItem from './ListItem'
-import Search from './Search'
 
 import { Main, Ul } from '../../../components/ListContainer/styles'
 
-const UserList = ({ provider }) => {
+const VehicleList = () => {
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState()
-  const [users, setUsers] = useState([])
   const [noData, setNoData] = useState(false)
-  const profile = useSelector(state => state.user.profile)
+  const [vehicles, setVehicles] = useState([])
 
   useEffect(() => {
-    setUsers([])
-    async function loadUsers () {
+    async function loadvehicles () {
       try {
         setLoading(true)
-        const response = await api.get('users', {
-          params: {
-            ...search,
-            provider,
-            provider_company: false
-          }
-        })
-        const usersFormated = response.data.map(user => ({
-          ...user,
-          image: getImage(user.image, user.name)
-        }))
 
-        setUsers(usersFormated)
-        setNoData(usersFormated.length == 0)
+        const response = await api.get('vehicles', { params: search })
+
+        setVehicles(response.data)
+        console.log(response.data)
+        setNoData(response.data.length == 0)
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -50,13 +40,13 @@ const UserList = ({ provider }) => {
       }
     }
 
-    loadUsers()
-  }, [provider, search])
+    loadvehicles()
+  }, [search])
 
   async function handleDelete (item) {
     ShowConfirm(
       'Atenção',
-      `Confirma a remoção do ${provider ? 'usuário' : 'cliente'} ${item.name}?`,
+      `Confirma a remoção do veículo ${item.name}?`,
       () => {
         handleDeleteConfirm(item.id)
       }
@@ -66,13 +56,11 @@ const UserList = ({ provider }) => {
   async function handleDeleteConfirm (id) {
     try {
       setLoading(true)
-      await api.delete(`users/${id}`)
+      await api.delete(`vehicles/${id}`)
 
-      showToast.success(
-        `${provider ? 'Usuário' : 'Cliente'} excluído com sucesso!`
-      )
-      const updateUsers = users.filter(c => c.id !== id)
-      setUsers(updateUsers)
+      showToast.success('Veículo excluído com sucesso!')
+      const updateVehicles = vehicles.filter(c => c.id !== id)
+      setVehicles(updateVehicles)
       setLoading(false)
     } catch (error) {
       setLoading(false)
@@ -81,21 +69,17 @@ const UserList = ({ provider }) => {
   }
 
   function handleUpdate (id) {
-    if (profile.id === id) {
-      history.push(`/profile`)
-    } else {
-      history.push(`/${provider ? 'user' : 'client'}/edit/${id}`)
-    }
+    history.push(`/vehicle/edit/${id}`)
   }
 
   return (
     <Container
-      title={provider ? 'Usuários do sistema' : 'Clientes'}
-      loading={loading}
+      title='Veículos'
+      loading={loading ? Boolean(loading) : undefined}
     >
-      <Search onSearch={setSearch} provider={provider} />
+      <Search onSearch={setSearch} />
       <span>
-        <Link to={`/${provider ? 'user' : 'client'}/create`}>
+        <Link to='/vehicle/create'>
           <FiPlus size={20} /> Cadastrar
         </Link>
       </span>
@@ -103,11 +87,10 @@ const UserList = ({ provider }) => {
       {noData && <NoData text={`Não há dados para exibir :(`} />}
       <Main>
         <Ul>
-          {users.map(users => (
+          {vehicles.map(vehicle => (
             <ListItem
-              provider={provider}
-              item={users}
-              key={users.id}
+              item={vehicle}
+              key={vehicle.id}
               onUpdateClick={handleUpdate}
               onDeleteClick={handleDelete}
             />
@@ -118,4 +101,4 @@ const UserList = ({ provider }) => {
   )
 }
 
-export default UserList
+export default VehicleList
