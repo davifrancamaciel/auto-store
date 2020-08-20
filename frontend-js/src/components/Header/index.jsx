@@ -10,7 +10,7 @@ import history from '../../services/browserhistory'
 const itensMenu = [
   { path: 'dashboard', label: 'Dashboard', provider: 'false|true' },
   { path: 'company', label: 'Lojas', provider: 'true' },
-  { path: 'client', label: 'Clientes', provider: 'false|true' },
+  { path: 'client', label: 'Clientes', provider: 'false' },
   { path: 'vehicle', label: 'Veículos', provider: 'false' },
   { path: 'user', label: 'Usuários', provider: 'false|true' },
 ]

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FiPlus } from 'react-icons/fi'
+import { parseISO, formatDistance } from 'date-fns'
+import pt from 'date-fns/locale/pt'
+
 import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
@@ -14,6 +16,7 @@ import history from '../../../services/browserhistory'
 import getValidationErrors from '../../../Utils/getValidationErrors'
 import getImage from '../../../Utils/getImage'
 import showToast from '../../../Utils/showToast'
+import { formatPrice } from '../../../Utils/formatPrice'
 
 import { Main, Ul } from '../../../components/ListContainer/styles'
 
@@ -30,7 +33,16 @@ const VehicleList = () => {
 
         const response = await api.get('vehicles', { params: search })
 
-        setVehicles(response.data)
+        const data = response.data.map(vehicle => ({
+          ...vehicle,
+          priceFormated: formatPrice(vehicle.value),
+          createdAtFormated: `Cadastrado ${formatDistance(
+            parseISO(vehicle.createdAt),
+            new Date(),
+            { addSuffix: true, locale: pt }
+          )}`
+        }))
+        setVehicles(data)
         console.log(response.data)
         setNoData(response.data.length == 0)
         setLoading(false)
@@ -44,12 +56,8 @@ const VehicleList = () => {
   }, [search])
 
   async function handleDelete (item) {
-    ShowConfirm(
-      'Atenção',
-      `Confirma a remoção do veículo ${item.name}?`,
-      () => {
-        handleDeleteConfirm(item.id)
-      }
+    ShowConfirm('Atenção', `Confirma a remoção do veículo ${item.model}?`, () =>
+      handleDeleteConfirm(item.id)
     )
   }
 

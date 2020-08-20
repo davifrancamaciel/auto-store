@@ -29,7 +29,7 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
         </Actions>
       </header>
       <p>
-        {item.uf} {item.city} {item.bairro} {item.logradouro}
+        {item.uf} {item.city} {item.district} {item.street}
       </p>
       <p>{item.company.name}</p>
       <p>
@@ -43,8 +43,8 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
           </a>
         </span>
         <span>
-          {item.telefone && <FiPhone size={20} />}
-          {item.telefone}
+          {item.phone && <FiPhone size={20} />}
+          {item.phone}
         </span>
       </p>
 

@@ -64,10 +64,7 @@ const CompanyList = () => {
             expires_at: `Expira${expired ? 'da' : ''} ${formatDistance(
               parseISO(company.expires_at),
               new Date(),
-              {
-                addSuffix: true,
-                locale: pt
-              }
+              { addSuffix: true, locale: pt }
             )}`
           }
         })
@@ -84,16 +81,16 @@ const CompanyList = () => {
     if (!profile.company_provider) {
       history.push('/dashboard')
       showToast.error('Usuário sem permissão para acessar lista de lojas.')
-      return;
+      return
     }
 
     loadCompanies()
   }, [search])
 
   async function handleDelete (item) {
-    ShowConfirm('Atenção', `Confirma a remoção da loja ${item.name}?`, () => {
+    ShowConfirm('Atenção', `Confirma a remoção da loja ${item.name}?`, () =>
       handleDeleteConfirm(item.id)
-    })
+    )
   }
 
   async function handleDeleteConfirm (id) {
@@ -126,7 +123,7 @@ const CompanyList = () => {
           <FiPlus size={20} /> Cadastrar
         </Link>
       </span>
-      
+
       {noData && <NoData text={`Não há dados para exibir :(`} />}
       <Main>
         <Ul>

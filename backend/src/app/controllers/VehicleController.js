@@ -14,7 +14,7 @@ class VehicleController {
         .json({ error: 'Usuário não tem permissão para listar os veículos' })
     }
 
-    const { status, name, page = 1 } = req.query
+    const { status, brand, model, year, page = 1 } = req.query
 
     let whereStatement = {
       company_id: userCompanyId,
@@ -22,15 +22,23 @@ class VehicleController {
 
     if (status !== '' && status !== undefined) whereStatement.active = status
 
-    if (name)
-      whereStatement.name = {
-        [Op.iLike]: `%${name}%`,
+    if (brand)
+      whereStatement.brand = {
+        [Op.iLike]: `%${brand}%`,
+      }
+    if (model)
+      whereStatement.model = {
+        [Op.iLike]: `%${model}%`,
+      }
+    if (year)
+      whereStatement.year = {
+        [Op.iLike]: `%${year}%`,
       }
 
     const vehicles = await Vehicle.findAll({
       where: whereStatement,
       limit: 20,
-      order: ['name'],
+      order: ['model'],
       offset: (page - 1) * 20,
     })
 
@@ -41,14 +49,6 @@ class VehicleController {
     const { id } = req.params
 
     const { userProvider, userCompanyId, userCompanyProvider } = req
-
-    if (!userCompanyProvider) {
-      if (!userProvider || userCompanyId !== Number(id)) {
-        return res
-          .status(401)
-          .json({ error: 'Usuário não permissão ver este veículo' })
-      }
-    }
 
     const vehicle = await Vehicle.findByPk(id)
     if (!vehicle) {
@@ -112,9 +112,9 @@ class VehicleController {
 
       await vehicle.update({ ...req.body })
 
-      const { name } = await Vehicle.findByPk(id)
+      const { model } = await Vehicle.findByPk(id)
 
-      return res.json({ id, name })
+      return res.json({ id, model })
     } catch (error) {
       if (req.file && req.file.filename) {
         removeFile(req.file.filename)

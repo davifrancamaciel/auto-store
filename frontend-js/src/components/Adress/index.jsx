@@ -4,26 +4,26 @@ import Input from '../Input'
 import InputMask from '../InputMask'
 import getLocale from '../../Utils/getLocale'
 
-function Adress ({onCepChange}) {
-  const [cepChanged, setCepChanged] = useState('')
+function Adress ({onzip_codeChange}) {
+  const [zip_codeChanged, setzip_codeChanged] = useState('')
   const [adressChanged, setAdressChanged] = useState()
 
   useEffect(() => {
-    async function loadCep () {
-      const response = await getLocale(cepChanged)
+    async function loadzip_code () {
+      const response = await getLocale(zip_codeChanged)
       console.log(response)
       setAdressChanged({        
         ...response
       })
     }
-    loadCep()
-  }, [cepChanged])
+    loadzip_code()
+  }, [zip_codeChanged])
 
   useCallback(
       () => {
-        onCepChange(adressChanged)
+        onzip_codeChange(adressChanged)
       },
-      [onCepChange],
+      [onzip_codeChange],
   )
   return (
     <fieldset>
@@ -33,17 +33,17 @@ function Adress ({onCepChange}) {
       <div className='field-group'>
         <InputMask
           mask='99999-999'
-          label='Cep'
-          name='cep'
+          label='zip_code'
+          name='zip_code'
           type='tel'
-          onChangeCep={setCepChanged}
+          onChangezip_code={setzip_codeChanged}
         />
         <Input name='uf' type='text' label='UF' />
         <Input name='city' type='text' label='Cidade' />
       </div>
       <div className='field-group'>
-        <Input name='bairro' type='text' label='Bairro' />
-        <Input name='logradouro' type='text' label='Logradouro' />
+        <Input name='district' type='text' label='Bairro' />
+        <Input name='street' type='text' label='Logradouro' />
       </div>
     </fieldset>
   )

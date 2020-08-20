@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      responsavel: {
+      responsible: {
         type: Sequelize.STRING,
         allowNull: true,
       },
@@ -27,7 +27,7 @@ module.exports = {
         type: Sequelize.STRING(20),
         allowNull: true,
       },
-      telefone: {
+      phone: {
         type: Sequelize.STRING(20),
         allowNull: true,
       },
@@ -45,7 +45,7 @@ module.exports = {
         type: Sequelize.STRING(100),
         allowNull: true,
       },
-      bairro: {
+      district: {
         type: Sequelize.STRING(100),
         allowNull: true,
       },
@@ -54,7 +54,7 @@ module.exports = {
         allowNull: true,
       },
 
-      logradouro: {
+      street: {
         type: Sequelize.STRING,
         allowNull: true,
       },
@@ -64,7 +64,7 @@ module.exports = {
         allowNull: true,
       },
 
-      cep: {
+      zip_code: {
         type: Sequelize.STRING(10),
         allowNull: true,
       },

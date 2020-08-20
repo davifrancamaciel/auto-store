@@ -23,22 +23,18 @@ const ClientCreateEdit = () => {
   const { id } = useParams()
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(false)
-  const [cepChanged, setCepChanged] = useState('')
-  const [companies, setCompanies] = useState([])
+  const [zipCodeChanged, setZipCodeChanged] = useState('')
+  
   const profile = useSelector(state => state.user.profile)
 
   useEffect(() => {
-    async function loadCompanies () {
-      try {
-        const response = await api.get('companies/list')
-        setCompanies(response.data)
-      } catch (error) {
-        getValidationErrors(error)
-      }
+
+    if (profile.company_provider) {
+      history.push('/dashboard')
+      showToast.error('Usuário sem permissão para acessar lista de clientes.')
+      return;
     }
-
-    if (profile.company_provider) loadCompanies()
-
+    
     if (id) {
       async function loadUser (id) {
         try {
@@ -62,30 +58,29 @@ const ClientCreateEdit = () => {
   }, [])
 
   useEffect(() => {
-    async function loadCep () {
-      const response = await getLocale(cepChanged)
+    async function loadZipCode () {
+      const response = await getLocale(zipCodeChanged)
       console.log(response)
       setUser({
         ...user,
         ...response
       })
     }
-    loadCep()
-  }, [cepChanged])
+    loadZipCode()
+  }, [zipCodeChanged])
 
   async function handleSubmit (data) {
-    console.log(data)
+    
     try {
       const saveUser = {
         ...data,
         id: id ? Number(id) : 0,
-        provider: false
+        provider: false,
+        company_id: profile.company_id
       }
 
       if (!saveUser.id)
         saveUser.password = process.env.REACT_APP_PASSWORD_DEFAULT
-
-      if (!profile.company_provider) saveUser.company_id = profile.company_id
 
       setLoading(true)
 
@@ -139,18 +134,11 @@ const ClientCreateEdit = () => {
               <div className='field'>
                 <InputMask
                   mask='(99) 99999-9999'
-                  name='telefone'
+                  name='phone'
                   type='tel'
                   label='Telefone'
                 />
               </div>
-            </div>
-            <div className='field-group'>
-              {profile.company_provider && (
-                <div className='field'>
-                  <Select label='Loja' name='company_id' options={companies} />
-                </div>
-              )}
             </div>
             <div className='field'>
               <label className='alt-check'>
@@ -169,17 +157,17 @@ const ClientCreateEdit = () => {
                 <InputMask
                   mask='99999-999'
                   label='Cep'
-                  name='cep'
+                  name='zip_code'
                   type='tel'
-                  onChangeCep={setCepChanged}
+                  onChangezip_code={setZipCodeChanged}
                 />
               </div>
               <Input name='uf' type='text' label='UF' />
               <Input name='city' type='text' label='Cidade' />
             </div>
             <div className='field-group'>
-              <Input name='bairro' type='text' label='Bairro' />
-              <Input name='logradouro' type='text' label='Logradouro' />
+              <Input name='district' type='text' label='Bairro' />
+              <Input name='street' type='text' label='Logradouro' />
             </div>
             <Input
               name='complement'

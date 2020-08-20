@@ -30,9 +30,9 @@ function Item ({ item, onDeleteClick, onUpdateClick }) {
         </Actions>
       </header>
       <p>
-        {item.uf} {item.city} {item.bairro} {item.logradouro}
+        {item.uf} {item.city} {item.district} {item.street}
       </p>
-      {item.responsavel && <p>Administrador(es) {item.responsavel}</p>}
+      {item.responsible && <p>Administrador(es) {item.responsible}</p>}
       <p>
         <span>
           {item.whatsapp && <FaWhatsapp size={20} />}
@@ -44,8 +44,8 @@ function Item ({ item, onDeleteClick, onUpdateClick }) {
           </a>
         </span>
         <span>
-          {item.telefone && <FiPhone size={20} />}
-          {item.telefone}
+          {item.phone && <FiPhone size={20} />}
+          {item.phone}
         </span>
       </p>
 

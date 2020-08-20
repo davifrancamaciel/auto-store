@@ -26,8 +26,9 @@ export default function Search ({ onSearch }) {
               options={options}              
             />
           </div>
-          <Input name='name' label='Nome' />
-          <Input name='placa' label='Placa' />
+          <Input name='brand' label='Marca' />
+          <Input name='model' label='Modelo' />
+          <Input name='year' label='Ano' />
           <div className='field'>
             <SubmitButton text={'Buscar'} />
           </div>

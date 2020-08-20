@@ -55,24 +55,26 @@ const Dashboard = () => {
       <Container>
         <DashboardContainer>
           <CardContainer>
-            <Card
-              route={'company'}
-              loaded={loaded}
-              item={dashboard.companies}
-              title={'Lojas'}
-              icon={<AiOutlineShop size={26} />}
-              preposition='a'
-            />
+            {profile.company_provider && (
+              <Card
+                route={'company'}
+                loaded={loaded}
+                item={dashboard.companies}
+                title={'Lojas'}
+                icon={<AiOutlineShop size={26} />}
+                preposition='a'
+              />
+            )}
             <Card
               route={'vehicle'}
               loaded={loaded}
-              item={dashboard.companies}
+              item={dashboard.vehicles}
               title={'Veículos'}
               icon={<AiOutlineCar size={26} />}
               preposition='o'
             />
             <Card
-              route={'client'}
+              route={!profile.company_provider ? 'client' : 'dashboard'}
               loaded={loaded}
               item={dashboard.clients}
               title={'Clientes'}

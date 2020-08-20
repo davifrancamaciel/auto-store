@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import InputMask from 'react-input-mask'
 
 const InputMaskWrapper = (
-  { mask, name, label, type, onChangeCep, placeholder }  
+  { mask, name, label, type, onChangezip_code, placeholder }  
 ) => {
   const { defaultValue } = useField(name)
   const ref = useRef(null)
@@ -18,7 +18,7 @@ const InputMaskWrapper = (
   function handleMask (e) {
     const { value } = e.target
 
-    if (onChangeCep) onChangeCep(value)
+    if (onChangezip_code) onChangezip_code(value)
     setmaskValue(value)
   }
 

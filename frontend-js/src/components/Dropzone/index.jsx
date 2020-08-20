@@ -15,8 +15,8 @@ function Dropzone ({ onFileSelectedUpload, image }) {
   }, [image])
 
   const onDrop = useCallback(
-    acceptedFiles => {
-      const file = acceptedFiles[0]
+    aczip_codetedFiles => {
+      const file = aczip_codetedFiles[0]
       const fileUrl = URL.createObjectURL(file)
       setSelectedFileUrl(fileUrl)
       onFileSelectedUpload(file)
@@ -25,12 +25,12 @@ function Dropzone ({ onFileSelectedUpload, image }) {
   )
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: 'image/*'
+    aczip_codet: 'image/*'
   })
 
   return (
     <Container {...getRootProps()} className='gf-dropzone'>
-      <input {...getInputProps()} accept='image/*' />
+      <input {...getInputProps()} aczip_codet='image/*' />
       {selectedFileUrl ? (
         <img src={selectedFileUrl} alt='Imagem' />
       ) : (

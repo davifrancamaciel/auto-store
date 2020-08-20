@@ -16,16 +16,16 @@ export default async (req, res, next) => {
       whatsapp: Yup.string()
         .required()
         .max(20, 'Máximo 20 caracteres'),
-      telefone: Yup.string()
+      phone: Yup.string()
         .optional()
         .max(20, 'Máximo 20 caracteres'),
       cpf_cnpj: Yup.string()
         .optional()
         .max(20, 'Máximo 20 caracteres'),
-      logradouro: Yup.string()
+      street: Yup.string()
         .optional()
         .max(250, 'Máximo 250 caracteres'),
-      cep: Yup.string()
+      zip_code: Yup.string()
         .optional()
         .max(10, 'Máximo 10 caracteres'),
       city: Yup.string()

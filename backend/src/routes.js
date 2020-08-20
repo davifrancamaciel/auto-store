@@ -23,6 +23,8 @@ import SessionController from './app/controllers/SessionController'
 import validateSessionStore from './app/validators/Session/store'
 
 import VehicleController from './app/controllers/VehicleController'
+import validateVehicleStore from './app/validators/Vehicle/store'
+import validateVehicleUpdate from './app/validators/Vehicle/update'
 
 const routes = new Router()
 const upload = multer(multerConfig)
@@ -73,13 +75,13 @@ routes.put(
 routes.post(
   '/vehicles',
   // upload.single('file'),
-  // validateVehicleStore,
+  validateVehicleStore,
   VehicleController.store
 )
 routes.put(
   '/vehicles',
-  upload.single('file'),
-  // validateVehicleUpdate,
+  // upload.single('file'),
+  validateVehicleUpdate,
   VehicleController.update
 )
 routes.get('/vehicles', VehicleController.index)

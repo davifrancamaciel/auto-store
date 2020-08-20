@@ -15,54 +15,48 @@ module.exports = {
         onDelete: 'SET NULL',
         allowNull: false,
       },
-      name: {
-        type: Sequelize.STRING,
+      brand: {
+        type: Sequelize.STRING(50),
+        allowNull: true,
+      },
+      model: {
+        type: Sequelize.STRING(50),
         allowNull: false,
       },
-      ano: {
-        type: Sequelize.STRING,
+      type: {
+        type: Sequelize.STRING(50),
         allowNull: true,
       },
-      modelo: {
-        type: Sequelize.STRING,
+      fuel: {
+        type: Sequelize.STRING(50),
         allowNull: true,
       },
-      placa: {
-        type: Sequelize.STRING,
+      year: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      year_model: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      board: {
+        type: Sequelize.STRING(10),
         allowNull: true,
       },
       km: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      combustivel: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      valor_compra: {
         type: Sequelize.DECIMAL,
         allowNull: true,
       },
-      valor_venda: {
-        type: Sequelize.DECIMAL,
-        allowNull: true,
-      },
-      data_entrada: {
+      input_date: {
         type: Sequelize.DATE,
         allowNull: true,
       },
-
-      data_saida: {
-        type: Sequelize.DATE,
-        allowNull: true,
-      },
-
-      descricao: {
+      description: {
         type: Sequelize.STRING,
         allowNull: true,
       },
 
-      recibo: {
+      receipt: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false,
@@ -72,25 +66,23 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
-      chave_copia: {
+      key_copy: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: false,
       },
-      quantidade_oleo: {
+      amount_oil: {
         type: Sequelize.DECIMAL,
         allowNull: true,
       },
-      opicionais: {
+      optional: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-
-      tipo: {
-        type: Sequelize.STRING,
+      value: {
+        type: Sequelize.DECIMAL,
         allowNull: true,
       },
-
       active: {
         type: Sequelize.BOOLEAN,
         allowNull: false,

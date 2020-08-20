@@ -1,17 +1,17 @@
 import axios from 'axios'
 
-export default async function getLocale (cep) {
+export default async function getLocale (zip_code) {
   try {
     
-    if (!cep) return null
+    if (!zip_code) return null
     
     const numberPattern = /\d+/g
-    cep = cep.match(numberPattern)
-    cep = cep.map(x => x).join('')
+    zip_code = zip_code.match(numberPattern)
+    zip_code = zip_code.map(x => x).join('')
     
-    if (cep.length < 8) return
+    if (zip_code.length < 8) return
 
-    const url = `http://cep.republicavirtual.com.br/web_cep.php?cep=${cep}&formato=json`
+    const url = `http://cep.republicavirtual.com.br/web_cep.php?cep=${zip_code}&formato=json`
 
     const response = await axios.get(url)
 
@@ -20,8 +20,8 @@ export default async function getLocale (cep) {
     return {
       uf: data.uf,
       city: data.cidade,
-      bairro: data.bairro,
-      logradouro: `${data.tipo_logradouro} ${data.logradouro}`
+      district: data.bairro,
+      street: `${data.tipo_logradouro} ${data.logradouro}`
     }
   } catch (error) {
     return null

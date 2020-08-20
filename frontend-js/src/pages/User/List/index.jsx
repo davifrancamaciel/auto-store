@@ -57,9 +57,7 @@ const UserList = ({ provider }) => {
     ShowConfirm(
       'Atenção',
       `Confirma a remoção do ${provider ? 'usuário' : 'cliente'} ${item.name}?`,
-      () => {
-        handleDeleteConfirm(item.id)
-      }
+      () => handleDeleteConfirm(item.id)
     )
   }
 

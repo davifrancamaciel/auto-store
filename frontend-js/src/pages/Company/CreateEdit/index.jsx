@@ -31,7 +31,7 @@ const CompanyCreateEdit = props => {
   const [companyId, setCompanyId] = useState(id || 0)
   const [loading, setLoading] = useState(false)
   const [company, setCompany] = useState({})
-  const [cepChanged, setCepChanged] = useState('')
+  const [zipCodeChanged, setZipCodeChanged] = useState('')
   const [selectedImage, setSelectedImage] = useState()
   const [expireDate, setExpireDate] = useState()
 
@@ -77,16 +77,16 @@ const CompanyCreateEdit = props => {
   }, [companyId])
 
   useEffect(() => {
-    async function loadCep () {
-      const response = await getLocale(cepChanged)
+    async function loadzip_code () {
+      const response = await getLocale(zipCodeChanged)
 
       setCompany({
         ...company,
         ...response
       })
     }
-    loadCep()
-  }, [cepChanged])
+    loadzip_code()
+  }, [zipCodeChanged])
 
   async function handleSubmit (data) {
     try {
@@ -101,16 +101,16 @@ const CompanyCreateEdit = props => {
 
       formData.append('name', saveCompany.name)
       formData.append('email', saveCompany.email)
-      formData.append('responsavel', saveCompany.responsavel)
-      formData.append('telefone', saveCompany.telefone)
+      formData.append('responsible', saveCompany.responsible)
+      formData.append('phone', saveCompany.phone)
       formData.append('whatsapp', saveCompany.whatsapp)
       formData.append('site', saveCompany.site)
       formData.append('cnpj', saveCompany.cnpj)
-      formData.append('cep', saveCompany.cep)
+      formData.append('zip_code', saveCompany.zip_code)
       formData.append('uf', saveCompany.uf)
       formData.append('city', saveCompany.city)
-      formData.append('bairro', saveCompany.bairro)
-      formData.append('logradouro', saveCompany.logradouro)
+      formData.append('district', saveCompany.district)
+      formData.append('street', saveCompany.street)
       formData.append('provider', saveCompany.provider)
       formData.append('complement', saveCompany.complement)
 
@@ -175,7 +175,7 @@ const CompanyCreateEdit = props => {
             </legend>
             <Input name='name' type='text' label='Nome' />
             <Input
-              name='responsavel'
+              name='responsible'
               type='text'
               label='Administrador(es)'
               placeholder='Responsáveis pela loja ex. Walter/Tiago'
@@ -195,8 +195,8 @@ const CompanyCreateEdit = props => {
             </div>
             <div className='field-group'>
               {/* <InputMaskPhone                
-                name='telefone'
-                label='Telefone'
+                name='phone'
+                label='phone'
               /> */}
               <div className='field'>
                 <InputMask
@@ -209,9 +209,9 @@ const CompanyCreateEdit = props => {
               <div className='field'>
                 <InputMask
                   mask='(99) 99999-9999'
-                  name='telefone'
+                  name='phone'
                   type='tel'
-                  label='Telefone'
+                  label='phone'
                 />
               </div>
             </div>
@@ -250,17 +250,17 @@ const CompanyCreateEdit = props => {
                 <InputMask
                   mask='99999-999'
                   label='Cep'
-                  name='cep'
+                  name='zip_code'
                   type='tel'
-                  onChangeCep={setCepChanged}
+                  onChangezip_code={setZipCodeChanged}
                 />
               </div>
               <Input name='uf' type='text' label='UF' />
               <Input name='city' type='text' label='Cidade' />
             </div>
             <div className='field-group'>
-              <Input name='bairro' type='text' label='Bairro' />
-              <Input name='logradouro' type='text' label='Logradouro' />
+              <Input name='district' type='text' label='Bairro' />
+              <Input name='street' type='text' label='Logradouro' />
             </div>
             <Input
               name='complement'
