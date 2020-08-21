@@ -51,11 +51,10 @@ class UserController {
         [Op.iLike]: `%${email}%`,
       }
 
-    let users = []
-    users = await User.findAll({
+    const { count, rows } = await User.findAndCountAll({
       where: whereStatement,
       limit: 20,
-      order: ['name'],
+      order: [['createdAt', 'DESC']],
       offset: (page - 1) * 20,
       attributes: [
         'id',
@@ -81,7 +80,10 @@ class UserController {
         },
       ],
     })
-    return res.json(users)
+
+    res.header('X-Total-Count', count)
+
+    return res.json({ count, rows })
   }
 
   async find (req, res) {
@@ -100,8 +102,6 @@ class UserController {
           .json({ error: 'Usuário não permissão ver este usuario' })
       }
     }
-
-
 
     return res.json(user)
   }

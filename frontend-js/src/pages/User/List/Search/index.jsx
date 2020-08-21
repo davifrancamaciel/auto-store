@@ -12,7 +12,7 @@ const INITIAL_DATA = {
   email: ''
 }
 
-export default function Search ({ onSearch, provider }) {
+export default function Search ({ onSearch, provider, setPage }) {
   const profile = useSelector(state => state.user.profile)
   const [searchData, setSearchData] = useState({ ...INITIAL_DATA })
 
@@ -23,6 +23,7 @@ export default function Search ({ onSearch, provider }) {
 
   function handleSubmit (data) {
     onSearch(data)
+    setPage(1)
   }
 
   return (

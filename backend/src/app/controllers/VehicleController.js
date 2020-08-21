@@ -35,14 +35,16 @@ class VehicleController {
         [Op.iLike]: `%${year}%`,
       }
 
-    const vehicles = await Vehicle.findAll({
+    const { count, rows } = await Vehicle.findAndCountAll({
       where: whereStatement,
       limit: 20,
-      order: ['model'],
+      order: [['createdAt', 'DESC']],
       offset: (page - 1) * 20,
     })
 
-    return res.json(vehicles)
+    res.header('X-Total-Count', count)
+
+    return res.json({ count, rows })
   }
 
   async find (req, res) {

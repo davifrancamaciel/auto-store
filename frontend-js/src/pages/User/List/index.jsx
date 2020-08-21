@@ -6,6 +6,7 @@ import { FiPlus } from 'react-icons/fi'
 import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
+import LoadMore from '../../../components/LoadMore'
 
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
@@ -22,6 +23,8 @@ const UserList = ({ provider }) => {
   const [search, setSearch] = useState()
   const [users, setUsers] = useState([])
   const [noData, setNoData] = useState(false)
+  const [total, setTotal] = useState(0)
+  const [page, setPage] = useState(1)
   const profile = useSelector(state => state.user.profile)
 
   useEffect(() => {
@@ -33,15 +36,19 @@ const UserList = ({ provider }) => {
           params: {
             ...search,
             provider,
-            provider_company: false
+            provider_company: false,
+            page
           }
         })
-        const usersFormated = response.data.map(user => ({
+        const usersFormated = response.data.rows.map(user => ({
           ...user,
           image: getImage(user.image, user.name)
         }))
 
-        setUsers(usersFormated)
+        if (page > 1) setUsers([...users, ...usersFormated])
+        else setUsers(usersFormated)
+
+        setTotal(response.data.count)
         setNoData(usersFormated.length == 0)
         setLoading(false)
       } catch (error) {
@@ -51,7 +58,7 @@ const UserList = ({ provider }) => {
     }
 
     loadUsers()
-  }, [provider, search])
+  }, [provider, search, page])
 
   async function handleDelete (item) {
     ShowConfirm(
@@ -91,7 +98,7 @@ const UserList = ({ provider }) => {
       title={provider ? 'Usuários do sistema' : 'Clientes'}
       loading={loading}
     >
-      <Search onSearch={setSearch} provider={provider} />
+      <Search onSearch={setSearch} provider={provider} setPage={setPage} />
       <span>
         <Link to={`/${provider ? 'user' : 'client'}/create`}>
           <FiPlus size={20} /> Cadastrar
@@ -112,6 +119,11 @@ const UserList = ({ provider }) => {
           ))}
         </Ul>
       </Main>
+      <LoadMore
+        onClick={() => setPage(page + 1)}
+        total={total}
+        loadedItens={users.length}
+      />
     </Container>
   )
 }

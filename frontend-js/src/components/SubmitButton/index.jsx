@@ -4,11 +4,11 @@ import PropTypes from 'prop-types'
 
 import { Button } from './styles'
 
-function SubmitButton ({ loading = false, text }) {
+function SubmitButton ({ loading = false, text, ...rest}) {
   const _loading = loading
 
   return (
-    <Button loading={_loading ? _loading.toString() : undefined} type='submit'>
+    <Button {...rest} loading={_loading ? _loading.toString() : undefined} type='submit'>
       {_loading ? <AiOutlineLoading3Quarters size={26} /> : text}
     </Button>
   )

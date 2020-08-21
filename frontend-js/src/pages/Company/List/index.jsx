@@ -17,6 +17,7 @@ import { utcToZonedTime } from 'date-fns-tz'
 import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
+import LoadMore from '../../../components/LoadMore'
 
 import ListItem from './ListItem'
 import Search from './Search'
@@ -36,17 +37,21 @@ const CompanyList = () => {
   const [search, setSearch] = useState()
   const [loading, setLoading] = useState(false)
   const [noData, setNoData] = useState(false)
+  const [total, setTotal] = useState(0)
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     async function loadCompanies () {
       try {
         setLoading(true)
 
-        const response = await api.get('companies', { params: search })
+        const response = await api.get('companies', {
+          params: { ...search, page }
+        })
 
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-        const comaniesFormated = response.data.map(company => {
+        const comaniesFormated = response.data.rows.map(company => {
           const checkDate = setMilliseconds(
             setSeconds(
               setMinutes(setHours(parseISO(company.expires_at), 0), 0),
@@ -68,8 +73,11 @@ const CompanyList = () => {
             )}`
           }
         })
-        setCompanies(comaniesFormated)
-        console.log(comaniesFormated)
+
+        if (page > 1) setCompanies([...companies, ...comaniesFormated])
+        else setCompanies(comaniesFormated)
+
+        setTotal(response.data.count)
         setNoData(comaniesFormated.length == 0)
         setLoading(false)
       } catch (error) {
@@ -85,7 +93,7 @@ const CompanyList = () => {
     }
 
     loadCompanies()
-  }, [search])
+  }, [search, page])
 
   async function handleDelete (item) {
     ShowConfirm('Atenção', `Confirma a remoção da loja ${item.name}?`, () =>
@@ -117,7 +125,7 @@ const CompanyList = () => {
 
   return (
     <Container title='Lojas' loading={loading ? Boolean(loading) : undefined}>
-      <Search onSearch={setSearch} />
+      <Search onSearch={setSearch} setPage={setPage} />
       <span>
         <Link to='/company/create'>
           <FiPlus size={20} /> Cadastrar
@@ -137,6 +145,12 @@ const CompanyList = () => {
           ))}
         </Ul>
       </Main>
+
+      <LoadMore
+        onClick={() => setPage(page + 1)}
+        total={total}
+        loadedItens={companies.length}
+      />
     </Container>
   )
 }

@@ -7,6 +7,7 @@ import pt from 'date-fns/locale/pt'
 import Container from '../../../components/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
+import LoadMore from '../../../components/LoadMore'
 
 import ListItem from './ListItem'
 import Search from './Search'
@@ -25,15 +26,19 @@ const VehicleList = () => {
   const [search, setSearch] = useState()
   const [noData, setNoData] = useState(false)
   const [vehicles, setVehicles] = useState([])
+  const [total, setTotal] = useState(0)
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     async function loadvehicles () {
       try {
         setLoading(true)
 
-        const response = await api.get('vehicles', { params: search })
+        const response = await api.get('vehicles', {
+          params: { ...search, page }
+        })
 
-        const data = response.data.map(vehicle => ({
+        const data = response.data.rows.map(vehicle => ({
           ...vehicle,
           priceFormated: formatPrice(vehicle.value),
           createdAtFormated: `Cadastrado ${formatDistance(
@@ -42,7 +47,11 @@ const VehicleList = () => {
             { addSuffix: true, locale: pt }
           )}`
         }))
-        setVehicles(data)
+
+        if (page > 1) setVehicles([...vehicles, ...data])
+        else setVehicles(data)
+
+        setTotal(response.data.count)
         console.log(response.data)
         setNoData(response.data.length == 0)
         setLoading(false)
@@ -53,7 +62,7 @@ const VehicleList = () => {
     }
 
     loadvehicles()
-  }, [search])
+  }, [search, page])
 
   async function handleDelete (item) {
     ShowConfirm('Atenção', `Confirma a remoção do veículo ${item.model}?`, () =>
@@ -85,7 +94,7 @@ const VehicleList = () => {
       title='Veículos'
       loading={loading ? Boolean(loading) : undefined}
     >
-      <Search onSearch={setSearch} />
+      <Search onSearch={setSearch} setPage={setPage} />
       <span>
         <Link to='/vehicle/create'>
           <FiPlus size={20} /> Cadastrar
@@ -105,6 +114,12 @@ const VehicleList = () => {
           ))}
         </Ul>
       </Main>
+
+      <LoadMore
+        onClick={() => setPage(page + 1)}
+        total={total}
+        loadedItens={vehicles.length}
+      />
     </Container>
   )
 }

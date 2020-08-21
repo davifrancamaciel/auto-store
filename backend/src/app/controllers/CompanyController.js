@@ -35,14 +35,16 @@ class CompanyController {
         [Op.iLike]: `%${email}%`,
       }
 
-    const companies = await Company.findAll({
+    const { count, rows } = await Company.findAndCountAll({
       where: whereStatement,
       limit: 20,
-      order: ['name'],
+      order: [['createdAt', 'DESC']],
       offset: (page - 1) * 20,
     })
 
-    return res.json(companies)
+    res.header('X-Total-Count', count)
+
+    return res.json({ count, rows })
   }
 
   async find (req, res) {

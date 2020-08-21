@@ -10,9 +10,10 @@ const options = [
   { id: false, title: 'Somente inativas' }
 ]
 
-export default function Search ({ onSearch }) {
+export default function Search ({ onSearch, setPage }) {
   function handleSubmit (data) {
     onSearch(data)
+    setPage(1)
   }
 
   return (
@@ -20,11 +21,7 @@ export default function Search ({ onSearch }) {
       <Form onSubmit={handleSubmit}>
         <div className='field-group'>
           <div className='field'>
-            <Select
-              label='Situação'
-              name='status'
-              options={options}              
-            />
+            <Select label='Situação' name='status' options={options} />
           </div>
           <Input name='name' label='Nome' />
           <Input name='email' label='Email' />
