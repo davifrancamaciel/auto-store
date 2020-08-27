@@ -201,6 +201,9 @@ class CompanyController {
     const companyFormated = companies.map(c => ({
       id: c.id,
       title: c.name,
+      value: c.id,
+      label: c.name,
+      name: c.name,
       active: c.active,
     }))
 

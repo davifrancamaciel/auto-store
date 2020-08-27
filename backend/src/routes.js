@@ -26,6 +26,12 @@ import VehicleController from './app/controllers/VehicleController'
 import validateVehicleStore from './app/validators/Vehicle/store'
 import validateVehicleUpdate from './app/validators/Vehicle/update'
 
+import ExpenseController from './app/controllers/ExpenseController'
+import validateExpenseStore from './app/validators/Expense/store'
+import validateExpenseUpdate from './app/validators/Expense/update'
+
+import ExpenseTypeController from './app/controllers/ExpenseTypeController'
+
 const routes = new Router()
 const upload = multer(multerConfig)
 
@@ -88,4 +94,11 @@ routes.get('/vehicles', VehicleController.index)
 routes.get('/vehicles/:id', VehicleController.find)
 routes.delete('/vehicles/:id', VehicleController.delete)
 
+routes.post('/expenses', validateExpenseStore, ExpenseController.store)
+routes.put('/expenses', validateExpenseUpdate, ExpenseController.update)
+routes.get('/expenses', ExpenseController.index)
+routes.get('/expenses/:id', ExpenseController.find)
+routes.delete('/expenses/:id', ExpenseController.delete)
+
+routes.get('/expenses-types', ExpenseTypeController.index)
 export default routes

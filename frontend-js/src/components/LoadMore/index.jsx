@@ -1,18 +1,22 @@
 import React from 'react'
 
 import Button from '../SubmitButton'
-
-import { Container } from './styles'
+import { Container, Total } from './styles'
 
 const LoadMore = ({ onClick, total, loadedItens }) => {
-  console.log(loadedItens, total)
-  
   return (
-    <Container>
-      {loadedItens > 0 && loadedItens !== total && (
-        <Button onClick={onClick} text={'Carregar mais'} />
+    <>
+      {loadedItens > 0 && (
+        <Total>
+          Carregado {loadedItens} de {total}
+        </Total>
       )}
-    </Container>
+      <Container>
+        {loadedItens > 0 && loadedItens !== total && (
+          <Button onClick={onClick} text={'Carregar mais'} />
+        )}
+      </Container>
+    </>
   )
 }
 

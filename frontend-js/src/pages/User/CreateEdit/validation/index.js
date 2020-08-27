@@ -13,7 +13,7 @@ export default function validation () {
     whatsapp: Yup.string()
       .required('O whatsapp é obrigatório')
       .max(20, 'Máximo 20 caracteres'),
-    company_id: Yup.number() //.required('A loja é obrigatória'),
+    company_id: Yup.string().required('A loja é obrigatória')
   })
 
   return schema

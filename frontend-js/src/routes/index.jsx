@@ -12,6 +12,8 @@ import UserCreateEdit from '../pages/User/CreateEdit'
 import ClientCreateEdit from '../pages/Client/CreateEdit'
 import VehicleList from '../pages/Vehicle/List'
 import VehicleCreateEdit from '../pages/Vehicle/CreateEdit'
+import ExpenseList from '../pages/Expense/List'
+import ExpenseCreateEdit from '../pages/Expense/CreateEdit'
 
 import Profile from '../pages/Profile'
 
@@ -41,6 +43,10 @@ const Routes = () => {
       <Route exact path='/vehicle' component={VehicleList} isPrivate />
       <Route exact path='/vehicle/create' component={VehicleCreateEdit} isPrivate />
       <Route exact path='/vehicle/edit/:id' component={VehicleCreateEdit} isPrivate />
+
+      <Route exact path='/expense' component={ExpenseList} isPrivate />
+      <Route exact path='/expense/create' component={ExpenseCreateEdit} isPrivate />
+      <Route exact path='/expense/edit/:id' component={ExpenseCreateEdit} isPrivate />
 
       <Redirect from='*' to='/' />
     </Switch>

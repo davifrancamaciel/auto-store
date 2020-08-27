@@ -17,74 +17,63 @@ import history from '../../../services/browserhistory'
 import getValidationErrors from '../../../Utils/getValidationErrors'
 import validation from './validation'
 
-const UserCreateEdit = () => {
+const ExpenseCreateEdit = function () {
   const { id } = useParams()
-  const [user, setUser] = useState({})
+  const [expense, setExpese] = useState({})
   const [loading, setLoading] = useState(false)
-  const [companies, setCompanies] = useState([])
+  const [types, setTypes] = useState([])
   const profile = useSelector(state => state.user.profile)
-  
+
   useEffect(() => {
-    async function loadCompanies () {
+    async function loadExpensesTypes () {
       try {
-        const response = await api.get('companies/list')
-        setCompanies(response.data)
+        const response = await api.get('expenses-types')
+        setTypes(response.data)
       } catch (error) {
         getValidationErrors(error)
       }
     }
+    loadExpensesTypes()
+  }, [])
 
-    if (profile.company_provider) loadCompanies()
-
+  useEffect(() => {
     if (id) {
-      async function loadUser (id) {
+      async function loadExpense (id) {
         try {
           setLoading(true)
-          const response = await api.get(`users/${id}`)
+          const response = await api.get(`expenses/${id}`)
 
-          setUser(response.data)
+          setExpese(response.data)
           setLoading(false)
         } catch (error) {
           setLoading(false)
           getValidationErrors(error)
         }
       }
-      loadUser(id)
-    } else {
-      setUser({
-        ...user,
-        active: true
-      })
+      loadExpense(id)
     }
   }, [])
 
- 
   async function handleSubmit (data) {
     console.log(data)
     try {
-      const saveUser = {
+      const saveExpense = {
         ...data,
-        id: id ? Number(id) : 0,
-        provider: true
+        id: id ? Number(id) : 0
       }
-
-      if (!saveUser.id)
-        saveUser.password = process.env.REACT_APP_PASSWORD_DEFAULT
-
-      if (!profile.company_provider) saveUser.company_id = profile.company_id
 
       setLoading(true)
 
-      if (saveUser.id) {
-        await api.put('users', saveUser)
+      if (saveExpense.id) {
+        await api.put('expenses', saveExpense)
       } else {
-        await api.post('users', saveUser)
+        await api.post('expenses', saveExpense)
       }
 
-      showToast.success(`Usuário salvo com sucesso!`)
+      showToast.success(`Despesa salva com sucesso!`)
 
       setLoading(false)
-      history.push(`/user`)
+      history.push(`/expense`)
     } catch (error) {
       getValidationErrors(error)
       setLoading(false)
@@ -92,44 +81,27 @@ const UserCreateEdit = () => {
   }
 
   return (
-    <Container title={`Cadastro de usuários do sistema`}>
+    <Container title={`Cadastro de despesas`}>
       <FormContainer loading={loading}>
-        <Form onSubmit={handleSubmit} initialData={user} schema={validation()}>
+        <Form
+          schema={validation()}
+          onSubmit={handleSubmit}
+          initialData={expense}
+        >
           <fieldset>
             <legend>
               <h2>Dados</h2>
-              <BackPage />
             </legend>
-            <Input name='name' type='text' label='Nome' />
 
             <div className='field-group'>
-              <Input name='email' type='email' label='Email' />
               <div className='field'>
-                <InputMask
-                  mask='(99) 99999-9999'
-                  name='whatsapp'
-                  type='tel'
-                  label='Whatsapp'
-                />
+                <Select label='Tipo' name='expense_type_id' options={types} />
+              </div>
+              <div className='field'>
+                <Input name='value' type='tel' label='Valor' />
               </div>
             </div>
-            {profile.company_provider && (
-              <div className='field'>
-                <Select
-                  label='Loja'
-                  name='company_id'
-                  options={companies}
-                  defaultValue={user.company_id}
-                />
-              </div>
-            )}
-
-            <div className='field'>
-              <label className='alt-check'>
-                <Check name='active' />
-                <span>Ativo</span>
-              </label>
-            </div>
+            <Input multiline name='description' label='Descrição' />
           </fieldset>
 
           <SubmitButton loading={loading ? true : false} text={'Salvar'} />
@@ -139,4 +111,4 @@ const UserCreateEdit = () => {
   )
 }
 
-export default UserCreateEdit
+export default ExpenseCreateEdit

@@ -2,7 +2,6 @@ import { Op } from 'sequelize'
 
 import Vehicle from '../models/Vehicle'
 import removeFile from '../utils/removeFile'
-import getExpireDate from '../utils/addDays'
 
 class VehicleController {
   async index (req, res) {
@@ -30,10 +29,7 @@ class VehicleController {
       whereStatement.model = {
         [Op.iLike]: `%${model}%`,
       }
-    if (year)
-      whereStatement.year = {
-        [Op.iLike]: `%${year}%`,
-      }
+    if (year) whereStatement.year = year
 
     const { count, rows } = await Vehicle.findAndCountAll({
       where: whereStatement,
@@ -81,6 +77,11 @@ class VehicleController {
       const vehicle = await Vehicle.create({
         ...req.body,
         company_id: userCompanyId,
+        year_model: req.body.year_model ? req.body.year_model : null,
+        year: req.body.year ? req.body.year : null,
+        km: req.body.km ? req.body.km : null,
+        amount_oil: req.body.amount_oil ? req.body.amount_oil : null,
+        value: req.body.value ? req.body.value : null,
       })
 
       return res.json(vehicle)
@@ -95,7 +96,6 @@ class VehicleController {
   }
 
   async update (req, res) {
-    console.log(req.body)
     try {
       const { id } = req.body
       const { userCompanyProvider, userProvider, userCompanyId } = req
@@ -112,7 +112,14 @@ class VehicleController {
         })
       }
 
-      await vehicle.update({ ...req.body })
+      await vehicle.update({
+        ...req.body,
+        year_model: req.body.year_model ? req.body.year_model : null,
+        year: req.body.year ? req.body.year : null,
+        km: req.body.km ? req.body.km : null,
+        amount_oil: req.body.amount_oil ? req.body.amount_oil : null,
+        value: req.body.value ? req.body.value : null,
+      })
 
       const { model } = await Vehicle.findByPk(id)
 

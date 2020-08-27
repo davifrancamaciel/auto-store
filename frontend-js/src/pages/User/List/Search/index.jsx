@@ -4,21 +4,13 @@ import { useSelector } from 'react-redux'
 import Input from '../../../../components/Input'
 import SubmitButton from '../../../../components/SubmitButton'
 import FormSearchContainer from '../../../../components/FormSearchContainer'
-import { useState } from 'react'
-
-const INITIAL_DATA = {
-  company_name: '',
-  name: '',
-  email: ''
-}
 
 export default function Search ({ onSearch, provider, setPage }) {
   const profile = useSelector(state => state.user.profile)
-  const [searchData, setSearchData] = useState({ ...INITIAL_DATA })
-
+  
   useEffect(() => {
     console.log('reset form', profile)
-    setSearchData({ ...INITIAL_DATA })
+    
   }, [provider])
 
   function handleSubmit (data) {
@@ -28,7 +20,7 @@ export default function Search ({ onSearch, provider, setPage }) {
 
   return (
     <FormSearchContainer>
-      <Form onSubmit={handleSubmit} initialData={searchData}>
+      <Form onSubmit={handleSubmit}>
         <div className='field-group'>
           {profile.company_provider && (
             <Input name='company_name' label='Loja' />

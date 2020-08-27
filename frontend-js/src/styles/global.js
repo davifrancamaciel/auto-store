@@ -43,6 +43,7 @@ export default createGlobalStyle`
         
     .gf-layout-default {
         
+        textarea,
         input[type='text'],
         input[type='email'],
         input[type='number'],
@@ -85,5 +86,23 @@ export default createGlobalStyle`
             margin-bottom: 8px;
             color: #6c6c80;
           }
+          textarea {
+            flex: 1;
+            background: #f0f0f5;
+            border-radius: 4px;
+            border: 0;
+            padding: 13px 15px;
+            font-size: 16px;
+            color: #6c6c80;
+            
+            width: 100%;
+            margin: 0 0 0px;
+            min-height: 140px;
+            height: 60px;
+            width: 100%;            
+            line-height: 24px;
+            resize: none;
+          }
+
     }
 `

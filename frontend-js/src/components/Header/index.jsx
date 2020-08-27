@@ -13,6 +13,7 @@ const itensMenu = [
   { path: 'client', label: 'Clientes', provider: 'false' },
   { path: 'vehicle', label: 'Veículos', provider: 'false' },
   { path: 'user', label: 'Usuários', provider: 'false|true' },
+  { path: 'expense', label: 'Despesas', provider: 'false' },
 ]
 
 const Header = () => {

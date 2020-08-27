@@ -1,30 +1,35 @@
-import React, { useRef, useEffect,selectRef } from 'react'
-import { SelectCustom, Container } from './styles'
+import React, { useRef, useEffect, useState } from 'react'
+
 import { useField } from '@rocketseat/unform'
+import { SelectCustom } from './styles'
 
 export default function ReactSelect ({
   name,
   label,
   options,
   multiple,
-  defaultValue,
-  onItemSelected,
   ...rest
 }) {
   const ref = useRef(null)
-  const { fieldName, registerField, defaultValues, error } = useField(name)
+  const { fieldName, registerField, defaultValue, error } = useField(name)
+  const [selected, setSelected] = useState(defaultValue)
+  const [itemSelected, setItemSelected] = useState()
+  const [valueDefault, setvalueDefault] = useState(defaultValue)
 
   function parseSelectValue (selectRef) {
-    const selectValue = selectRef.state.value
+    const selectValue = selectRef.props.value
+    console.log(selectRef)
     if (!multiple) {
-      return selectValue ? selectValue.id : ''
+      var retorno = selectValue ? selectValue.value : ''
+      // console.log(retorno)
+      return retorno
     }
-    
 
     return selectValue ? selectValue.map(option => option.id) : []
   }
 
   useEffect(() => {
+    setvalueDefault(defaultValue)
     registerField({
       name: fieldName,
       ref: ref.current,
@@ -34,47 +39,53 @@ export default function ReactSelect ({
         selectRef.select.clearValue()
       }
     })
-    console.log(onItemSelected)
   }, [ref.current, fieldName]) // eslint-disable-line
-  
+
+  useEffect(() => {
+    setvalueDefault(defaultValue)
+    setItemSelected(getDefaultValue())
+  }, [options, defaultValue])
 
   function getDefaultValue () {
     if (!defaultValue) return null
 
     if (!multiple) {
-      return options.find(option => option.id === defaultValue)
+      return options.find(option => option.value === valueDefault)
     }
 
     return options.filter(option => defaultValue.includes(option.id))
   }
 
   return (
-    <Container>
+    <>
       {label && <label htmlFor={fieldName}>{label}</label>}
 
       <SelectCustom
-        
+        classNamePrefix='react-select'
+        placeholder=''
         name={fieldName}
         aria-label={fieldName}
         options={options}
         isMulti={multiple}
-        value={defaultValue}
-        defaultValue={getDefaultValue()}
+        // defaultValue={getDefaultValue()}
+        value={getDefaultValue() ? getDefaultValue() : itemSelected}
         ref={ref}
-        getOptionValue={option => option.id}
-        getOptionLabel={option => option.title}
-        classNamePrefix='react-select8'
-        isLoading={options.length === 0}
-        placeholder=''
-        noOptionsMessage={() => 'Nenhum item encontrado'}
+        getOptionValue={option => option.value}
+        getOptionLabel={option => option.label}
+        // selected={selected}
+        onChange={date => {
+          console.log(date)
+          setSelected(date)
+          setItemSelected(date)
+          setvalueDefault(date.id)
+        }}
         {...rest}
       />
 
       {error && <span>{error}</span>}
-    </Container>
+    </>
   )
 }
-
 // import React, { useRef, useEffect, useState } from 'react'
 // import Select from 'react-select'
 

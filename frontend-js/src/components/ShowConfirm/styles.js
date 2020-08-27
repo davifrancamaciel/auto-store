@@ -8,7 +8,7 @@ export const Container = styled.div`
     background: var(--primary-color);
     box-shadow: 0 20px 75px rgba(0, 0, 0, 0.23);
     color: #fff;
-  }
+  
   
   > h1 {
     margin-top: 0;    

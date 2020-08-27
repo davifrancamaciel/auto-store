@@ -7,7 +7,7 @@ import { Container } from './styles'
 function Card ({ route, loaded, item, title, icon, total, preposition }) {
   return (
     <Link to={`/${route}`}>
-      <Container loading={!loaded} total={total}>
+      <Container loading={!loaded ? !loaded.toString() : undefined} total={total}>
         <header>
           <p>{title}</p>
           {icon}

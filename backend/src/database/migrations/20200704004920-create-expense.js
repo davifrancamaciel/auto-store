@@ -1,32 +1,32 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('spending', {
+    return queryInterface.createTable('expenses', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      // enpresa do gasto
+      // enpresa da despessa
       company_id: {
         type: Sequelize.INTEGER,
         references: { model: 'companies', key: 'id' },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
         allowNull: false,
       },
-      spending_type_id: {
+      expense_type_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'spending_types', key: 'id' },
+        references: { model: 'expense_types', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
         allowNull: false,
       },
-      descricao: {
-        type: Sequelize.STRING,
+      description: {
+        type: Sequelize.STRING(1000),
         allowNull: false,
       },
-      valor: {
+      value: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
@@ -43,6 +43,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('spending_types');
+    return queryInterface.dropTable('expenses');
   },
 };
