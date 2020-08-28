@@ -97,6 +97,7 @@ const VehicleList = () => {
     >
       <Search onSearch={setSearch} setPage={setPage} />
       <span>
+        <span>{total > 0 && <span>Total {total}</span>}</span>
         <Link to='/vehicle/create'>
           <FiPlus size={20} /> Cadastrar
         </Link>

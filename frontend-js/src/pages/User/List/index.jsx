@@ -101,6 +101,7 @@ const UserList = ({ provider }) => {
     >
       <Search onSearch={setSearch} provider={provider} setPage={setPage} />
       <span>
+        <span>{total > 0 && <span>Total {total}</span>}</span>
         <Link to={`/${provider ? 'user' : 'client'}/create`}>
           <FiPlus size={20} /> Cadastrar
         </Link>

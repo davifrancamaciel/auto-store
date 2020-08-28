@@ -128,6 +128,7 @@ const CompanyList = () => {
     <Container title='Lojas' loading={loading ? Boolean(loading) : undefined}>
       <Search onSearch={setSearch} setPage={setPage} />
       <span>
+        <span>{total > 0 && <span>Total {total}</span>}</span>
         <Link to='/company/create'>
           <FiPlus size={20} /> Cadastrar
         </Link>

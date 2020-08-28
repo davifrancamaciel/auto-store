@@ -31,6 +31,7 @@ export const DashboardContainer = styled.section`
   margin-top: -120px;
 `
 export const CardContainer = styled.section`
+  margin-bottom:40px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 32px;

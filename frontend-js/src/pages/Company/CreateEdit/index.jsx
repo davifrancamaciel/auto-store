@@ -211,7 +211,7 @@ const CompanyCreateEdit = props => {
                   mask='(99) 99999-9999'
                   name='phone'
                   type='tel'
-                  label='phone'
+                  label='Telefone'
                 />
               </div>
             </div>

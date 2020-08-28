@@ -22,13 +22,16 @@ export const Container = styled.div`
     display: flex;
     flex-direction: row;
     text-align: center;
-    justify-content: flex-end;
+    justify-content: space-between;
+    color: var(--text-color);
+    font-weight: bold;
 
+    > span {
+    }
     > a {
       color: var(--text-color);
       margin-bottom: 15px;
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 16px;     
       justify-content: end;
       display: flex;
       opacity: 1;

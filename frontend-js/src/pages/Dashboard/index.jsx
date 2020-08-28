@@ -9,7 +9,7 @@ import {
 } from 'react-icons/ai'
 
 import Container from '../../components/Container'
-// import LineGraph from '../../components/LineGraph'
+import LineGraph from '../../components/LineGraph'
 import SignatureControl from './SignatureControl'
 import Card from './Card'
 
@@ -84,7 +84,7 @@ const Dashboard = () => {
               total
             />
           </CardContainer>
-          {/* <LineGraph className="app_graph" casesType={"cases"} /> */}
+          <LineGraph className="app_graph" casesType={"cases"} />
         </DashboardContainer>
       </Container>
     </>

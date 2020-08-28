@@ -15,6 +15,12 @@ import showToast from '../../../Utils/showToast'
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
 import getValidationErrors from '../../../Utils/getValidationErrors'
+import {
+  formatValueWhithDecimalCaseOnChange,
+  formatValueWhithDecimalCase,
+  formatValueWhithOutDecimalCase,
+  priceToNumber
+} from '../../../Utils/formatPrice'
 import validation from './validation'
 
 const ExpenseCreateEdit = function () {
@@ -22,7 +28,16 @@ const ExpenseCreateEdit = function () {
   const [expense, setExpese] = useState({})
   const [loading, setLoading] = useState(false)
   const [types, setTypes] = useState([])
-  const profile = useSelector(state => state.user.profile)
+  const [numericValue, setNumericValue] = useState(0)
+
+  useEffect(() => {
+    console.log(numericValue)
+    console.log(formatValueWhithDecimalCaseOnChange(numericValue))
+    console.log(formatValueWhithDecimalCase(numericValue))
+    console.log(formatValueWhithOutDecimalCase(numericValue))
+
+    console.log(expense)
+  }, [numericValue])
 
   useEffect(() => {
     async function loadExpensesTypes () {
@@ -43,7 +58,12 @@ const ExpenseCreateEdit = function () {
           setLoading(true)
           const response = await api.get(`expenses/${id}`)
 
-          setExpese(response.data)
+          const data = {
+            ...response.data,
+            value: formatValueWhithDecimalCase(response.data.value)
+          }
+          setNumericValue(response.data.value)
+          setExpese(data)
           setLoading(false)
         } catch (error) {
           setLoading(false)
@@ -59,6 +79,7 @@ const ExpenseCreateEdit = function () {
     try {
       const saveExpense = {
         ...data,
+        value: priceToNumber(data.value),
         id: id ? Number(id) : 0
       }
 
@@ -91,6 +112,7 @@ const ExpenseCreateEdit = function () {
           <fieldset>
             <legend>
               <h2>Dados</h2>
+              <BackPage />
             </legend>
 
             <div className='field-group'>
@@ -98,7 +120,19 @@ const ExpenseCreateEdit = function () {
                 <Select label='Tipo' name='expense_type_id' options={types} />
               </div>
               <div className='field'>
-                <Input name='value' type='tel' label='Valor' />
+                <Input
+                  name='value'
+                  type='tel'
+                  label='Valor'
+                  value={expense.value}
+                  onChange={e => {
+                    // setNumericValue(e.target.value)
+                    setExpese({
+                      ...expense,
+                      value: formatValueWhithDecimalCaseOnChange(e.target.value)
+                    })
+                  }}
+                />
               </div>
             </div>
             <Input multiline name='description' label='Descrição' />

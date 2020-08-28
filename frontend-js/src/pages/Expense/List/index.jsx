@@ -97,6 +97,7 @@ const ExpenseList = function () {
     >
       <Search onSearch={setSearch} setPage={setPage} />
       <span>
+        <span>{total > 0 && <span>Total {total}</span>}</span>
         <Link to='/expense/create'>
           <FiPlus size={20} /> Cadastrar
         </Link>

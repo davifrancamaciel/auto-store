@@ -5,7 +5,7 @@ import removeFile from '../utils/removeFile'
 
 class VehicleController {
   async index (req, res) {
-    const { userCompanyProvider, userProvider, userCompanyId } = req
+    const { userProvider, userCompanyId } = req
 
     if (!userProvider) {
       return res
