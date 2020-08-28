@@ -2,6 +2,7 @@ import { Op } from 'sequelize'
 
 import Expense from '../models/Expense'
 import ExpenseType from '../models/ExpenseType'
+import { startOfDay, endOfDay, parseISO } from 'date-fns'
 
 class ExpenseController {
   async index (req, res) {
@@ -13,7 +14,13 @@ class ExpenseController {
         .json({ error: 'Usuário não tem permissão para listar os despesas' })
     }
 
-    const { description, expense_type_id, page = 1 } = req.query
+    const {
+      description,
+      expense_type_id,
+      start_date,
+      end_date,
+      page = 1,
+    } = req.query
 
     let whereStatement = {
       company_id: userCompanyId,
@@ -24,6 +31,22 @@ class ExpenseController {
     if (description)
       whereStatement.description = {
         [Op.iLike]: `%${description}%`,
+      }
+
+    if (start_date)
+      whereStatement.createdAt = {
+        [Op.gte]: startOfDay(parseISO(start_date)),
+      }
+    if (end_date)
+      whereStatement.createdAt = {
+        [Op.lte]: endOfDay(parseISO(end_date)),
+      }
+    if (start_date && end_date)
+      whereStatement.createdAt = {
+        [Op.between]: [
+          startOfDay(parseISO(start_date)),
+          endOfDay(parseISO(end_date)),
+        ],
       }
 
     const { count, rows } = await Expense.findAndCountAll({
@@ -138,9 +161,9 @@ class ExpenseController {
       return res.status(400).json({ error: 'despesa não encontrada' })
     }
 
-    if (!userCompanyProvider && userCompanyId !== Expense.company_id) {
+    if (!userCompanyProvider && userCompanyId !== expense.company_id) {
       return res.status(401).json({
-        error: 'Você não possui permissão para alterar esta despesa',
+        error: 'Não é possivel excluir um registro de outra loja',
       })
     }
 

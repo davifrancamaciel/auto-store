@@ -45,6 +45,7 @@ export const Li = styled.li`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
     span {
       display: flex;
       svg {
@@ -62,6 +63,18 @@ export const Li = styled.li`
   a:hover {
     color: var(--secondary-color);
   }
+`
+export const ResponsiveText = styled.h4`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 310px;
+  color: #666;
+  font-weight: 100;
+  font-size: 14px;
+  margin-top: 2px;
+  line-height: 20px;
+  margin: 10px 0;
 `
 export const Info = styled.div`
   strong {

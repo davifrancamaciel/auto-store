@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FiPlus } from 'react-icons/fi'
-import { parseISO, formatDistance } from 'date-fns'
+import { parseISO, format } from 'date-fns'
 import pt from 'date-fns/locale/pt'
 
 import Container from '../../../components/Container'
@@ -9,13 +9,12 @@ import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
 import LoadMore from '../../../components/LoadMore'
 
-// import ListItem from './ListItem'
+import ListItem from './ListItem'
 import Search from './Search'
 
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
 import getValidationErrors from '../../../Utils/getValidationErrors'
-import getImage from '../../../Utils/getImage'
 import showToast from '../../../Utils/showToast'
 import { formatPrice } from '../../../Utils/formatPrice'
 
@@ -29,7 +28,6 @@ const ExpenseList = function () {
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
 
-
   useEffect(() => {
     async function loadExpenses () {
       try {
@@ -41,11 +39,11 @@ const ExpenseList = function () {
 
         const data = response.data.rows.map(expense => ({
           ...expense,
-          priceFormated: formatPrice(expense.value),
-          createdAtFormated: `Cadastrado ${formatDistance(
+          valueFormated: formatPrice(expense.value),
+          createdAtFormatedDate: `Cadastrada no dia ${format(
             parseISO(expense.createdAt),
-            new Date(),
-            { addSuffix: true, locale: pt }
+            "d 'de' MMMM",
+            { locale: pt }
           )}`
         }))
 
@@ -53,8 +51,7 @@ const ExpenseList = function () {
         else setExpenses(data)
 
         setTotal(response.data.count)
-        console.log(response.data)
-        setNoData(response.data.length == 0)
+        setNoData(data.length == 0)
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -66,8 +63,10 @@ const ExpenseList = function () {
   }, [search, page])
 
   async function handleDelete (item) {
-    ShowConfirm('Atenção', `Confirma a remoção da despesa ${item.id}?`, () =>
-      handleDeleteConfirm(item.id)
+    ShowConfirm(
+      'Atenção',
+      `Confirma a remoção da despesa ${item.type.name}?`,
+      () => handleDeleteConfirm(item.id)
     )
   }
 
@@ -76,8 +75,9 @@ const ExpenseList = function () {
       setLoading(true)
       await api.delete(`expenses/${id}`)
 
-      showToast.success('Despesa excluído com sucesso!')
+      showToast.success('Despesa excluída com sucesso!')
       const updateExpenses = expenses.filter(c => c.id !== id)
+      setTotal(total - 1)
       setExpenses(updateExpenses)
       setLoading(false)
     } catch (error) {
@@ -87,9 +87,8 @@ const ExpenseList = function () {
   }
 
   function handleUpdate (id) {
-    history.push(`/vehicle/edit/${id}`)
+    history.push(`/expense/edit/${id}`)
   }
-
 
   return (
     <Container
@@ -102,16 +101,16 @@ const ExpenseList = function () {
           <FiPlus size={20} /> Cadastrar
         </Link>
       </span>
+      {noData && <NoData text={`Não há dados para exibir :(`} />}
       <Main>
         <Ul>
           {expenses.map(expense => (
-            // <ListItem
-            //   item={expense}
-            //   key={expense.id}
-            //   onUpdateClick={handleUpdate}
-            //   onDeleteClick={handleDelete}
-            // />
-            <li>{expense.description}</li>
+            <ListItem
+              item={expense}
+              key={expense.id}
+              onUpdateClick={handleUpdate}
+              onDeleteClick={handleDelete}
+            />
           ))}
         </Ul>
       </Main>

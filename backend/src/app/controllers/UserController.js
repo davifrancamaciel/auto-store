@@ -225,7 +225,7 @@ class UserController {
     if (!userCompanyProvider && user.company_id != userCompanyId) {
       return res
         .status(401)
-        .json({ error: 'Não é possivel deletar um registro de outra loja' })
+        .json({ error: 'Não é possivel excluir um registro de outra loja' })
     }
 
     if (user) {

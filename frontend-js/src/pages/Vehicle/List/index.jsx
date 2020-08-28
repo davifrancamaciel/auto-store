@@ -78,6 +78,7 @@ const VehicleList = () => {
       showToast.success('Veículo excluído com sucesso!')
       const updateVehicles = vehicles.filter(c => c.id !== id)
       setVehicles(updateVehicles)
+      setTotal(total - 1)
       setLoading(false)
     } catch (error) {
       setLoading(false)

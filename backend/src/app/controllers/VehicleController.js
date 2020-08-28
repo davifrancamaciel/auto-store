@@ -153,7 +153,7 @@ class VehicleController {
 
     if (!userCompanyProvider && userCompanyId !== vehicle.company_id) {
       return res.status(401).json({
-        error: 'Você não possui permissão para alterar este veículo',
+        error: 'Não é possivel excluir um registro de outra loja',
       })
     }
 

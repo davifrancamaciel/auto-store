@@ -109,6 +109,7 @@ const CompanyList = () => {
       showToast.success('Loja excluída com sucesso!')
       const updateCompanies = companies.filter(c => c.id !== id)
       setCompanies(updateCompanies)
+      setTotal(total - 1)
       setLoading(false)
     } catch (error) {
       setLoading(false)

@@ -78,6 +78,7 @@ const UserList = ({ provider }) => {
       )
       const updateUsers = users.filter(c => c.id !== id)
       setUsers(updateUsers)
+      setTotal(total - 1)
       setLoading(false)
     } catch (error) {
       setLoading(false)
