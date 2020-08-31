@@ -17,7 +17,7 @@ export function formatValueWhithOutDecimalCase (valor) {
   return newVal
 }
 
-export function formatValueWhithDecimalCase (n?, c?, d?, t?) {
+export function formatValueWhithDecimalCase (n, c, d, t) {
   var c = isNaN((c = Math.abs(c))) ? 2 : c,
     d = d == undefined ? ',' : d,
     t = t == undefined ? '.' : t,
