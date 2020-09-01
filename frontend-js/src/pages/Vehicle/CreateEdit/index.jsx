@@ -5,19 +5,20 @@ import { parseISO } from 'date-fns'
 
 import { Form, Check } from '@rocketseat/unform'
 
-import Container from '../../../components/Container'
+import Container from '../../../components/_layouts/Container'
 import SubmitButton from '../../../components/SubmitButton'
-import FormContainer from '../../../components/FormContainer'
-import Dropzone from '../../../components/Dropzone'
-import Input from '../../../components/Input'
-import Datepicker from '../../../components/Datepicker'
-// import InputMaskPhone from '../../../components/InputMaskPhone'
-import InputMask from '../../../components/InputMask'
+import FormContainer from '../../../components/_layouts/FormContainer'
+import Dropzone from '../../../components/Inputs/Dropzone'
+import Input from '../../../components/Inputs/Input'
+import Datepicker from '../../../components/Inputs/Datepicker'
+import InputMoney from '../../../components/Inputs/InputMoney'
+import InputMask from '../../../components/Inputs/InputMask'
 import BackPage from '../../../components/BackPage'
 
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
 import getValidationErrors from '../../../Utils/getValidationErrors'
+import { priceToNumber } from '../../../Utils/formatPrice'
 import showToast from '../../../Utils/showToast'
 
 import getImage from '../../../Utils/getImage'
@@ -69,7 +70,7 @@ const CreateEdit = () => {
         year: data.year ? data.year : 0,
         km: data.km ? data.km : 0,
         amount_oil: data.amount_oil ? data.amount_oil : 0,
-        value: data.value ? data.value : 0
+        value: data.value ? priceToNumber(data.value) : 0
       }
 
       setLoading(true)
@@ -133,7 +134,12 @@ const CreateEdit = () => {
                 />
               </div>
               <div className='field'>
-                <InputMask mask='***-****' type='text' name='board' label='Placa' />
+                <InputMask
+                  mask='***-****'
+                  type='text'
+                  name='board'
+                  label='Placa'
+                />
               </div>
               <Input name='km' label='Km' />
             </div>
@@ -147,11 +153,7 @@ const CreateEdit = () => {
                 />
               </div>
               <div className='field'>
-                <Input
-                  name='value'
-                  type='tel'
-                  label='Valor'
-                />
+                <InputMoney name='value' label='Valor' />
               </div>
             </div>
 

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { Form } from '@rocketseat/unform'
 import { useSelector } from 'react-redux'
-import Input from '../../../../components/Input'
+import Input from '../../../../components/Inputs/Input'
 import SubmitButton from '../../../../components/SubmitButton'
-import FormSearchContainer from '../../../../components/FormSearchContainer'
+import FormSearchContainer from '../../../../components/_layouts/FormSearchContainer'
 
 export default function Search ({ onSearch, provider, setPage }) {
   const profile = useSelector(state => state.user.profile)

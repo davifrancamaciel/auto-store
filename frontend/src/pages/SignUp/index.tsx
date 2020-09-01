@@ -4,7 +4,7 @@ import { Form } from '@unform/web'
 import { Link } from 'react-router-dom'
 import * as Yup from 'yup'
 
-import Input from '../../components/Input'
+import Input from '../../components/Inputs/Input'
 import logo from '../../assets/icone.png'
 import api from '../../services/api'
 import getValidationErrors from '../../Utils/getValidationErrors'

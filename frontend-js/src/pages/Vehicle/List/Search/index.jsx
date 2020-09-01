@@ -1,8 +1,9 @@
 import React from 'react'
 import { Form, Select } from '@rocketseat/unform'
-import Input from '../../../../components/Input'
+import Input from '../../../../components/Inputs/Input'
+import InputMask from '../../../../components/Inputs/InputMask'
 import SubmitButton from '../../../../components/SubmitButton'
-import FormSearchContainer from '../../../../components/FormSearchContainer'
+import FormSearchContainer from '../../../../components/_layouts/FormSearchContainer'
 
 const options = [
   { id: '', title: 'Todos' },
@@ -12,7 +13,7 @@ const options = [
 
 export default function Search ({ onSearch, setPage }) {
   function handleSubmit (data) {
-    onSearch(data)
+    onSearch({ ...data, year: data.year.replace(/\D/g, '') })
     setPage(1)
   }
 
@@ -25,7 +26,9 @@ export default function Search ({ onSearch, setPage }) {
           </div>
           <Input name='brand' label='Marca' />
           <Input name='model' label='Modelo' />
-          <Input name='year' label='Ano' />
+          <div className='field'>
+            <InputMask mask='9999' name='year' type='tel' label='Ano' />
+          </div>
           <div className='field'>
             <SubmitButton text={'Buscar'} />
           </div>

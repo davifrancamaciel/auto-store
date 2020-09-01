@@ -3,7 +3,7 @@ import { useField } from '@rocketseat/unform'
 import {
   formatValueWhithDecimalCaseOnChange,
   formatValueWhithDecimalCase
-} from '../../Utils/formatPrice'
+} from '../../../Utils/formatPrice'
 
 export default function Input ({ name, label, ...rest }) {
   const [numericValue, setNumericValue] = useState()
@@ -32,9 +32,9 @@ export default function Input ({ name, label, ...rest }) {
         {...rest}
         value={numericValue || ''}
         type='tel'
-        onChange={e => {
+        onChange={e =>
           setNumericValue(formatValueWhithDecimalCaseOnChange(e.target.value))
-        }}
+        }
       />
       {error && <span>{error}</span>}
     </>

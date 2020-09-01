@@ -4,7 +4,7 @@ import { FiPlus } from 'react-icons/fi'
 import { parseISO, format } from 'date-fns'
 import pt from 'date-fns/locale/pt'
 
-import Container from '../../../components/Container'
+import Container from '../../../components/_layouts/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
 import LoadMore from '../../../components/LoadMore'
@@ -18,7 +18,7 @@ import getValidationErrors from '../../../Utils/getValidationErrors'
 import showToast from '../../../Utils/showToast'
 import { formatPrice } from '../../../Utils/formatPrice'
 
-import { Main, Ul } from '../../../components/ListContainer/styles'
+import { Main, Ul } from '../../../components/_layouts/ListContainer/styles'
 
 const ExpenseList = function () {
   const [loading, setLoading] = useState(false)

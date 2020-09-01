@@ -1,8 +1,8 @@
 import React from 'react'
 import { Form, Select } from '@rocketseat/unform'
-import Input from '../../../../components/Input'
+import Input from '../../../../components/Inputs/Input'
 import SubmitButton from '../../../../components/SubmitButton'
-import FormSearchContainer from '../../../../components/FormSearchContainer'
+import FormSearchContainer from '../../../../components/_layouts/FormSearchContainer'
 
 const options = [
   { id: '', title: 'Todas' },

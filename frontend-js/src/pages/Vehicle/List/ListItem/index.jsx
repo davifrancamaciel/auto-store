@@ -8,7 +8,7 @@ import {
   InfoStatus,
   ActiveStatus,
   ExpiredStatus
-} from '../../../../components/ListContainer/styles'
+} from '../../../../components/_layouts/ListContainer/styles'
 
 function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
   return (

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { FiPlus } from 'react-icons/fi'
 
-import Container from '../../../components/Container'
+import Container from '../../../components/_layouts/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
 import LoadMore from '../../../components/LoadMore'
@@ -16,7 +16,7 @@ import showToast from '../../../Utils/showToast'
 import ListItem from './ListItem'
 import Search from './Search'
 
-import { Main, Ul } from '../../../components/ListContainer/styles'
+import { Main, Ul } from '../../../components/_layouts/ListContainer/styles'
 
 const UserList = ({ provider }) => {
   const [loading, setLoading] = useState(false)

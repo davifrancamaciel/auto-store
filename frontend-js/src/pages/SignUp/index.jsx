@@ -5,7 +5,7 @@ import { Form, Input } from '@rocketseat/unform'
 
 import { signUpRequest } from '../../store/modules/auth/actions'
 import SubmitButton from '../../components/SubmitButton'
-import InputMask from '../../components/InputMask'
+import InputMask from '../../components/Inputs/InputMask'
 import validation from './validation'
 
 import logo from '../../assets/icone.png'

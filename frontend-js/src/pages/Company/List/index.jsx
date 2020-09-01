@@ -14,7 +14,7 @@ import {
 import pt from 'date-fns/locale/pt'
 import { utcToZonedTime } from 'date-fns-tz'
 
-import Container from '../../../components/Container'
+import Container from '../../../components/_layouts/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
 import LoadMore from '../../../components/LoadMore'
@@ -28,7 +28,7 @@ import getValidationErrors from '../../../Utils/getValidationErrors'
 import getImage from '../../../Utils/getImage'
 import showToast from '../../../Utils/showToast'
 
-import { Main, Ul } from '../../../components/ListContainer/styles'
+import { Main, Ul } from '../../../components/_layouts/ListContainer/styles'
 
 const CompanyList = () => {
   const profile = useSelector(state => state.user.profile)

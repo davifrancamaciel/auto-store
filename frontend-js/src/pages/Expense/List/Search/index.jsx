@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Form, Select } from '@rocketseat/unform'
 import { isBefore } from 'date-fns'
 
-import Input from '../../../../components/Input'
-import Datepicker from '../../../../components/Datepicker'
+import Input from '../../../../components/Inputs/Input'
+import Datepicker from '../../../../components/Inputs/Datepicker'
 import SubmitButton from '../../../../components/SubmitButton'
-import FormSearchContainer from '../../../../components/FormSearchContainer'
+import FormSearchContainer from '../../../../components/_layouts/FormSearchContainer'
 
 import api from '../../../../services/api'
 import getValidationErrors from '../../../../Utils/getValidationErrors'
