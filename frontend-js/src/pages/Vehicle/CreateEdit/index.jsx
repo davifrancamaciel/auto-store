@@ -13,6 +13,7 @@ import Input from '../../../components/Inputs/Input'
 import Datepicker from '../../../components/Inputs/Datepicker'
 import InputMoney from '../../../components/Inputs/InputMoney'
 import InputMask from '../../../components/Inputs/InputMask'
+import InputMilhar from '../../../components/Inputs/InputMilhar'
 import BackPage from '../../../components/BackPage'
 
 import api from '../../../services/api'
@@ -31,6 +32,7 @@ const CreateEdit = () => {
   const [loading, setLoading] = useState(false)
   const [vehicle, setVehicle] = useState({})
   const [inputDate, setInputDate] = useState()
+  const [selectedImages, setSelectedImages] = useState([])
 
   useEffect(() => {
     if (id) {
@@ -60,18 +62,24 @@ const CreateEdit = () => {
   }, [])
 
   async function handleSubmit (data) {
-    console.log(data)
     try {
+      console.log(selectedImages)
       const saveVehicle = {
         ...data,
         id: id ? Number(id) : 0,
         company_id: profile.company_id,
-        year_model: data.year_model ? data.year_model : 0,
-        year: data.year ? data.year : 0,
-        km: data.km ? data.km : 0,
-        amount_oil: data.amount_oil ? data.amount_oil : 0,
+        year_model: data.year_model ? priceToNumber(data.year_model) : 0,
+        year: data.year ? priceToNumber(data.year) : 0,
+        km: data.km ? priceToNumber(data.km) : 0,
+        amount_oil: data.amount_oil ? priceToNumber(data.amount_oil) : 0,
         value: data.value ? priceToNumber(data.value) : 0
       }
+
+      let formData = new FormData()
+      selectedImages.map(({ file, index }) => {
+        formData.append(`file[${index}]`, file)
+      })
+      console.log(formData)
 
       setLoading(true)
 
@@ -101,17 +109,8 @@ const CreateEdit = () => {
         >
           <fieldset>
             <legend>
-              <h2>Imagens do veículo</h2>
-              <BackPage />
-            </legend>
-            {/* <Dropzone
-              onFileSelectedUpload={setSelectedImage}
-              image={company.image}
-            /> */}
-          </fieldset>
-          <fieldset>
-            <legend>
               <h2>Dados</h2>
+              <BackPage />
             </legend>
             <div className='field-group'>
               <Input name='brand' label='Marca' />
@@ -141,7 +140,9 @@ const CreateEdit = () => {
                   label='Placa'
                 />
               </div>
-              <Input name='km' label='Km' />
+              <div className='field'>
+                <InputMilhar name='km' label='Km' />
+              </div>
             </div>
             <div className='field-group'>
               <div className='field'>
@@ -156,8 +157,9 @@ const CreateEdit = () => {
                 <InputMoney name='value' label='Valor' />
               </div>
             </div>
-
-            <Input name='amount_oil' label='Quantidade de óleo' />
+            <div className='field'>
+              <InputMilhar name='amount_oil' label='Quantidade de óleo' />
+            </div>
             <Input multiline name='optional' label='Opicionais' />
             <Input multiline name='description' label='Descrição' />
             <div className='field'>
@@ -191,6 +193,16 @@ const CreateEdit = () => {
                 </label>
               </div>
             </div>
+          </fieldset>
+          <fieldset>
+            <legend>
+              <h2>Imagens do veículo</h2>
+            </legend>
+            <Dropzone
+              onFileSelectedUpload={setSelectedImages}
+              image={vehicle.image}
+              multiple
+            />
           </fieldset>
 
           <SubmitButton loading={loading ? true : false} text={'Salvar'} />

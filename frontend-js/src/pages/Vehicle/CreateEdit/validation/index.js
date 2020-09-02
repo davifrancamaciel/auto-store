@@ -11,7 +11,7 @@ export default function validation () {
     year: Yup.string().optional(),
     year_model: Yup.string(),
     board: Yup.string().max(10, 'Máximo 10 caracteres'),
-    km: Yup.string(),
+    km: Yup.string().max(7, 'Máximo 7 caracteres'),
     value: Yup.string(),
     input_date: Yup.date(),
     description: Yup.string().max(250, 'Máximo 250 caracteres'),

@@ -23,7 +23,7 @@ const UserCreateEdit = () => {
   const [loading, setLoading] = useState(false)
   const [companies, setCompanies] = useState([])
   const profile = useSelector(state => state.user.profile)
-  
+
   useEffect(() => {
     async function loadCompanies () {
       try {
@@ -58,7 +58,6 @@ const UserCreateEdit = () => {
     }
   }, [])
 
- 
   async function handleSubmit (data) {
     console.log(data)
     try {
@@ -69,6 +68,9 @@ const UserCreateEdit = () => {
       }
 
       if (!saveUser.id)
+        saveUser.password = process.env.REACT_APP_PASSWORD_DEFAULT
+
+      if (saveUser.reset)
         saveUser.password = process.env.REACT_APP_PASSWORD_DEFAULT
 
       if (!profile.company_provider) saveUser.company_id = profile.company_id
@@ -94,7 +96,11 @@ const UserCreateEdit = () => {
   return (
     <Container title={`Cadastro de usuários do sistema`}>
       <FormContainer loading={loading}>
-        <Form onSubmit={handleSubmit} initialData={user} schema={validation()}>
+        <Form
+          onSubmit={handleSubmit}
+          initialData={user}
+          schema={validation(profile.company_provider)}
+        >
           <fieldset>
             <legend>
               <h2>Dados</h2>
@@ -124,11 +130,22 @@ const UserCreateEdit = () => {
               </div>
             )}
 
-            <div className='field'>
-              <label className='alt-check'>
-                <Check name='active' />
-                <span>Ativo</span>
-              </label>
+            <div className='field-group'>
+              <div className='field'>
+                <label className='alt-check'>
+                  <Check name='active' />
+                  <span>Ativo</span>
+                </label>
+              </div>
+              <div className='field'>
+                <label className='alt-check'>
+                  <Check name='reset' />
+                  <span>
+                    Restaurar senha para{' '}
+                    {process.env.REACT_APP_PASSWORD_DEFAULT}
+                  </span>
+                </label>
+              </div>
             </div>
           </fieldset>
 
