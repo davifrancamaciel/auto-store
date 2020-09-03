@@ -37,6 +37,18 @@ export const Content = styled.div`
     display: flex;
     align-items: center;
   }
+
+  .as-btn-menu {
+    display: none;
+  }
+  @media (max-width: 720px) {
+    .as-btn-menu {
+      display: initial;
+    }
+    .as-items-menu {
+      display: none;
+    }
+  }
 `
 export const Profile = styled.div`
   display: flex;

@@ -12,6 +12,8 @@ class ExpenseIndexService {
     end_date,
     page,
     company_id,
+    orderBy,
+    sorting,
   }) {
     let whereStatement = {
       company_id,
@@ -40,10 +42,13 @@ class ExpenseIndexService {
         ],
       }
 
+    const orderQuery = orderBy || 'createdAt'
+    const sortngQuery = sorting || 'DESC'
+
     const { count, rows } = await Expense.findAndCountAll({
       where: whereStatement,
       limit: 20,
-      order: [['createdAt', 'DESC']],
+      order: [[orderQuery, sortngQuery]],
       offset: (page - 1) * 20,
       include: [
         {

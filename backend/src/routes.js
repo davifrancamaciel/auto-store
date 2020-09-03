@@ -32,6 +32,8 @@ import validateExpenseUpdate from './app/validators/Expense/update'
 
 import ExpenseTypeController from './app/controllers/ExpenseTypeController'
 
+import FileController from './app/controllers/FileController'
+
 const routes = new Router()
 const upload = multer(multerConfig)
 
@@ -78,18 +80,8 @@ routes.put(
   ProfileController.update
 )
 
-routes.post(
-  '/vehicles',
-  // upload.single('file'),
-  validateVehicleStore,
-  VehicleController.store
-)
-routes.put(
-  '/vehicles',
-  // upload.single('file'),
-  validateVehicleUpdate,
-  VehicleController.update
-)
+routes.post('/vehicles', validateVehicleStore, VehicleController.store)
+routes.put('/vehicles', validateVehicleUpdate, VehicleController.update)
 routes.get('/vehicles', VehicleController.index)
 routes.get('/vehicles/:id', VehicleController.find)
 routes.delete('/vehicles/:id', VehicleController.delete)
@@ -101,4 +93,7 @@ routes.get('/expenses/:id', ExpenseController.find)
 routes.delete('/expenses/:id', ExpenseController.delete)
 
 routes.get('/expenses-types', ExpenseTypeController.index)
+
+routes.post('/files', upload.single('file'), FileController.store)
+
 export default routes

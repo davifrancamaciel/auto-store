@@ -17,6 +17,8 @@ class ExpenseController {
       start_date,
       end_date,
       page = 1,
+      orderBy,
+      sorting
     } = req.query
 
     const { count, rows } = await ExpenseIndexService.run({
@@ -25,6 +27,8 @@ class ExpenseController {
       start_date,
       end_date,
       page,
+      orderBy,
+      sorting,
       company_id: userCompanyId,
     })
 

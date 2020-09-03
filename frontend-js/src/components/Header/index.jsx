@@ -1,23 +1,56 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { AiOutlineShop, AiOutlineCar, AiFillDashboard } from 'react-icons/ai'
+import { FaUsers, FaUsersCog } from 'react-icons/fa'
+import { MdAttachMoney } from 'react-icons/md'
+
+import Drawer from '../Drawer'
 
 import logo from '../../assets/icone.png'
 import getImage from '../../Utils/getImage'
 import { Container, Content, Profile } from './styles'
-import history from '../../services/browserhistory'
 
 const itensMenu = [
-  { path: 'dashboard', label: 'Dashboard', provider: 'false|true' },
-  { path: 'company', label: 'Lojas', provider: 'true' },
-  { path: 'client', label: 'Clientes', provider: 'false' },
-  { path: 'vehicle', label: 'Veículos', provider: 'false' },
-  { path: 'user', label: 'Usuários', provider: 'false|true' },
-  { path: 'expense', label: 'Despesas', provider: 'false' },
+  {
+    path: 'dashboard',
+    label: 'Dashboard',
+    provider: 'false|true',
+    icon: <AiFillDashboard size={26} size={26} />
+  },
+  {
+    path: 'company',
+    label: 'Lojas',
+    provider: 'true',
+    icon: <AiOutlineShop size={26} />
+  },
+  {
+    path: 'client',
+    label: 'Clientes',
+    provider: 'false',
+    icon: <FaUsers size={26} />
+  },
+  {
+    path: 'vehicle',
+    label: 'Veículos',
+    provider: 'false',
+    icon: <AiOutlineCar size={26} />
+  },
+  {
+    path: 'user',
+    label: 'Usuários',
+    provider: 'false|true',
+    icon: <FaUsersCog size={26} />
+  },
+  {
+    path: 'expense',
+    label: 'Despesas',
+    provider: 'false',
+    icon: <MdAttachMoney size={26}/>
+  }
 ]
 
 const Header = () => {
-  const { path } = history.location
   const [itensMenuUser, setItensMenuUser] = useState([])
   const profile = useSelector(state => state.user.profile)
   const profileFormated = {
@@ -28,24 +61,22 @@ const Header = () => {
 
   useEffect(() => {
     setItensMenuUser(
-      itensMenu.filter(i => i.provider.includes(profile.company_provider.toString()))
+      itensMenu.filter(i =>
+        i.provider.includes(profile.company_provider.toString())
+      )
     )
   }, [])
 
-  // useEffect(() => {
-  //   console.log(path)
-  // }, [path])
-
-  // console.log(profile)
   return (
     <Container>
       <Content>
         <nav>
-          <Link to='/dashboard'>
+          <Link to='/dashboard' className={'as-items-menu'}>
             <img src={logo} alt='Gestão flex' />
           </Link>
+          <Drawer itensMenuUser={itensMenuUser} />
           {itensMenuUser.map(i => (
-            <Link key={i.label} to={`/${i.path}`} className={''}>
+            <Link key={i.label} to={`/${i.path}`} className={'as-items-menu'}>
               {i.label}
             </Link>
           ))}

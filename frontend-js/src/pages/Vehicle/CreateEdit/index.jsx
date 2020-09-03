@@ -75,12 +75,7 @@ const CreateEdit = () => {
         value: data.value ? priceToNumber(data.value) : 0
       }
 
-      let formData = new FormData()
-      selectedImages.map(({ file, index }) => {
-        formData.append(`file[${index}]`, file)
-      })
-      console.log(formData)
-
+      
       setLoading(true)
 
       if (saveVehicle.id) {

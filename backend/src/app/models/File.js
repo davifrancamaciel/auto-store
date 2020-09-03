@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize'
 
-class VehicleFiles extends Model {
+class File extends Model {
     static init (sequelize) {
         super.init(
             {
@@ -20,4 +20,4 @@ class VehicleFiles extends Model {
     }
 }
 
-export default VehicleFiles
+export default File

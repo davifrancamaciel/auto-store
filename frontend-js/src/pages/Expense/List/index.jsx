@@ -8,6 +8,7 @@ import Container from '../../../components/_layouts/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
 import LoadMore from '../../../components/LoadMore'
+import Order from '../../../components/Order'
 
 import ListItem from './ListItem'
 import Search from './Search'
@@ -20,6 +21,11 @@ import { formatPrice } from '../../../Utils/formatPrice'
 
 import { Main, Ul } from '../../../components/_layouts/ListContainer/styles'
 
+const orderByOptions = [
+  { value: 'createdAt', label: 'Data de cadastro' },
+  { value: 'value', label: 'Valor' }  
+]
+
 const ExpenseList = function () {
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState()
@@ -27,6 +33,7 @@ const ExpenseList = function () {
   const [expenses, setExpenses] = useState([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
+  const [onChangeOrder, setOnChangeOrder] = useState()
 
   useEffect(() => {
     async function loadExpenses () {
@@ -34,7 +41,7 @@ const ExpenseList = function () {
         setLoading(true)
 
         const response = await api.get('expenses', {
-          params: { ...search, page }
+          params: { ...search, page, ...onChangeOrder }
         })
 
         const data = response.data.rows.map(expense => ({
@@ -60,7 +67,7 @@ const ExpenseList = function () {
     }
 
     loadExpenses()
-  }, [search, page])
+  }, [search, page, onChangeOrder])
 
   async function handleDelete (item) {
     ShowConfirm(
@@ -102,6 +109,7 @@ const ExpenseList = function () {
           <FiPlus size={20} /> Cadastrar
         </Link>
       </span>
+      <Order onChangeOrder={setOnChangeOrder} orderOptions={orderByOptions} setPage={setPage} />
       {noData && <NoData text={`Não há dados para exibir :(`} />}
       <Main>
         <Ul>
