@@ -21,10 +21,7 @@ import { formatPrice } from '../../../Utils/formatPrice'
 
 import { Main, Ul } from '../../../components/_layouts/ListContainer/styles'
 
-const orderByOptions = [
-  { value: 'createdAt', label: 'Data de cadastro' },
-  { value: 'value', label: 'Valor' }  
-]
+const orderByOptions = [{ value: 'value', label: 'Valor' }]
 
 const ExpenseList = function () {
   const [loading, setLoading] = useState(false)
@@ -109,7 +106,11 @@ const ExpenseList = function () {
           <FiPlus size={20} /> Cadastrar
         </Link>
       </span>
-      <Order onChangeOrder={setOnChangeOrder} orderOptions={orderByOptions} setPage={setPage} />
+      <Order
+        onChangeOrder={setOnChangeOrder}
+        orderOptions={orderByOptions}
+        setPage={setPage}
+      />
       {noData && <NoData text={`Não há dados para exibir :(`} />}
       <Main>
         <Ul>

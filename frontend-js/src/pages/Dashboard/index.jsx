@@ -40,12 +40,7 @@ const Dashboard = () => {
       <HeaderContainer>
         <div>
           <span>
-            <h1>Dashboard</h1>
-            {!profile.company_provider && (
-              <Link to={`/company/edit/${profile.company_id}`}>
-                Dados da minha loja
-              </Link>
-            )}
+            <h1>Dashboard</h1>            
           </span>
 
           {!profile.company_provider && loaded && (

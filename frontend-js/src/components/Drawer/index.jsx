@@ -9,6 +9,8 @@ import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
+import IconButton from '@material-ui/core/IconButton';
+
 import { FiMenu } from 'react-icons/fi'
 import history from '../../services/browserhistory'
 
@@ -62,7 +64,7 @@ export default function TemporaryDrawer ({ itensMenuUser }) {
           </ListItem>
         ))}
       </List>
-      <Divider />      
+      <Divider />
     </div>
   )
 
@@ -77,6 +79,12 @@ export default function TemporaryDrawer ({ itensMenuUser }) {
           open={state['left']}
           onClose={toggleDrawer('left', false)}
         >
+          <div className={''}>
+            <IconButton onClick={toggleDrawer('left', true)}>
+              <FiMenu color={'#fff'} size={26} />
+            </IconButton>
+          </div>
+          <Divider />
           {list('left')}
         </Drawer>
       </React.Fragment>

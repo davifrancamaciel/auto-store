@@ -8,6 +8,7 @@ import Container from '../../../components/_layouts/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
 import LoadMore from '../../../components/LoadMore'
+import Order from '../../../components/Order'
 
 import ListItem from './ListItem'
 import Search from './Search'
@@ -21,6 +22,15 @@ import { formatPrice } from '../../../Utils/formatPrice'
 
 import { Main, Ul } from '../../../components/_layouts/ListContainer/styles'
 
+const orderByOptions = [
+  { value: 'value', label: 'Valor' },
+  { value: 'model', label: 'Modelo' },
+  { value: 'brand', label: 'Marca' },
+  { value: 'year', label: 'Ano' },
+  { value: 'input_date', label: 'Data de entrada' },
+  { value: 'km', label: 'Quilometragem' }
+]
+
 const VehicleList = () => {
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState()
@@ -28,6 +38,7 @@ const VehicleList = () => {
   const [vehicles, setVehicles] = useState([])
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
+  const [onChangeOrder, setOnChangeOrder] = useState()
 
   useEffect(() => {
     async function loadvehicles () {
@@ -35,7 +46,7 @@ const VehicleList = () => {
         setLoading(true)
 
         const response = await api.get('vehicles', {
-          params: { ...search, page }
+          params: { ...search, page, ...onChangeOrder }
         })
 
         const data = response.data.rows.map(vehicle => ({
@@ -61,7 +72,7 @@ const VehicleList = () => {
     }
 
     loadvehicles()
-  }, [search, page])
+  }, [search, page, onChangeOrder])
 
   async function handleDelete (item) {
     ShowConfirm('Atenção', `Confirma a remoção do veículo ${item.model}?`, () =>
@@ -101,6 +112,12 @@ const VehicleList = () => {
           <FiPlus size={20} /> Cadastrar
         </Link>
       </span>
+
+      <Order
+        onChangeOrder={setOnChangeOrder}
+        orderOptions={orderByOptions}
+        setPage={setPage}
+      />
 
       {noData && <NoData text={`Não há dados para exibir :(`} />}
       <Main>

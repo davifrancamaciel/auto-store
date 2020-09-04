@@ -7,6 +7,7 @@ import Container from '../../../components/_layouts/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
 import LoadMore from '../../../components/LoadMore'
+import Order from '../../../components/Order'
 
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
@@ -18,14 +19,21 @@ import Search from './Search'
 
 import { Main, Ul } from '../../../components/_layouts/ListContainer/styles'
 
+const orderByOptions = [
+  { value: 'name', label: 'Nome' },
+  // { value: 'city', label: 'Cidade' },
+  // { value: 'district', label: 'Bairro' }
+]
+
 const UserList = ({ provider }) => {
+  const profile = useSelector(state => state.user.profile)
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState()
   const [users, setUsers] = useState([])
   const [noData, setNoData] = useState(false)
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
-  const profile = useSelector(state => state.user.profile)
+  const [onChangeOrder, setOnChangeOrder] = useState()
 
   useEffect(() => {
     setUsers([])
@@ -37,7 +45,8 @@ const UserList = ({ provider }) => {
             ...search,
             provider,
             provider_company: false,
-            page
+            page,
+            ...onChangeOrder
           }
         })
         const usersFormated = response.data.rows.map(user => ({
@@ -58,7 +67,7 @@ const UserList = ({ provider }) => {
     }
 
     loadUsers()
-  }, [provider, search, page])
+  }, [provider, search, page, onChangeOrder])
 
   async function handleDelete (item) {
     ShowConfirm(
@@ -106,6 +115,12 @@ const UserList = ({ provider }) => {
           <FiPlus size={20} /> Cadastrar
         </Link>
       </span>
+
+      <Order
+        onChangeOrder={setOnChangeOrder}
+        orderOptions={orderByOptions}
+        setPage={setPage}
+      />
 
       {noData && <NoData text={`Não há dados para exibir :(`} />}
       <Main>

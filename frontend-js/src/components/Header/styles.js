@@ -69,7 +69,11 @@ export const Profile = styled.div`
       display: block;
       margin-top: 2px;
       font-size: 12px;
-      color: #999;
+      color: #fff;
+      cursor: pointer;
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
   img {
@@ -77,5 +81,9 @@ export const Profile = styled.div`
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
+  }
+
+  .MuiPaper-rounded {
+    border-radius: 2px;
   }
 `

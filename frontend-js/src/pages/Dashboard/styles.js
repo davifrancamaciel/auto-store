@@ -14,11 +14,7 @@ export const HeaderContainer = styled.section`
       justify-content: space-between;
       > h1 {
         color: var(--secondary-color);
-      }
-      > a {
-        font-weight: bold;
-        color: #fff;
-      }
+      }      
     }
 
     > h2 {

@@ -14,7 +14,7 @@ class CompanyController {
         .json({ error: 'Usuário não tem permissão para listar as lojas' })
     }
 
-    const { status, name, email, page = 1 } = req.query
+    const { status, name, email, page = 1, orderBy, sorting } = req.query
 
     let whereStatement = {
       id: {
@@ -35,10 +35,13 @@ class CompanyController {
         [Op.iLike]: `%${email}%`,
       }
 
+    const orderQuery = orderBy || 'createdAt'
+    const sortngQuery = sorting || 'DESC'
+
     const { count, rows } = await Company.findAndCountAll({
       where: whereStatement,
       limit: 20,
-      order: [['createdAt', 'DESC']],
+      order: [[orderQuery, sortngQuery]],
       offset: (page - 1) * 20,
     })
 

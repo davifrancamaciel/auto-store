@@ -1,4 +1,3 @@
-
 import { Op } from 'sequelize'
 
 import Company from '../../models/Company'
@@ -15,6 +14,8 @@ class UserIndexService {
     page,
     userCompanyProvider,
     userCompanyId,
+    orderBy,
+    sorting,
   }) {
     let whereStatementCompany = {}
 
@@ -43,10 +44,13 @@ class UserIndexService {
         [Op.iLike]: `%${email}%`,
       }
 
+    const orderQuery = orderBy || 'createdAt'
+    const sortngQuery = sorting || 'DESC'
+
     const { count, rows } = await User.findAndCountAll({
       where: whereStatement,
       limit: 20,
-      order: [['createdAt', 'DESC']],
+      order: [[orderQuery, sortngQuery]],
       offset: (page - 1) * 20,
       attributes: [
         'id',

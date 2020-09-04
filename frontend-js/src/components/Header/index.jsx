@@ -6,6 +6,7 @@ import { FaUsers, FaUsersCog } from 'react-icons/fa'
 import { MdAttachMoney } from 'react-icons/md'
 
 import Drawer from '../Drawer'
+import ProfileMenu from './ProfileMenu'
 
 import logo from '../../assets/icone.png'
 import getImage from '../../Utils/getImage'
@@ -46,7 +47,7 @@ const itensMenu = [
     path: 'expense',
     label: 'Despesas',
     provider: 'false',
-    icon: <MdAttachMoney size={26}/>
+    icon: <MdAttachMoney size={26} />
   }
 ]
 
@@ -86,7 +87,8 @@ const Header = () => {
           <Profile>
             <div>
               <strong>{profileFormated.name}</strong>
-              <Link to='/profile'>Meu perfil</Link>
+              {/* <Link to='/profile'>Meu perfil</Link> */}
+              <ProfileMenu />
             </div>
             <img src={profileFormated.image} alt={profileFormated.name} />
           </Profile>

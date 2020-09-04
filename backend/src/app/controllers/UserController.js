@@ -22,6 +22,8 @@ class UserController {
       provider_company,
       company_name,
       page = 1,
+      orderBy,
+      sorting,
     } = req.query
 
     const { count, rows } = await UserIndexService.run({
@@ -34,6 +36,8 @@ class UserController {
       page,
       userCompanyProvider,
       userCompanyId,
+      orderBy,
+      sorting,
     })
 
     res.header('X-Total-Count', count)

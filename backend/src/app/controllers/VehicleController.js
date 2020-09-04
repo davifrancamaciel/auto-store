@@ -13,7 +13,7 @@ class VehicleController {
         .json({ error: 'Usuário não tem permissão para listar os veículos' })
     }
 
-    const { status, brand, model, year, page = 1 } = req.query
+    const { status, brand, model, year, page = 1, orderBy, sorting } = req.query
 
     let whereStatement = {
       company_id: userCompanyId,
@@ -31,10 +31,13 @@ class VehicleController {
       }
     if (year) whereStatement.year = year
 
+    const orderQuery = orderBy || 'createdAt'
+    const sortngQuery = sorting || 'DESC'
+
     const { count, rows } = await Vehicle.findAndCountAll({
       where: whereStatement,
       limit: 20,
-      order: [['createdAt', 'DESC']],
+      order: [[orderQuery, sortngQuery]],
       offset: (page - 1) * 20,
     })
 

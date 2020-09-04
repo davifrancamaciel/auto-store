@@ -18,6 +18,7 @@ import Container from '../../../components/_layouts/Container'
 import ShowConfirm from '../../../components/ShowConfirm'
 import NoData from '../../../components/NoData'
 import LoadMore from '../../../components/LoadMore'
+import Order from '../../../components/Order'
 
 import ListItem from './ListItem'
 import Search from './Search'
@@ -30,6 +31,13 @@ import showToast from '../../../Utils/showToast'
 
 import { Main, Ul } from '../../../components/_layouts/ListContainer/styles'
 
+const orderByOptions = [
+  { value: 'expires_at', label: 'Data de expiração' },
+  { value: 'name', label: 'Nome' },
+  { value: 'city', label: 'Cidade' },
+  { value: 'district', label: 'Bairro' }
+]
+
 const CompanyList = () => {
   const profile = useSelector(state => state.user.profile)
 
@@ -39,6 +47,7 @@ const CompanyList = () => {
   const [noData, setNoData] = useState(false)
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
+  const [onChangeOrder, setOnChangeOrder] = useState()
 
   useEffect(() => {
     async function loadCompanies () {
@@ -46,7 +55,7 @@ const CompanyList = () => {
         setLoading(true)
 
         const response = await api.get('companies', {
-          params: { ...search, page }
+          params: { ...search, page, ...onChangeOrder }
         })
 
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -93,7 +102,7 @@ const CompanyList = () => {
     }
 
     loadCompanies()
-  }, [search, page])
+  }, [search, page, onChangeOrder])
 
   async function handleDelete (item) {
     ShowConfirm('Atenção', `Confirma a remoção da loja ${item.name}?`, () =>
@@ -133,7 +142,11 @@ const CompanyList = () => {
           <FiPlus size={20} /> Cadastrar
         </Link>
       </span>
-
+      <Order
+        onChangeOrder={setOnChangeOrder}
+        orderOptions={orderByOptions}
+        setPage={setPage}
+      />
       {noData && <NoData text={`Não há dados para exibir :(`} />}
       <Main>
         <Ul>
