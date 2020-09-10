@@ -143,9 +143,9 @@ class CompanyController {
 
       await company.update({ ...req.body, image })
 
-      const { name, provider, whatsapp, city, uf } = await Company.findByPk(id)
+      const { name, provider, whatsapp, city, state } = await Company.findByPk(id)
 
-      return res.json({ id, name, email, provider, whatsapp, city, uf })
+      return res.json({ id, name, email, provider, whatsapp, city, state })
     } catch (error) {
       if (req.file && req.file.filename) {
         removeFile(req.file.filename)

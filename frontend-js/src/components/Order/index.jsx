@@ -21,7 +21,12 @@ const orderByOptionsDefault = [
   { value: 'createdAt', label: 'Data de cadastro' }
 ]
 
-export default function Order ({ onChangeOrder, orderOptions, setPage }) {
+export default function Order ({
+  onChangeOrder,
+  orderOptions,
+  setPage,
+  provider
+}) {
   const classes = useStyles()
 
   const [sorting, setSorting] = useState('')
@@ -29,11 +34,16 @@ export default function Order ({ onChangeOrder, orderOptions, setPage }) {
   const [orderOptionsList, setOrderOptionsList] = useState([])
 
   useEffect(() => {
+    setSorting('')
+    setOrderBy('')
+  }, [provider])
+
+  useEffect(() => {
     orderOptions &&
       setOrderOptionsList([...orderByOptionsDefault, ...orderOptions])
-  }, [])
+  }, [provider])
 
-  useEffect(() => {    
+  useEffect(() => {
     if (orderBy || sorting) {
       onChangeOrder({
         orderBy,

@@ -9,8 +9,11 @@ import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from '@material-ui/core/IconButton'
 
+import ListSubheader from '@material-ui/core/ListSubheader'
+
+import Collapse from '@material-ui/core/Collapse'
 import { FiMenu } from 'react-icons/fi'
 import history from '../../services/browserhistory'
 
@@ -63,11 +66,18 @@ export default function TemporaryDrawer ({ itensMenuUser }) {
             <ListItemText primary={i.label} />
           </ListItem>
         ))}
+
+        
       </List>
       <Divider />
     </div>
   )
 
+  const [open, setOpen] = React.useState(true)
+
+  const handleClick = () => {
+    setOpen(!open)
+  }
   return (
     <div>
       <React.Fragment>

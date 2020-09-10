@@ -16,9 +16,9 @@ export default function validation () {
       .max(20, 'Máximo 20 caracteres'),
     cpf_cnpj: Yup.string().max(20, 'Máximo 20 caracteres'),
     zip_code: Yup.string().max(9, 'O máximo são 9 caracteres'),
-    uf: Yup.string().max(2, 'O máximo são 2 caracteres'),
+    state: Yup.string().max(2, 'O máximo são 2 caracteres'),
     city: Yup.string().max(100, 'Máximo 100 caracteres'),
-    district: Yup.string().max(100, 'Máximo 100 caracteres'),
+    neighborhood: Yup.string().max(100, 'Máximo 100 caracteres'),
     street: Yup.string().max(250, 'Máximo 250 caracteres'),
     complement: Yup.string().max(100, 'Máximo 100 caracteres'),
   })

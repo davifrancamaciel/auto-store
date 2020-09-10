@@ -45,11 +45,11 @@ module.exports = {
         type: Sequelize.STRING(100),
         allowNull: true,
       },
-      district: {
+      neighborhood: {
         type: Sequelize.STRING(100),
         allowNull: true,
       },
-      uf: {
+      state: {
         type: Sequelize.STRING(2),
         allowNull: true,
       },

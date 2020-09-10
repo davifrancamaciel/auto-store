@@ -19,10 +19,11 @@ import Search from './Search'
 
 import { Main, Ul } from '../../../components/_layouts/ListContainer/styles'
 
-const orderByOptions = [
+const orderByOptionsUser = [{ value: 'name', label: 'Nome' }]
+const orderByOptionsClient = [
   { value: 'name', label: 'Nome' },
-  // { value: 'city', label: 'Cidade' },
-  // { value: 'district', label: 'Bairro' }
+  { value: 'city', label: 'Cidade' },
+  { value: 'neighborhood', label: 'Bairro' }
 ]
 
 const UserList = ({ provider }) => {
@@ -118,8 +119,9 @@ const UserList = ({ provider }) => {
 
       <Order
         onChangeOrder={setOnChangeOrder}
-        orderOptions={orderByOptions}
+        orderOptions={provider ? orderByOptionsUser : orderByOptionsClient}
         setPage={setPage}
+        provider={provider}
       />
 
       {noData && <NoData text={`Não há dados para exibir :(`} />}

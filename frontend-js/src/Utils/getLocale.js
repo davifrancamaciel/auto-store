@@ -18,9 +18,9 @@ export default async function getLocale (zip_code) {
     const { data } = response
 
     return {
-      uf: data.uf,
+      state: data.uf,
       city: data.cidade,
-      district: data.bairro,
+      neighborhood: data.bairro,
       street: `${data.tipo_logradouro} ${data.logradouro}`
     }
   } catch (error) {

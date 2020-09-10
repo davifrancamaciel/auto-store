@@ -30,7 +30,7 @@ function Item ({ item, onDeleteClick, onUpdateClick }) {
         </Actions>
       </header>
       <p>
-        {item.uf} {item.city} {item.district} {item.street}
+        {item.state} {item.city} {item.neighborhood} {item.street}
       </p>
       {item.responsible && <p>Administrador(es) {item.responsible}</p>}
       <p>

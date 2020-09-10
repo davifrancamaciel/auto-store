@@ -160,11 +160,11 @@ const ClientCreateEdit = () => {
                   onChangezip_code={setZipCodeChanged}
                 />
               </div>
-              <Input name='uf' type='text' label='UF' />
+              <Input name='state' type='text' label='UF' />
               <Input name='city' type='text' label='Cidade' />
             </div>
             <div className='field-group'>
-              <Input name='district' type='text' label='Bairro' />
+              <Input name='neighborhood' type='text' label='Bairro' />
               <Input name='street' type='text' label='Logradouro' />
             </div>
             <Input

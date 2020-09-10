@@ -31,7 +31,7 @@ export default async (req, res, next) => {
       city: Yup.string()
         .optional()
         .max(100, 'Máximo 100 caracteres'),
-      uf: Yup.string()
+      state: Yup.string()
         .max(2, 'Máximo 2 caracteres')
         .optional(),
       latitude: Yup.number().optional(),

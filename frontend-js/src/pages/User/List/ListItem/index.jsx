@@ -29,7 +29,7 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
         </Actions>
       </header>
       <p>
-        {item.uf} {item.city} {item.district} {item.street}
+        {item.state} {item.city} {item.neighborhood} {item.street}
       </p>
       <p>{item.company.name}</p>
       <p>

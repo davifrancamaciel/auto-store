@@ -58,6 +58,7 @@ export const Li = styled.li`
     color: #666;
     font-size: 14px;
     text-decoration: none;
+    cursor: pointer;
   }
 
   a:hover {

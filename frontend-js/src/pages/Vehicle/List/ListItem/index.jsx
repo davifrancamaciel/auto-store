@@ -1,6 +1,8 @@
 import React from 'react'
 import { FiEdit, FiDelete } from 'react-icons/fi'
 
+import Options from '../Options'
+
 import {
   Li,
   Info,
@@ -33,12 +35,12 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
           </button>
         </Actions>
       </header>
-      <p>
-        {item.uf} {item.city} {item.district} {item.street}
-      </p>
+      
       <p>
         <span>{item.priceFormated}</span>
+      <Options/>
       </p>
+
 
       <InfoStatus>
         <ActiveStatus active={item.active}>{`${

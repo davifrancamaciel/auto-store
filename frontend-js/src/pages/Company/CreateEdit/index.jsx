@@ -107,9 +107,9 @@ const CompanyCreateEdit = props => {
       formData.append('site', saveCompany.site)
       formData.append('cnpj', saveCompany.cnpj)
       formData.append('zip_code', saveCompany.zip_code)
-      formData.append('uf', saveCompany.uf)
+      formData.append('state', saveCompany.state)
       formData.append('city', saveCompany.city)
-      formData.append('district', saveCompany.district)
+      formData.append('neighborhood', saveCompany.neighborhood)
       formData.append('street', saveCompany.street)
       formData.append('provider', saveCompany.provider)
       formData.append('complement', saveCompany.complement)
@@ -255,11 +255,11 @@ const CompanyCreateEdit = props => {
                   onChangezip_code={setZipCodeChanged}
                 />
               </div>
-              <Input name='uf' type='text' label='UF' />
+              <Input name='state' type='text' label='UF' />
               <Input name='city' type='text' label='Cidade' />
             </div>
             <div className='field-group'>
-              <Input name='district' type='text' label='Bairro' />
+              <Input name='neighborhood' type='text' label='Bairro' />
               <Input name='street' type='text' label='Logradouro' />
             </div>
             <Input

@@ -33,11 +33,11 @@ class RegisterController {
       provider: true,
     };
 
-    const { id, name, email, provider, whatsapp, city, uf } = await User.create(
+    const { id, name, email, provider, whatsapp, city, state } = await User.create(
       newUser
     );
 
-    return res.json({ id, name, email, provider, whatsapp, city, uf });
+    return res.json({ id, name, email, provider, whatsapp, city, state });
   }
 }
 

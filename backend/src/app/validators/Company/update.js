@@ -16,7 +16,7 @@ export default async (req, res, next) => {
       street: Yup.string().optional().max(250,'Máximo 250 caracteres'),
       zip_code: Yup.string().optional().max(20,'Máximo 20 caracteres'),
       city: Yup.string().required().max(100,'Máximo 100 caracteres'),
-      uf: Yup.string()
+      state: Yup.string()
         .max(2,'Máximo 2 caracteres')
         .optional(),
       latitude: Yup.number().optional(),

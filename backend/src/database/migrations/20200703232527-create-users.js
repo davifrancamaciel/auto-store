@@ -40,7 +40,7 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      district: {
+      neighborhood: {
         type: Sequelize.STRING(100),
         allowNull: true,
       },
@@ -50,7 +50,7 @@ module.exports = {
         allowNull: true,
       },
 
-      uf: {
+      state: {
         type: Sequelize.STRING(2),
         allowNull: true,
       },

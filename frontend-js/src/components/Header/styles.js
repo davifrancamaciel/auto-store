@@ -28,6 +28,10 @@ export const Content = styled.div`
       font-weight: bold;
       color: #fff;
       margin-right: 15px;
+      cursor: pointer;
+      &:hover {
+        text-decoration: none;
+      }
     }
     a.active {
       color: var(--secondary-color);

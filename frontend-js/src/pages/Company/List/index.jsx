@@ -35,7 +35,7 @@ const orderByOptions = [
   { value: 'expires_at', label: 'Data de expiração' },
   { value: 'name', label: 'Nome' },
   { value: 'city', label: 'Cidade' },
-  { value: 'district', label: 'Bairro' }
+  { value: 'neighborhood', label: 'Bairro' }
 ]
 
 const CompanyList = () => {

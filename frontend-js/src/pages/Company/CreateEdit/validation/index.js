@@ -18,11 +18,11 @@ export default function validation () {
     site: Yup.string().max(100, 'Máximo 100 caracteres'),
     cnpj: Yup.string().max(20, 'Máximo 20 caracteres'),
     zip_code: Yup.string().max(9, 'O máximo são 9 caracteres'),
-    uf: Yup.string().max(2, 'O máximo são 2 caracteres'),
+    state: Yup.string().max(2, 'O máximo são 2 caracteres'),
     city: Yup.string()
       .required('A cidade é obrigatória')
       .max(100, 'Máximo 100 caracteres'),
-    district: Yup.string()
+    neighborhood: Yup.string()
       .required('O bairro é obrigatório')
       .max(100, 'Máximo 100 caracteres'),
     street: Yup.string().max(250, 'Máximo 250 caracteres'),

@@ -102,7 +102,7 @@ class UserController {
       return res.status(400).json({ error: 'A Loja selecionada não existe' })
     }
 
-    const { id, name, email, provider, whatsapp, city, uf } = await User.create(
+    const { id, name, email, provider, whatsapp, city, state } = await User.create(
       newUser
     )
 
@@ -113,7 +113,7 @@ class UserController {
       provider,
       whatsapp,
       city,
-      uf,
+      state,
       company_id,
     })
   }

@@ -7,6 +7,7 @@ import { MdAttachMoney } from 'react-icons/md'
 
 import Drawer from '../Drawer'
 import ProfileMenu from './ProfileMenu'
+import ContractsMenu from './ContractsMenu'
 
 import logo from '../../assets/icone.png'
 import getImage from '../../Utils/getImage'
@@ -81,6 +82,7 @@ const Header = () => {
               {i.label}
             </Link>
           ))}
+          <ContractsMenu />
         </nav>
         <aside>
           {/* <Notifications /> */}
