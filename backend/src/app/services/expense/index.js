@@ -2,6 +2,7 @@ import { Op } from 'sequelize'
 
 import Expense from '../../models/Expense'
 import ExpenseType from '../../models/ExpenseType'
+import Vehicle from '../../models/Vehicle'
 import { startOfDay, endOfDay, parseISO } from 'date-fns'
 
 class ExpenseIndexService {
@@ -14,10 +15,14 @@ class ExpenseIndexService {
     company_id,
     orderBy,
     sorting,
+    vehicle_id,
+    limit,
   }) {
     let whereStatement = {
       company_id,
     }
+
+    if (vehicle_id) whereStatement.vehicle_id = vehicle_id
 
     if (expense_type_id) whereStatement.expense_type_id = expense_type_id
 
@@ -47,7 +52,7 @@ class ExpenseIndexService {
 
     const { count, rows } = await Expense.findAndCountAll({
       where: whereStatement,
-      limit: 20,
+      limit: limit ? limit : 20,
       order: [[orderQuery, sortngQuery]],
       offset: (page - 1) * 20,
       include: [
@@ -55,6 +60,11 @@ class ExpenseIndexService {
           model: ExpenseType,
           as: 'type',
           attributes: ['name'],
+        },
+        {
+          model: Vehicle,
+          as: 'vehicle',
+          attributes: ['model', 'brand'],
         },
       ],
     })

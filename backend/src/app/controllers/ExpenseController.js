@@ -18,7 +18,9 @@ class ExpenseController {
       end_date,
       page = 1,
       orderBy,
-      sorting
+      sorting,
+      vehicle_id,
+      limit,
     } = req.query
 
     const { count, rows } = await ExpenseIndexService.run({
@@ -30,6 +32,8 @@ class ExpenseController {
       orderBy,
       sorting,
       company_id: userCompanyId,
+      vehicle_id,
+      limit,
     })
 
     res.header('X-Total-Count', count)

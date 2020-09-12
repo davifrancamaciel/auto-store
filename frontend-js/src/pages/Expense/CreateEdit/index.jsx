@@ -54,7 +54,7 @@ const ExpenseCreateEdit = function () {
   }, [])
 
   async function handleSubmit (data) {
-    console.log(data)
+    
     try {
       const saveExpense = {
         ...data,

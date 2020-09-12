@@ -85,6 +85,7 @@ routes.put('/vehicles', validateVehicleUpdate, VehicleController.update)
 routes.get('/vehicles', VehicleController.index)
 routes.get('/vehicles/:id', VehicleController.find)
 routes.delete('/vehicles/:id', VehicleController.delete)
+routes.get('/vehicles-list', VehicleController.list)
 
 routes.post('/expenses', validateExpenseStore, ExpenseController.store)
 routes.put('/expenses', validateExpenseUpdate, ExpenseController.update)

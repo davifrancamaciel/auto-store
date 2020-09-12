@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { FiPlus } from 'react-icons/fi'
 import { parseISO, format } from 'date-fns'
 import pt from 'date-fns/locale/pt'
@@ -24,6 +24,7 @@ import { Main, Ul } from '../../../components/_layouts/ListContainer/styles'
 const orderByOptions = [{ value: 'value', label: 'Valor' }]
 
 const ExpenseList = function () {
+  const { id } = useParams()
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState()
   const [noData, setNoData] = useState(false)
@@ -37,8 +38,10 @@ const ExpenseList = function () {
       try {
         setLoading(true)
 
+        const vehicle_id = id;
+
         const response = await api.get('expenses', {
-          params: { ...search, page, ...onChangeOrder }
+          params: { ...search, page, ...onChangeOrder, vehicle_id }
         })
 
         const data = response.data.rows.map(expense => ({

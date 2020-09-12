@@ -170,6 +170,34 @@ class VehicleController {
 
     return res.json('ok')
   }
+
+  async list (req, res) {
+
+    const { userProvider, userCompanyId } = req
+
+    let whereStatement = {
+      company_id: userCompanyId,
+    }
+
+    const vehicles = await Vehicle.findAll({
+      where: whereStatement,
+      order: [['createdAt', 'desc']],
+      attributes: ['id', 'brand', 'model'],
+    })
+
+    function formatLabel (v) {
+      return v.brand != null ? `${v.brand} ${v.model}` : `${v.model}`
+    }
+
+    const vehiclesFormated = vehicles.map(v => ({
+      id: v.id,
+      title: formatLabel (v),
+      value: v.id,
+      label: formatLabel (v),
+    }))
+
+    return res.json(vehiclesFormated)
+  }
 }
 
 export default new VehicleController()

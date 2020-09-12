@@ -10,13 +10,12 @@ import {
   ExpiredStatus
 } from '../../../../components/_layouts/ListContainer/styles'
 
-function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
+function Item ({ item, onDeleteClick, onUpdateClick }) {
   return (
     <Li>
       <header>
         <Info>
-          <strong>{item.type.name}</strong>
-          <span>{item.valueFormated}</span>
+          <strong>{item.valueFormated}</strong>
         </Info>
         <Actions>
           <button className='edit' onClick={() => onUpdateClick(item.id)}>
@@ -27,11 +26,7 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
           </button>
         </Actions>
       </header>
-      {item.vehicle && (
-        <ResponsiveText>
-          {`${item.vehicle.brand} ${item.vehicle.model}`}{' '}
-        </ResponsiveText>
-      )}
+
       <ResponsiveText>{item.description}</ResponsiveText>
 
       <InfoStatus>

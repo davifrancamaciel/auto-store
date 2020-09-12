@@ -22,6 +22,10 @@ module.exports = {
         onDelete: 'SET NULL',
         allowNull: false,
       },
+      vehicle_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
       description: {
         type: Sequelize.STRING(1000),
         allowNull: false,

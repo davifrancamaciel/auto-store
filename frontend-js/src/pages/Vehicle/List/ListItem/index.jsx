@@ -35,19 +35,18 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
           </button>
         </Actions>
       </header>
-      
+
       <p>
         <span>{item.priceFormated}</span>
-      <Options/>
       </p>
-
 
       <InfoStatus>
         <ActiveStatus active={item.active}>{`${
           item.active ? 'Ativo' : 'Inativo'
         }`}</ActiveStatus>
-        <ExpiredStatus>{item.createdAtFormated}</ExpiredStatus>
+        <Options id={item.id} />
       </InfoStatus>
+      <ExpiredStatus>{item.createdAtFormated}</ExpiredStatus>
     </Li>
   )
 }
