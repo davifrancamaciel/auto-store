@@ -8,6 +8,7 @@ import Container from '../../components/_layouts/Container'
 import getValidationErrors from '../../Utils/getValidationErrors'
 import api from '../../services/api'
 import history from '../../services/browserhistory'
+import { formatPrice } from '../../Utils/formatPrice'
 
 import { ContainerExpenseVehicle } from './styles'
 
@@ -17,11 +18,14 @@ const ExpenseVehicleList = function () {
   const [title, setTitle] = useState()
   const [expense, setExpense] = useState({})
   const [expensesList, setExpensesList] = useState([])
+  const [totalValue, setTotalValue] = useState()
 
   useEffect(() => {
-    console.log(expensesList)
-    console.log(expense)
-  }, [expense, expensesList])
+    const total = expensesList.reduce((totalSum, expense) => {
+      return Number(totalSum) + Number(expense.value)
+    }, 0)
+    setTotalValue(total)
+  }, [expensesList])
 
   useEffect(() => {
     const complement = vehicle.brand
@@ -49,6 +53,7 @@ const ExpenseVehicleList = function () {
 
   return (
     <Container title={title}>
+      <span>Total de despesas {formatPrice(totalValue)}</span>
       <ContainerExpenseVehicle>
         <CreateEdit
           expense={expense}

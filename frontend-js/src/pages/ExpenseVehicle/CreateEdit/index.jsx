@@ -1,14 +1,14 @@
-import React, { useEffect, useState , useRef} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Form } from '@rocketseat/unform'
 import { parseISO, format } from 'date-fns'
 import pt from 'date-fns/locale/pt'
 
-import Input from '../../../components/Inputs/Input'
 import SubmitButton from '../../../components/SubmitButton'
 import FormContainer from '../../../components/_layouts/FormContainer'
 import BackPage from '../../../components/BackPage'
 import InputMoney from '../../../components/Inputs/InputMoney'
+import TextArea from '../../../components/Inputs/TextArea'
 
 import api from '../../../services/api'
 import getValidationErrors from '../../../Utils/getValidationErrors'
@@ -19,26 +19,28 @@ import validation from './validation'
 
 import { ContainerExpenseVehicleForm } from './styles'
 
+const INITIAL_STATE = {
+  id: 0,
+  description: '',
+  value: null
+}
+
 export default function CreateEdit ({
   setExpense,
   expense,
   setExpensesList,
   expensesList
 }) {
-  const formRef = useRef(null);
   const { id } = useParams()
   const vehicle_id = Number(id)
-  const [expenseForm, setExpenseForm] = useState()
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     console.log(expense)
-    setExpenseForm(expense)
   }, [expense])
 
-  async function handleSubmit (data, { reset }) {
+  async function handleSubmit (data) {
     try {
-
       const saveExpense = {
         ...data,
         value: priceToNumber(data.value),
@@ -46,7 +48,7 @@ export default function CreateEdit ({
         expense_type_id: 7,
         vehicle_id
       }
-
+      setExpense(saveExpense)
       setLoading(true)
 
       if (saveExpense.id) {
@@ -63,8 +65,7 @@ export default function CreateEdit ({
           } else return { ...e }
         })
         setExpensesList(expensesUpdated)
-        setExpenseForm({})
-        formRef.current.reset();
+        setExpense(INITIAL_STATE)
       } else {
         const responseNew = await api.post('expenses', saveExpense)
         const newExpense = {
@@ -76,11 +77,12 @@ export default function CreateEdit ({
             { locale: pt }
           )}`
         }
-        setExpensesList([...expensesList, newExpense])
+        setExpensesList([newExpense, ...expensesList])
+        setExpense(INITIAL_STATE)
       }
 
       showToast.success(`Despesa salva com sucesso!`)
-      
+
       setLoading(false)
     } catch (error) {
       getValidationErrors(error)
@@ -92,10 +94,9 @@ export default function CreateEdit ({
     <ContainerExpenseVehicleForm>
       <FormContainer>
         <Form
-        ref={formRef}
           schema={validation()}
           onSubmit={handleSubmit}
-          initialData={expenseForm}
+          initialData={expense}
         >
           <fieldset>
             <legend>
@@ -104,12 +105,12 @@ export default function CreateEdit ({
             </legend>
 
             <div className='field'>
-              <div className='field'>
-                <InputMoney name='value' label='Valor' />
-              </div>
+              <InputMoney name='value' label='Valor' />
             </div>
 
-            <Input multiline name='description' label='Descrição' />
+            <div className='field'>
+              <TextArea name='description' label='Descrição' />
+            </div>
           </fieldset>
 
           <SubmitButton loading={loading ? true : false} text={'Salvar'} />
