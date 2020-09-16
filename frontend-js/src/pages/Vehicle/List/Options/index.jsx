@@ -22,6 +22,12 @@ export default function MenuListComposition ({ id }) {
     setOpen(prevOpen => !prevOpen)
   }
 
+  const handleFiles = id => {
+    history.push(`/vehicle/${id}/files`)
+    setOpen(prevOpen => !prevOpen)
+  }
+
+
   const handleClose = event => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return
@@ -80,7 +86,7 @@ export default function MenuListComposition ({ id }) {
                   id='menu-list-grow'
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={handleClose}>Imagens</MenuItem>
+                  <MenuItem onClick={() => handleFiles(id)}>Imagens</MenuItem>
                   <MenuItem onClick={() => handleExpenses(id)}>
                     Despesas
                   </MenuItem>

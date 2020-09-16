@@ -8,7 +8,6 @@ import { Form, Check } from '@rocketseat/unform'
 import Container from '../../../components/_layouts/Container'
 import SubmitButton from '../../../components/SubmitButton'
 import FormContainer from '../../../components/_layouts/FormContainer'
-import Dropzone from '../../../components/Inputs/Dropzone'
 import Input from '../../../components/Inputs/Input'
 import Datepicker from '../../../components/Inputs/Datepicker'
 import InputMoney from '../../../components/Inputs/InputMoney'
@@ -22,8 +21,6 @@ import getValidationErrors from '../../../Utils/getValidationErrors'
 import { priceToNumber } from '../../../Utils/formatPrice'
 import showToast from '../../../Utils/showToast'
 
-import getImage from '../../../Utils/getImage'
-
 import validation from './validation'
 
 const CreateEdit = () => {
@@ -32,7 +29,7 @@ const CreateEdit = () => {
   const [loading, setLoading] = useState(false)
   const [vehicle, setVehicle] = useState({})
   const [inputDate, setInputDate] = useState()
-  const [selectedImages, setSelectedImages] = useState([])
+  
 
   useEffect(() => {
     if (id) {
@@ -63,7 +60,6 @@ const CreateEdit = () => {
 
   async function handleSubmit (data) {
     try {
-      console.log(selectedImages)
       const saveVehicle = {
         ...data,
         id: id ? Number(id) : 0,
@@ -189,17 +185,7 @@ const CreateEdit = () => {
               </div>
             </div>
           </fieldset>
-          <fieldset>
-            <legend>
-              <h2>Imagens do veículo</h2>
-            </legend>
-            <Dropzone
-              onFileSelectedUpload={setSelectedImages}
-              image={vehicle.image}
-              multiple
-            />
-          </fieldset>
-
+          
           <SubmitButton loading={loading ? true : false} text={'Salvar'} />
         </Form>
       </FormContainer>
