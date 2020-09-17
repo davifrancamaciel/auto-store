@@ -13,11 +13,16 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            path: {
+            sise: {
                 type: Sequelize.STRING,
                 allowNull: false,
-                unique: true,
             },
+            id: {
+              type: Sequelize.INTEGER,
+              allowNull: false,
+              autoIncrement: true,
+              primaryKey: true,
+          },
             created_at: {
                 type: Sequelize.DATE,
                 allowNull: false,

@@ -30,10 +30,6 @@ module.exports = {
         onDelete: 'CASCADE',
         allowNull: false,
       },
-      position: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-      },
 
       created_at: {
         type: Sequelize.DATE,
