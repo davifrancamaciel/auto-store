@@ -1,6 +1,10 @@
+import { Op } from 'sequelize'
+import { startOfMonth, endOfMonth, parseISO } from 'date-fns'
+
 import Company from '../models/Company'
 import User from '../models/User'
 import Vehicle from '../models/Vehicle'
+import Expense from '../models/Expense'
 
 class DashboardController {
   async index (req, res) {
@@ -42,7 +46,21 @@ class DashboardController {
         where: { ...whereStatement, active: false },
       })
 
+      const { count, rows } = await Expense.findAndCountAll({
+        attributes: ['value', 'createdAt'],
+        where: {
+          company_id: userCompanyId,
+          createdAt: {
+            [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
+          },
+        },
+      })
+
       const model = {
+        expenses: {
+          count,
+          rows,
+        },
         company,
         companies: {
           active: companiesActive,

@@ -7,11 +7,13 @@ import {
   AiOutlineCar,
   AiOutlineUsergroupDelete
 } from 'react-icons/ai'
+import { MdAttachMoney } from 'react-icons/md'
 
 import Container from '../../components/_layouts/Container'
 import LineGraph from '../../components/LineGraph'
 import SignatureControl from './SignatureControl'
 import Card from './Card'
+import CardExpense from './CardExpense'
 
 import { CardContainer, HeaderContainer, DashboardContainer } from './styles'
 import getValidationErrors from '../../Utils/getValidationErrors'
@@ -40,7 +42,7 @@ const Dashboard = () => {
       <HeaderContainer>
         <div>
           <span>
-            <h1>Dashboard</h1>            
+            <h1>Dashboard</h1>
           </span>
 
           {!profile.company_provider && loaded && (
@@ -76,10 +78,20 @@ const Dashboard = () => {
               title={'Clientes'}
               icon={<AiOutlineUsergroupDelete size={26} />}
               preposition='o'
-              total
+              total={!!profile.company_provider}
             />
+            {!profile.company_provider && (
+              <CardExpense
+                route={'expense'}
+                loaded={loaded}
+                item={dashboard.expenses}
+                title={'Despesas este mês'}
+                icon={<MdAttachMoney size={26} />}                
+                total
+              />
+            )}
           </CardContainer>
-          <LineGraph className="app_graph" casesType={"cases"} />
+          <LineGraph className='app_graph' casesType={'cases'} />
         </DashboardContainer>
       </Container>
     </>
