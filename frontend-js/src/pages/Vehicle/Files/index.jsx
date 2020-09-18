@@ -52,7 +52,7 @@ const Files = () => {
     if (id) {
       async function loadFiles (id) {
         try {
-          const response = await api.get(`files`)
+          const response = await api.get(`files/${id}`)
 
           setUploadedFiles(
             response.data.map(file => ({
@@ -75,18 +75,19 @@ const Files = () => {
     }
   }, [])
 
-  // useEffect(() => {
-  //   uploadedFiles.forEach(processUpload)
-  // }, [uploadedFiles])
+  useEffect(() => {
+    return () => {
+      console.log('will unmount')
+      uploadedFiles.forEach(file => URL.revokeObjectURL(file.preview))
+    }
+  }, [])
 
+  useEffect(() => {
+    console.log(uploadedFiles)
+  }, [uploadedFiles])
 
-  // fazer a saida do componente
-  // componentWillUnmount(){
-  //   uploadedFiles.forEach(file=>URL.revokeObjectURL(file.preview))
-  // }
-
-  const handleUpload = files => {
-    const uploadedFiles = files.map(file => ({
+  function handleUpload (files) {
+    const uploadedFilesNew = files.map(file => ({
       file,
       id: uniqueId(),
       name: file.name,
@@ -97,42 +98,28 @@ const Files = () => {
       error: false,
       url: null
     }))
+    console.log(uploadedFiles)
 
-    setUploadedFiles([...uploadedFiles, ...uploadedFiles])
+    setUploadedFiles([...uploadedFilesNew, ...uploadedFiles])
 
-    uploadedFiles.forEach(processUpload)
+    uploadedFilesNew.forEach(processUpload)
   }
 
-  const handleDelete = async id => {
-    await api.delete(`files/${id}`)
-
-    setUploadedFiles(uploadedFiles.filter(file => file.id !== id))
-  }
-
-  const updateFile = (id, data) => {
-    setUploadedFiles(
-      uploadedFiles.map(uploadedFiles => {
-        return id === uploadedFiles.id
-          ? {
-              ...uploadedFiles,
-              ...data
-            }
-          : uploadedFiles
-      })
-    )
-  }
-
-  const processUpload = uploadedFile => {
+  function processUpload (uploadedFile) {
     console.log('chamo up')
     const data = new FormData()
     data.append('file', uploadedFile.file, uploadedFile.name)
-    data.append('vehicle_id', vehicle.id)
+    data.append('vehicle_id', id)
 
     api
       .post('files', data, {
+        responseType: 'arraybuffer',
         onDownloadProgress: e => {
-          const progress = Number(Math.round((e.loaded * 100) / e.total))
-          console.log('progresso ',progress)
+          // console.log('progresso e ', e)
+          const progress = Number(
+            Math.round((Number(e.loaded) * 100) / Number(e.total))
+          )
+          // console.log('progresso ', progress)
           updateFile(uploadedFile.id, {
             progress
           })
@@ -150,6 +137,25 @@ const Files = () => {
           error: true
         })
       })
+  }
+
+  function updateFile (id, data) {
+    const uploadedFilesUpdated = uploadedFiles.map(fileUploaded => {
+      return id === fileUploaded.id
+        ? {
+            ...fileUploaded,
+            ...data
+          }
+        : fileUploaded
+    })
+    console.log('updateFile ',uploadedFilesUpdated)
+    setUploadedFiles(uploadedFilesUpdated)
+  }
+
+  async function handleDelete (id) {
+    await api.delete(`files/${id}`)
+
+    setUploadedFiles(uploadedFiles.filter(file => file.id !== id))
   }
 
   return (

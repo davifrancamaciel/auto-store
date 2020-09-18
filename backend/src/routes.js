@@ -95,7 +95,8 @@ routes.delete('/expenses/:id', ExpenseController.delete)
 
 routes.get('/expenses-types', ExpenseTypeController.index)
 
-routes.get('/files', FileController.index)
+routes.get('/files/:id', FileController.index)
 routes.post('/files', upload.single('file'), FileController.store)
+routes.delete('/files/:id', FileController.delete)
 
 export default routes
