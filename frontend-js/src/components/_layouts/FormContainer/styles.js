@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { lighten } from 'polished'
 
 export const Container = styled.div`
   margin: 45px auto;
@@ -23,11 +24,21 @@ export const Container = styled.div`
     margin-bottom: 10px;
     margin-top: 30px;
   }
-
+  legend a {
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    &:hover {
+      color: ${lighten(0.08, '#6c6c80')};
+    }
+  }
   legend h2 {
     font-size: 24px;
     color: var(--secondary-color);
-  }  
+  }
 
   .field-group {
     flex: 1;
@@ -42,20 +53,19 @@ export const Container = styled.div`
     opacity: ${props => (props.loading ? 0.5 : 1)};
   }
 
-  .feld .alt-check{
+  .feld .alt-check {
     display: flex;
     flex-direction: row;
     align-items: center;
   }
-  .field .alt-check span{
+  .field .alt-check span {
     font-size: 14px;
     margin-bottom: -2px;
     color: #6c6c80;
     font-weight: initial;
     margin-left: 5px;
     align-items: baseline;
-
-  }  
+  }
 
   .field span {
     color: var(--secondary-color);
@@ -75,7 +85,7 @@ export const Container = styled.div`
     margin: 0 0 0 8px;
   }
 
-  button[type=submit] {
+  button[type='submit'] {
     width: 260px;
     align-self: flex-end;
     float: right;
@@ -86,10 +96,10 @@ export const Container = styled.div`
     .field-group .field + .field {
       margin-left: 0px;
     }
-    .field-group {      
+    .field-group {
       display: block;
     }
-    button[type=submit] {
+    button[type='submit'] {
       width: 100%;
     }
   }

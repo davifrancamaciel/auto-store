@@ -14,6 +14,7 @@ import InputMoney from '../../../components/Inputs/InputMoney'
 import InputMask from '../../../components/Inputs/InputMask'
 import InputMilhar from '../../../components/Inputs/InputMilhar'
 import BackPage from '../../../components/BackPage'
+import Options from '../List/Options'
 
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
@@ -29,7 +30,6 @@ const CreateEdit = () => {
   const [loading, setLoading] = useState(false)
   const [vehicle, setVehicle] = useState({})
   const [inputDate, setInputDate] = useState()
-  
 
   useEffect(() => {
     if (id) {
@@ -71,7 +71,6 @@ const CreateEdit = () => {
         value: data.value ? priceToNumber(data.value) : 0
       }
 
-      
       setLoading(true)
 
       if (saveVehicle.id) {
@@ -103,6 +102,14 @@ const CreateEdit = () => {
               <h2>Dados</h2>
               <BackPage />
             </legend>
+
+            {id && (
+              <legend>
+                <h2></h2>
+                <Options id={vehicle.id} />
+              </legend>
+            )}
+
             <div className='field-group'>
               <Input name='brand' label='Marca' />
               <Input name='model' label='Modelo' />
@@ -185,7 +192,7 @@ const CreateEdit = () => {
               </div>
             </div>
           </fieldset>
-          
+
           <SubmitButton loading={loading ? true : false} text={'Salvar'} />
         </Form>
       </FormContainer>

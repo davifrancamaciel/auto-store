@@ -31,6 +31,8 @@ class Vehicle extends Model {
 
   static associate (models) {
     this.belongsTo(models.Company, { foreignKey: 'company_id', as: 'company' })
+    // this.hasOne(models.File, { foreignKey: 'vehicle_id', as: 'file' })
+    this.hasMany(models.File, { foreignKey: 'vehicle_id', as: 'files' })
   }
 }
 

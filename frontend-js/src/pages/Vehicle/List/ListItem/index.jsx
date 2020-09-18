@@ -16,7 +16,7 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
   return (
     <Li active={item.active}>
       <header>
-        {/* {provider && <img src={item.image} alt={item.name} />} */}
+        {!!item.files.length && <img src={item.files[0].url} alt={item.name} />}
         <Info>
           <strong>
             {item.brand} {item.model} {item.type}

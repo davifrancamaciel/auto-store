@@ -1,6 +1,9 @@
 import { Op } from 'sequelize'
 
 import Vehicle from '../models/Vehicle'
+import File from '../models/File'
+import Expense from '../models/Expense'
+
 import removeFile from '../utils/removeFile'
 
 class VehicleController {
@@ -39,6 +42,14 @@ class VehicleController {
       limit: 20,
       order: [[orderQuery, sortngQuery]],
       offset: (page - 1) * 20,
+      include: [
+        {
+          model: File,
+          as: 'files',
+          attributes: ['name', 'path', 'url'],
+          limit: 1,
+        },
+      ],
     })
 
     res.header('X-Total-Count', count)
@@ -161,7 +172,15 @@ class VehicleController {
     }
 
     if (vehicle) {
-      removeFile(vehicle.image)
+      const files = await File.findAll({
+        where: { vehicle_id: id },
+      })
+
+      files.map(x => removeFile(x.path))
+
+      await Expense.destroy({
+        where: { vehicle_id: vehicle.id },
+      })
     }
 
     await Vehicle.destroy({
@@ -172,7 +191,6 @@ class VehicleController {
   }
 
   async list (req, res) {
-
     const { userProvider, userCompanyId } = req
 
     let whereStatement = {
@@ -191,9 +209,9 @@ class VehicleController {
 
     const vehiclesFormated = vehicles.map(v => ({
       id: v.id,
-      title: formatLabel (v),
+      title: formatLabel(v),
       value: v.id,
-      label: formatLabel (v),
+      label: formatLabel(v),
     }))
 
     return res.json(vehiclesFormated)

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { Form } from '@rocketseat/unform'
 import { uniqueId } from 'lodash'
 import filesize from 'filesize'
@@ -13,9 +13,8 @@ import BackPage from '../../../components/BackPage'
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
 import getValidationErrors from '../../../Utils/getValidationErrors'
-import showToast from '../../../Utils/showToast'
 
-import getImage from '../../../Utils/getImage'
+let listImages = []
 
 const Files = () => {
   const { id } = useParams()
@@ -39,7 +38,7 @@ const Files = () => {
           setVehicle(response.data)
         } catch (error) {
           getValidationErrors(error)
-          // history.push('/vehicle')
+          history.push('/vehicle')
         }
       }
       loadVehicle(id)
@@ -66,7 +65,7 @@ const Files = () => {
           )
         } catch (error) {
           getValidationErrors(error)
-          // history.push('/vehicle')
+          history.push('/vehicle')
         }
       }
       loadFiles(id)
@@ -83,7 +82,7 @@ const Files = () => {
   }, [])
 
   useEffect(() => {
-    console.log(uploadedFiles)
+    listImages = uploadedFiles
   }, [uploadedFiles])
 
   function handleUpload (files) {
@@ -98,28 +97,23 @@ const Files = () => {
       error: false,
       url: null
     }))
-    console.log(uploadedFiles)
 
-    setUploadedFiles([...uploadedFilesNew, ...uploadedFiles])
+    setUploadedFiles([...uploadedFilesNew, ...listImages])
 
     uploadedFilesNew.forEach(processUpload)
   }
 
   function processUpload (uploadedFile) {
-    console.log('chamo up')
     const data = new FormData()
     data.append('file', uploadedFile.file, uploadedFile.name)
     data.append('vehicle_id', id)
 
     api
       .post('files', data, {
-        responseType: 'arraybuffer',
-        onDownloadProgress: e => {
-          // console.log('progresso e ', e)
+        onUploadProgress: e => {
           const progress = Number(
             Math.round((Number(e.loaded) * 100) / Number(e.total))
           )
-          // console.log('progresso ', progress)
           updateFile(uploadedFile.id, {
             progress
           })
@@ -140,7 +134,7 @@ const Files = () => {
   }
 
   function updateFile (id, data) {
-    const uploadedFilesUpdated = uploadedFiles.map(fileUploaded => {
+    const uploadedFilesUpdated = listImages.map(fileUploaded => {
       return id === fileUploaded.id
         ? {
             ...fileUploaded,
@@ -148,7 +142,6 @@ const Files = () => {
           }
         : fileUploaded
     })
-    console.log('updateFile ',uploadedFilesUpdated)
     setUploadedFiles(uploadedFilesUpdated)
   }
 
@@ -164,7 +157,7 @@ const Files = () => {
         <Form>
           <fieldset>
             <legend>
-              <h2></h2>
+              <Link to={`/vehicle/${id}/expense`}>Despesas</Link>
               <BackPage />
             </legend>
             <Dropzone multiple onUpload={handleUpload} />

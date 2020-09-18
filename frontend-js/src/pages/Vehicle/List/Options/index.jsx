@@ -86,7 +86,7 @@ export default function MenuListComposition ({ id }) {
                   id='menu-list-grow'
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={() => handleFiles(id)}>Imagens</MenuItem>
+                  <MenuItem onClick={() => handleFiles(id)}>Fotos</MenuItem>
                   <MenuItem onClick={() => handleExpenses(id)}>
                     Despesas
                   </MenuItem>

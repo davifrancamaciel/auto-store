@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { Form } from '@rocketseat/unform'
 import { parseISO, format } from 'date-fns'
 import pt from 'date-fns/locale/pt'
@@ -100,7 +100,7 @@ export default function CreateEdit ({
         >
           <fieldset>
             <legend>
-              <h2></h2>
+              <Link to={`/vehicle/${id}/files`}>Fotos</Link>
               <BackPage />
             </legend>
 

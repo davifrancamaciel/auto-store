@@ -1,6 +1,4 @@
 import File from '../models/File'
-
-
 import removeFile from '../utils/removeFile'
 
 class FileController {
@@ -28,7 +26,7 @@ class FileController {
   }
 
   async delete (req, res) {
-    const { userCompanyProvider, userProvider, userCompanyId } = req
+    const { userProvider } = req
 
     if (!userProvider) {
       return res

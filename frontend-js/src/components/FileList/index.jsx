@@ -6,7 +6,6 @@ import { CircularProgressbar } from 'react-circular-progressbar'
 import { Container, FileInfo, Preview } from './styles'
 
 function FileList ({ files, onDelete }) {
-    
   return (
     <Container>
       {files.map(uploadedFile => (
@@ -30,12 +29,13 @@ function FileList ({ files, onDelete }) {
             {!uploadedFile.uploaded && !uploadedFile.error && (
               <CircularProgressbar
                 styles={{
-                  root: { width: 24 },
-                  path: { stroke: '#7159c1' }
+                  root: { width: 50 },
+                  path: { stroke: '#ff8d08' }
                 }}
                 strokeWidth={10}
-                value={uploadedFile.progress}
-                text={`${uploadedFile.progress * 100}%`}
+                value={uploadedFile.progress / 100}
+                maxValue={1}
+                text={`${uploadedFile.progress}%`}
                 maxValue={1}
               />
             )}
@@ -46,14 +46,14 @@ function FileList ({ files, onDelete }) {
                 target='_blank'
                 rel='noopener noreferrer'
               >
-                <MdLink style={{ marginRight: 8 }} size={24} color='#222' />
+                <MdLink style={{ marginRight: 8 }} size={40} color='#222' />
               </a>
             )}
 
             {uploadedFile.uploaded && (
-              <MdCheckCircle size={24} color='#78e5d5' />
+              <MdCheckCircle size={40} color='#78e5d5' />
             )}
-            {uploadedFile.error && <MdError size={24} color='#e57878' />}
+            {uploadedFile.error && <MdError size={40} color='#e57878' />}
           </div>
         </li>
       ))}
