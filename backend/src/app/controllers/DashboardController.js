@@ -15,6 +15,7 @@ class DashboardController {
       let companiesInactive = 0
       let companiesActive = 0
       let company = null
+      let expenses = null
 
       if (!userCompanyProvider) whereStatement.company_id = userCompanyId
 
@@ -30,6 +31,24 @@ class DashboardController {
           where: { id: userCompanyId },
           attributes: ['name', 'expires_at'],
         })
+        const { count, rows } = await Expense.findAndCountAll({
+          attributes: ['value', 'createdAt'],
+          where: {
+            company_id: userCompanyId,
+            createdAt: {
+              [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
+            },
+          },
+        })
+
+        const total = rows.reduce((totalSum, expense) => {
+          return Number(totalSum) + Number(expense.value)
+        }, 0)
+        // const { count, total } = await getExpenses(userCompanyId)
+        expenses = {
+          principal_text: count,
+          secondary_text: total,
+        }
       }
 
       const clientsActive = await User.count({
@@ -46,33 +65,20 @@ class DashboardController {
         where: { ...whereStatement, active: false },
       })
 
-      const { count, rows } = await Expense.findAndCountAll({
-        attributes: ['value', 'createdAt'],
-        where: {
-          company_id: userCompanyId,
-          createdAt: {
-            [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
-          },
-        },
-      })
-
       const model = {
-        expenses: {
-          count,
-          rows,
-        },
+        expenses,
         company,
         companies: {
-          active: companiesActive,
-          inactive: companiesInactive,
+          principal_text: companiesActive + companiesInactive,
+          secondary_text: `${companiesActive} Ativas ${companiesInactive} Inativas`,
         },
         clients: {
-          active: clientsActive,
-          inactive: clientsInactive,
+          principal_text: clientsActive + clientsInactive,
+          secondary_text: `${clientsActive} Ativos ${clientsInactive} Inativos`,
         },
         vehicles: {
-          active: vehiclesActive,
-          inactive: vehiclesInactive,
+          principal_text: vehiclesActive + vehiclesInactive,
+          secondary_text: `${vehiclesActive} Ativos ${vehiclesInactive} Inativos`,
         },
       }
 
@@ -80,6 +86,23 @@ class DashboardController {
     } catch (error) {
       return res.status(500).json({ error: 'Erro interno', error })
     }
+  }
+
+  async getExpenses (company_id) {
+    const { count, rows } = await Expense.findAndCountAll({
+      attributes: ['value', 'createdAt'],
+      where: {
+        company_id,
+        createdAt: {
+          [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
+        },
+      },
+    })
+
+    const total = rows.reduce((totalSum, expense) => {
+      return Number(totalSum) + Number(expense.value)
+    }, 0)
+    return { count, total }
   }
 }
 export default new DashboardController()
