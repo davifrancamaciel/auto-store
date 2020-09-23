@@ -111,12 +111,20 @@ const CreateEdit = () => {
             )}
 
             <div className='field-group'>
-              <Input name='brand' label='Marca' />
-              <Input name='model' label='Modelo' />
+              <div className='field'>
+                <Input name='brand' label='Marca' />
+              </div>
+              <div className='field'>
+                <Input name='model' label='Modelo' />
+              </div>
             </div>
             <div className='field-group'>
-              <Input name='type' label='Tipo' />
-              <Input name='fuel' label='Cobustivel' />
+              <div className='field'>
+                <Input name='type' label='Tipo' />
+              </div>
+              <div className='field'>
+                <Input name='fuel' label='Cobustivel' />
+              </div>
             </div>
             <div className='field-group'>
               <div className='field'>
@@ -158,8 +166,12 @@ const CreateEdit = () => {
             <div className='field'>
               <InputMilhar name='amount_oil' label='Quantidade de óleo' />
             </div>
-            <Input multiline name='optional' label='Opicionais' />
-            <Input multiline name='description' label='Descrição' />
+            <div className='field'>
+              <Input multiline name='optional' label='Opicionais' />
+            </div>
+            <div className='field'>
+              <Input multiline name='description' label='Descrição' />
+            </div>
             <div className='field'>
               <label className='alt-check'>
                 <Check name='active' />

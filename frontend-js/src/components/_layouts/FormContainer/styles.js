@@ -4,7 +4,7 @@ import { lighten } from 'polished'
 export const Container = styled.div`
   margin: 45px auto;
   padding: 64px;
-  max-width: 730px;
+  max-width: ${props => (props.large === true ? '100%' : '730px')};
   background: #fff;
   border-radius: 2px;
   box-shadow: 0 0 14px 0 #00000033;

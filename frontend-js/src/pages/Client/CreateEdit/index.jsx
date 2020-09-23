@@ -22,17 +22,16 @@ const ClientCreateEdit = () => {
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(false)
   const [zipCodeChanged, setZipCodeChanged] = useState('')
-  
+
   const profile = useSelector(state => state.user.profile)
 
   useEffect(() => {
-
     if (profile.company_provider) {
       history.push('/dashboard')
       showToast.error('Usuário sem permissão para acessar lista de clientes.')
-      return;
+      return
     }
-    
+
     if (id) {
       async function loadUser (id) {
         try {
@@ -68,7 +67,6 @@ const ClientCreateEdit = () => {
   }, [zipCodeChanged])
 
   async function handleSubmit (data) {
-    
     try {
       const saveUser = {
         ...data,
@@ -107,10 +105,14 @@ const ClientCreateEdit = () => {
               <h2>Dados</h2>
               <BackPage />
             </legend>
-            <Input name='name' type='text' label='Nome' />
+            <div className='field'>
+              <Input name='name' type='text' label='Nome' />
+            </div>
 
             <div className='field-group'>
-              <Input name='email' type='email' label='Email' />
+              <div className='field'>
+                <Input name='email' type='email' label='Email' />
+              </div>
               <div className='field'>
                 <InputMask
                   mask='999.999.999-99'
@@ -160,22 +162,32 @@ const ClientCreateEdit = () => {
                   onChangezip_code={setZipCodeChanged}
                 />
               </div>
-              <Input name='state' type='text' label='UF' />
-              <Input name='city' type='text' label='Cidade' />
+              <div className='field'>
+                <Input name='state' type='text' label='UF' />
+              </div>
+              <div className='field'>
+                <Input name='city' type='text' label='Cidade' />
+              </div>
             </div>
             <div className='field-group'>
-              <Input name='neighborhood' type='text' label='Bairro' />
-              <Input name='street' type='text' label='Logradouro' />
+              <div className='field'>
+                <Input name='neighborhood' type='text' label='Bairro' />
+              </div>
+              <div className='field'>
+                <Input name='street' type='text' label='Logradouro' />
+              </div>
             </div>
-            <Input
-              name='complement'
-              type='text'
-              label='Complemento'
-              placeholder='Ex.: Nº 0000, fundos etc...'
-            />
+            <div className='field'>
+              <Input
+                name='complement'
+                type='text'
+                label='Complemento'
+                placeholder='Ex.: Nº 0000, fundos etc...'
+              />
+            </div>
           </fieldset>
 
-          {/* <Adress /> */}
+          
 
           <SubmitButton loading={loading ? true : false} text={'Salvar'} />
         </Form>

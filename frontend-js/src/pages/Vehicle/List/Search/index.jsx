@@ -24,8 +24,12 @@ export default function Search ({ onSearch, setPage }) {
           <div className='field'>
             <Select label='Situação' name='status' options={options} />
           </div>
-          <Input name='brand' label='Marca' />
-          <Input name='model' label='Modelo' />
+          <div className='field'>
+            <Input name='brand' label='Marca' />
+          </div>
+          <div className='field'>
+            <Input name='model' label='Modelo' />
+          </div>
           <div className='field'>
             <InputMask mask='9999' name='year' type='tel' label='Ano' />
           </div>

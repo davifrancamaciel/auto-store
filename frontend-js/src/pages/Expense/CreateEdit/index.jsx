@@ -54,7 +54,6 @@ const ExpenseCreateEdit = function () {
   }, [])
 
   async function handleSubmit (data) {
-    
     try {
       const saveExpense = {
         ...data,
@@ -98,13 +97,14 @@ const ExpenseCreateEdit = function () {
               <div className='field'>
                 <Select label='Tipo' name='expense_type_id' options={types} />
               </div>
+
               <div className='field'>
-                <div className='field'>
-                  <InputMoney name='value' label='Valor' />
-                </div>
+                <InputMoney name='value' label='Valor' />
               </div>
             </div>
-            <Input multiline name='description' label='Descrição' />
+            <div className='field'>
+              <Input multiline name='description' label='Descrição' />
+            </div>
           </fieldset>
 
           <SubmitButton loading={loading ? true : false} text={'Salvar'} />

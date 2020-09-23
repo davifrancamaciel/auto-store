@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux'
 import api from '../../services/api'
 
 import Container from '../../components/_layouts/Container'
-import LineGraph from '../../components/LineGraph'
 import SignatureControl from './SignatureControl'
 import CardContainer from './CardContainer'
+import ExpenseLineGraph from './ExpenseLineGraph'
 
 import { HeaderContainer, DashboardContainer } from './styles'
 import getValidationErrors from '../../Utils/getValidationErrors'
@@ -51,7 +51,9 @@ const Dashboard = () => {
             loaded={loaded}
           />
 
-          <LineGraph className='app_graph' casesType={'cases'} />
+          <ExpenseLineGraph className='expense-graph'/>
+          
+
         </DashboardContainer>
       </Container>
     </>

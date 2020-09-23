@@ -88,9 +88,13 @@ function Profile () {
               <legend>
                 <h2>Dados</h2>
               </legend>
-              <Input name='name' label='Nome' />
+              <div className='field'>
+                <Input name='name' label='Nome' />
+              </div>
               <div className='field-group'>
-                <Input name='email' type='email' label='Email' />
+                <div className='field'>
+                  <Input name='email' type='email' label='Email' />
+                </div>
                 <div className='field'>
                   <InputMask
                     mask='(99) 99999-9999'
@@ -106,17 +110,23 @@ function Profile () {
                 <h2>Credenciais</h2>
               </legend>
               <div className='field-group'>
-                <Input
-                  type='password'
-                  name='oldPassword'
-                  label='Sua senha atual'
-                />
-                <Input type='password' name='password' label='Nova senha' />
-                <Input
-                  type='password'
-                  name='confirmPassword'
-                  label='Confirme a nova senha'
-                />
+                <div className='field'>
+                  <Input
+                    type='password'
+                    name='oldPassword'
+                    label='Sua senha atual'
+                  />
+                </div>
+                <div className='field'>
+                  <Input type='password' name='password' label='Nova senha' />
+                </div>
+                <div className='field'>
+                  <Input
+                    type='password'
+                    name='confirmPassword'
+                    label='Confirme a nova senha'
+                  />
+                </div>
               </div>
             </fieldset>
             <fieldset>

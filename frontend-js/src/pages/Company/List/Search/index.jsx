@@ -23,8 +23,12 @@ export default function Search ({ onSearch, setPage }) {
           <div className='field'>
             <Select label='Situação' name='status' options={options} />
           </div>
-          <Input name='name' label='Nome' />
-          <Input name='email' label='Email' />
+          <div className='field'>
+            <Input name='name' label='Nome' />
+          </div>
+          <div className='field'>
+            <Input name='email' label='Email' />
+          </div>
           <div className='field'>
             <SubmitButton text={'Buscar'} />
           </div>

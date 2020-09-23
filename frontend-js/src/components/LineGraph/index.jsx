@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
+import { formatPrice } from '../../Utils/formatPrice'
 
 const options = {
   legend: {
@@ -17,7 +18,7 @@ const options = {
     intersect: false,
     callbacks: {
       label: function (tooltipItem, data) {
-        return numeral(tooltipItem.value).format("+0,0");
+        return formatPrice(tooltipItem.value);
       },
     },
   },
@@ -27,6 +28,7 @@ const options = {
         type: "time",
         time: {
           format: "MM/DD/YY",
+          // format: "DD/MM/YY",
           tooltipFormat: "ll",
         },
       },

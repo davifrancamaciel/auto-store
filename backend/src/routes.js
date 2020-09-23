@@ -34,6 +34,8 @@ import ExpenseTypeController from './app/controllers/ExpenseTypeController'
 
 import FileController from './app/controllers/FileController'
 
+import SaleController from './app/controllers/SaleController'
+
 const routes = new Router()
 const upload = multer(multerConfig)
 
@@ -49,6 +51,7 @@ routes.post('/sessions', validateSessionStore, SessionController.store)
 routes.use(authMiddleware)
 
 routes.get('/dashboard', DashboardController.index)
+routes.get('/dashboard-expenses-graph', DashboardController.getExpensesGraph)
 
 routes.post(
   '/companies',
@@ -98,5 +101,7 @@ routes.get('/expenses-types', ExpenseTypeController.index)
 routes.get('/files/:id', FileController.index)
 routes.post('/files', upload.single('file'), FileController.store)
 routes.delete('/files/:id', FileController.delete)
+
+routes.post('/sales', SaleController.store)
 
 export default routes

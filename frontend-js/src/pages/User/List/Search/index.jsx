@@ -7,10 +7,9 @@ import FormSearchContainer from '../../../../components/_layouts/FormSearchConta
 
 export default function Search ({ onSearch, provider, setPage }) {
   const profile = useSelector(state => state.user.profile)
-  
+
   useEffect(() => {
     console.log('reset form', profile)
-    
   }, [provider])
 
   function handleSubmit (data) {
@@ -23,11 +22,18 @@ export default function Search ({ onSearch, provider, setPage }) {
       <Form onSubmit={handleSubmit}>
         <div className='field-group'>
           {profile.company_provider && (
-            <Input name='company_name' label='Loja' />
+            <div className='field'>
+              <Input name='company_name' label='Loja' />
+            </div>
           )}
 
-          <Input name='name' label='Nome' />
-          <Input name='email' label='Email' />
+          <div className='field'>
+            <Input name='name' label='Nome' />
+          </div>
+          <div className='field'>
+            <Input name='email' label='Email' />
+          </div>
+
           <div className='field'>
             <SubmitButton text={'Buscar'} />
           </div>

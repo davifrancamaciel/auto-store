@@ -1,5 +1,14 @@
-import { Op } from 'sequelize'
-import { startOfMonth, endOfMonth, parseISO } from 'date-fns'
+import sequelize, { Op } from 'sequelize'
+import {
+  startOfMonth,
+  endOfMonth,
+  parseISO,
+  subYears,
+  setMilliseconds,
+  setSeconds,
+  setMinutes,
+  setHours,
+} from 'date-fns'
 
 import Company from '../models/Company'
 import User from '../models/User'
@@ -32,7 +41,7 @@ class DashboardController {
           attributes: ['name', 'expires_at'],
         })
         const { count, rows } = await Expense.findAndCountAll({
-          attributes: ['value', 'createdAt'],
+          attributes: ['value'],
           where: {
             company_id: userCompanyId,
             createdAt: {
@@ -88,21 +97,42 @@ class DashboardController {
     }
   }
 
-  async getExpenses (company_id) {
-    const { count, rows } = await Expense.findAndCountAll({
+  async getExpensesGraph (req, res) {
+    const { userCompanyProvider, userProvider, userCompanyId } = req
+
+    const rows = await Expense.findAll({
       attributes: ['value', 'createdAt'],
+      order: [['createdAt', 'ASC']],
       where: {
-        company_id,
+        company_id: userCompanyId,
         createdAt: {
-          [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
+          [Op.between]: [subYears(new Date(), 1), endOfMonth(new Date())],
         },
       },
     })
 
-    const total = rows.reduce((totalSum, expense) => {
-      return Number(totalSum) + Number(expense.value)
-    }, 0)
-    return { count, total }
+    const expenses = rows.map(expense => {
+      const date = setMilliseconds(
+        setSeconds(setMinutes(setHours(expense.createdAt, 0), 0), 0),
+        0
+      )
+      return {
+        value: expense.value,
+        date,
+      }
+    })
+
+    var result = []
+    expenses.reduce(function (res, value) {
+      if (!res[value.date]) {
+        res[value.date] = { date: value.date, value: 0 }
+        result.push(res[value.date])
+      }
+      res[value.date].value += Number(value.value)
+      return res
+    }, {})
+
+    return res.json(result)
   }
 }
 export default new DashboardController()

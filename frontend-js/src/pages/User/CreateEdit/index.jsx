@@ -106,10 +106,14 @@ const UserCreateEdit = () => {
               <h2>Dados</h2>
               <BackPage />
             </legend>
-            <Input name='name' type='text' label='Nome' />
+            <div className='field'>
+              <Input name='name' type='text' label='Nome' />
+            </div>
 
             <div className='field-group'>
-              <Input name='email' type='email' label='Email' />
+              <div className='field'>
+                <Input name='email' type='email' label='Email' />
+              </div>
               <div className='field'>
                 <InputMask
                   mask='(99) 99999-9999'

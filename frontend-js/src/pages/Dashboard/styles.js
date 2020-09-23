@@ -25,4 +25,12 @@ export const HeaderContainer = styled.section`
 `
 export const DashboardContainer = styled.section`
   margin-top: -120px;
+  .expense-graph {
+    height: 350px;
+
+    h3 {
+      color: #ff8d08;
+      margin-bottom: 20px;
+    }
+  }
 `

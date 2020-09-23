@@ -60,8 +60,10 @@ export default function Search ({ onSearch, setPage }) {
               onChange={setEndDate}
             />
           </div>
-          <Input name='description' label='Descrição' />
-          {/* <Input name='email' label='Email' /> */}
+          <div className='field'>
+            <Input name='description' label='Descrição' />
+          </div>
+          
           <div className='field'>
             <SubmitButton text={'Buscar'} />
           </div>
