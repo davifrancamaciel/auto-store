@@ -13,7 +13,7 @@ import {
 
 function Item ({ item, onDeleteClick, onUpdateClick }) {
   return (
-    <Li active={item.active}>
+    <Li active={item.expired ? !item.expired : item.active}>
       <header>
         <img src={item.image} alt={item.name} />
         <Info>

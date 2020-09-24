@@ -95,7 +95,12 @@ const ExpenseCreateEdit = function () {
 
             <div className='field-group'>
               <div className='field'>
-                <Select label='Tipo' name='expense_type_id' options={types} />
+                <Select
+                  label='Tipo'
+                  name='expense_type_id'
+                  options={types}
+                  isDisabled={expense.vehicle_id ? true : false}
+                />
               </div>
 
               <div className='field'>

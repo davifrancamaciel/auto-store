@@ -7,7 +7,7 @@ export const SelectCustom = styled(Select)`
     > .react-select__value-container {
       > .react-select__placeholder {
         margin-top: 16px;
-        top:51%;
+        top: 51%;
       }
     }
   }
@@ -20,16 +20,18 @@ export const SelectCustom = styled(Select)`
       border-bottom-left-radius: 4px;
       border-top-left-radius: 4px;
       padding: 13px 15px;
+      position: initial;
       > .react-select__single-value {
-        color: #6c6c80;    
+        margin-top: 0%;
+        color: #6c6c80;
       }
       > .react-select__single-value:visited {
-        color: red;    
+        color: red;
       }
       > .react-select__placeholder {
         color: #6c6c80;
-         margin-top: 16px;
-         top:6px;
+        margin-top: 16px;
+        top: 6px;
       }
     }
     > .react-select__indicators {

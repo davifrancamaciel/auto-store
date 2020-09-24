@@ -2,7 +2,6 @@ import sequelize, { Op } from 'sequelize'
 import {
   startOfMonth,
   endOfMonth,
-  parseISO,
   subYears,
   setMilliseconds,
   setSeconds,
@@ -30,10 +29,17 @@ class DashboardController {
 
       if (userCompanyProvider) {
         companiesActive = await Company.count({
-          where: { provider: false, active: true },
+          where: {
+            provider: false,
+            expires_at: {
+              [Op.gte]: new Date(),
+            },
+          },
         })
         companiesInactive = await Company.count({
-          where: { provider: false, active: false },
+          where: { provider: false, expires_at: {
+            [Op.lte]: new Date(),
+          },},
         })
       } else {
         company = await Company.findOne({
@@ -53,7 +59,7 @@ class DashboardController {
         const total = rows.reduce((totalSum, expense) => {
           return Number(totalSum) + Number(expense.value)
         }, 0)
-        // const { count, total } = await getExpenses(userCompanyId)
+
         expenses = {
           principal_text: count,
           secondary_text: total,
@@ -79,15 +85,15 @@ class DashboardController {
         company,
         companies: {
           principal_text: companiesActive + companiesInactive,
-          secondary_text: `${companiesActive} Ativas ${companiesInactive} Inativas`,
+          secondary_text: `${companiesActive} com acesso e ${companiesInactive} sem acesso (expirado)`,
         },
         clients: {
           principal_text: clientsActive + clientsInactive,
-          secondary_text: `${clientsActive} Ativos ${clientsInactive} Inativos`,
+          secondary_text: `${clientsActive} ativos e ${clientsInactive} inativos`,
         },
         vehicles: {
           principal_text: vehiclesActive + vehiclesInactive,
-          secondary_text: `${vehiclesActive} Ativos ${vehiclesInactive} Inativos`,
+          secondary_text: `${vehiclesActive} ativos e ${vehiclesInactive} inativos`,
         },
       }
 
@@ -98,7 +104,7 @@ class DashboardController {
   }
 
   async getExpensesGraph (req, res) {
-    const { userCompanyProvider, userProvider, userCompanyId } = req
+    const { userCompanyId } = req
 
     const rows = await Expense.findAll({
       attributes: ['value', 'createdAt'],
