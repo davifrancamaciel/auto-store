@@ -8,7 +8,7 @@ import SubmitButton from '../../components/SubmitButton'
 import InputMask from '../../components/Inputs/InputMask'
 import validation from './validation'
 
-import logo from '../../assets/icone.png'
+import logo from '../../assets/logo_login.png'
 
 const SignUp = () => {
   const dispatch = useDispatch()
@@ -21,7 +21,6 @@ const SignUp = () => {
   return (
     <>
       <img src={logo} alt='Gestão flex' />
-      <span>GESTÃO FLEX</span>
       <Form schema={validation()} onSubmit={handleSubmit}>
         <Input name='company_name' type='text' placeholder='Nome da loja' />
         <Input name='name' type='text' placeholder='Seu nome completo' />

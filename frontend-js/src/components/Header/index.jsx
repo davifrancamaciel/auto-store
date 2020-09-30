@@ -9,7 +9,7 @@ import Drawer from '../Drawer'
 import ProfileMenu from './ProfileMenu'
 import ContractsMenu from './ContractsMenu'
 
-import logo from '../../assets/icone.png'
+import logo from '../../assets/logo_menu.png'
 import getImage from '../../Utils/getImage'
 import { Container, Content, Profile } from './styles'
 

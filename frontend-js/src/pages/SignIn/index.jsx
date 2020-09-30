@@ -7,7 +7,7 @@ import { Form, Input } from '@rocketseat/unform'
 import { signInRequest } from '../../store/modules/auth/actions'
 import SubmitButton from '../../components/SubmitButton'
 
-import logo from '../../assets/icone.png'
+import logo from '../../assets/logo_login.png'
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -26,7 +26,6 @@ const SignIn = () => {
   return (
     <>
       <img src={logo} alt='Gestão flex' />
-      <span>GESTÃO FLEX</span>
       <Form schema={schema} onSubmit={handleSubmit}>
         <Input name='email' type='email' placeholder='Seu e-mail' />
         <Input name='password' type='password' placeholder='Sua senha' />
