@@ -13,7 +13,13 @@ const options = [
 
 export default function Search ({ onSearch, setPage }) {
   function handleSubmit (data) {
-    onSearch({ ...data, year: data.year.replace(/\D/g, '') })
+    let board = data.board.replace(/_/g, '')
+    console.log(board.length)
+    onSearch({
+      ...data,
+      year: data.year.replace(/\D/g, ''),
+      board: board.length <= 4 ? board.replace(/-/g, '') : board
+    })
     setPage(1)
   }
 
@@ -32,6 +38,9 @@ export default function Search ({ onSearch, setPage }) {
           </div>
           <div className='field'>
             <InputMask mask='9999' name='year' type='tel' label='Ano' />
+          </div>
+          <div className='field'>
+            <InputMask mask='***-****' type='text' name='board' label='Placa' />
           </div>
           <div className='field'>
             <SubmitButton text={'Buscar'} />

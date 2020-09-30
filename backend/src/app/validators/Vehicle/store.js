@@ -18,7 +18,7 @@ export default async (req, res, next) => {
       year: Yup.string().optional(),
       year_model: Yup.string().optional(),
       board: Yup.string()
-        .optional()
+        .required('A Placa é obrigatória')
         .max(10, 'Máximo 10 caracteres'),
       km: Yup.string().optional(),
       input_date: Yup.date().optional(),
@@ -30,7 +30,14 @@ export default async (req, res, next) => {
       optional: Yup.string()
         .optional()
         .max(250, 'Máximo 250 caracteres'),
-      value: Yup.string().optional(),
+      value_sale: Yup.string().optional(),
+      value_purchase: Yup.string().optional(),
+      renavan: Yup.string()
+        .optional()
+        .max(20, 'Máximo 20 caracteres'),
+      color: Yup.string()
+        .optional()
+        .max(50, 'Máximo 50 caracteres'),
       active: Yup.boolean().optional(),
     })
 

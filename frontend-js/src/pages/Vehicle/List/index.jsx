@@ -51,7 +51,7 @@ const VehicleList = () => {
 
         const data = response.data.rows.map(vehicle => ({
           ...vehicle,
-          priceFormated: formatPrice(vehicle.value),
+          priceFormated: formatPrice(vehicle.value_sale),
           createdAtFormated: `Cadastrado ${formatDistance(
             parseISO(vehicle.createdAt),
             new Date(),

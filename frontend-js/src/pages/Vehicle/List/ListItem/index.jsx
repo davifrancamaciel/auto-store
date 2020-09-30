@@ -38,6 +38,7 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
 
       <p>
         <span>{item.priceFormated}</span>
+        <span className='as-to-uppercase'>{item.board}</span>
       </p>
 
       <InfoStatus>

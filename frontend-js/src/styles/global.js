@@ -41,6 +41,10 @@ export default createGlobalStyle`
     button {
         cursor: pointer;
     }
+
+    .as-to-uppercase {
+        text-transform: uppercase;
+    }
         
     .gf-layout-default {
         

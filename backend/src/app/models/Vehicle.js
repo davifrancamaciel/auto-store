@@ -13,7 +13,8 @@ class Vehicle extends Model {
         year_model: Sequelize.INTEGER,
         board: Sequelize.STRING,
         km: Sequelize.DECIMAL,
-        value: Sequelize.DECIMAL,
+        value_sale: Sequelize.DECIMAL,
+        value_purchase: Sequelize.DECIMAL,
         input_date: Sequelize.DATE,
         description: Sequelize.STRING,
         optional: Sequelize.STRING,
@@ -21,6 +22,8 @@ class Vehicle extends Model {
         receipt: Sequelize.BOOLEAN,
         manual: Sequelize.BOOLEAN,
         key_copy: Sequelize.BOOLEAN,
+        color: Sequelize.STRING,
+        renavan: Sequelize.STRING,
         active: Sequelize.BOOLEAN,
       },
       { sequelize }

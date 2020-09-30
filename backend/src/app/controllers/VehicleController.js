@@ -2,7 +2,6 @@ import { Op } from 'sequelize'
 
 import Vehicle from '../models/Vehicle'
 import File from '../models/File'
-import Expense from '../models/Expense'
 
 import removeFile from '../utils/removeFile'
 
@@ -16,7 +15,16 @@ class VehicleController {
         .json({ error: 'Usuário não tem permissão para listar os veículos' })
     }
 
-    const { status, brand, model, year, page = 1, orderBy, sorting } = req.query
+    const {
+      status,
+      brand,
+      board,
+      model,
+      year,
+      page = 1,
+      orderBy,
+      sorting,
+    } = req.query
 
     let whereStatement = {
       company_id: userCompanyId,
@@ -31,6 +39,10 @@ class VehicleController {
     if (model)
       whereStatement.model = {
         [Op.iLike]: `%${model}%`,
+      }
+    if (board)
+      whereStatement.board = {
+        [Op.iLike]: `%${board}%`,
       }
     if (year) whereStatement.year = year
 
@@ -81,11 +93,22 @@ class VehicleController {
   async store (req, res) {
     try {
       const { userCompanyProvider, userProvider, userCompanyId } = req
+      const { board } = req.body
 
       if (!userProvider) {
         return res
           .status(401)
           .json({ error: 'Usuário não tem permissão criar veículos' })
+      }
+
+      const vehicleExist = await Vehicle.findOne({
+        where: { board: board.toUpperCase(), company_id: userCompanyId },
+      })
+
+      if (vehicleExist) {
+        return res.status(400).json({
+          error: `Já existe um veículo com a placa ${board}`,
+        })
       }
 
       const vehicle = await Vehicle.create({
@@ -95,7 +118,10 @@ class VehicleController {
         year: req.body.year ? req.body.year : null,
         km: req.body.km ? req.body.km : null,
         amount_oil: req.body.amount_oil ? req.body.amount_oil : null,
-        value: req.body.value ? req.body.value : null,
+        value_purchase: req.body.value_purchase
+          ? req.body.value_purchase
+          : null,
+        value_sale: req.body.value_sale ? req.body.value_sale : null,
       })
 
       return res.json(vehicle)
@@ -111,7 +137,7 @@ class VehicleController {
 
   async update (req, res) {
     try {
-      const { id } = req.body
+      const { id, board } = req.body
       const { userCompanyProvider, userProvider, userCompanyId } = req
 
       const vehicle = await Vehicle.findByPk(id)
@@ -126,13 +152,26 @@ class VehicleController {
         })
       }
 
+      const vehicleExist = await Vehicle.findOne({
+        where: { board: board.toUpperCase(), company_id: userCompanyId },
+      })
+
+      if (vehicleExist && vehicleExist.id !== id) {
+        return res.status(400).json({
+          error: `Já existe um veículo com a placa ${board}`,
+        })
+      }
+
       await vehicle.update({
         ...req.body,
         year_model: req.body.year_model ? req.body.year_model : null,
         year: req.body.year ? req.body.year : null,
         km: req.body.km ? req.body.km : null,
         amount_oil: req.body.amount_oil ? req.body.amount_oil : null,
-        value: req.body.value ? req.body.value : null,
+        value_purchase: req.body.value_purchase
+          ? req.body.value_purchase
+          : null,
+        value_sale: req.body.value_sale ? req.body.value_sale : null,
       })
 
       const { model } = await Vehicle.findByPk(id)
@@ -178,9 +217,9 @@ class VehicleController {
 
       files.map(x => removeFile(x.path))
 
-      await Expense.destroy({
-        where: { vehicle_id: vehicle.id },
-      })
+      // await Expense.destroy({
+      //   where: { vehicle_id: vehicle.id },
+      // })
     }
 
     await Vehicle.destroy({

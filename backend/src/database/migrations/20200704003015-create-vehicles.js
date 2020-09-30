@@ -79,8 +79,20 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      value: {
+      value_sale: {
         type: Sequelize.DECIMAL,
+        allowNull: true,
+      },
+      value_purchase: {
+        type: Sequelize.DECIMAL,
+        allowNull: true,
+      },
+      renavan: {
+        type: Sequelize.STRING(50),
+        allowNull: true,
+      },
+      color: {
+        type: Sequelize.STRING(50),
         allowNull: true,
       },
       active: {

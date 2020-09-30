@@ -10,9 +10,12 @@ export default function validation () {
     fuel: Yup.string().max(50, 'Máximo 50 caracteres'),
     year: Yup.string().optional(),
     year_model: Yup.string(),
-    board: Yup.string().max(10, 'Máximo 10 caracteres'),
+    board: Yup.string()
+      .required('A Placa é obrigatória')
+      .max(10, 'Máximo 10 caracteres'),
     km: Yup.string().max(7, 'Máximo 7 caracteres'),
-    value: Yup.string(),
+    value_purchase: Yup.string(),
+    value_sale: Yup.string(),
     input_date: Yup.date(),
     description: Yup.string().max(250, 'Máximo 250 caracteres'),
     optional: Yup.string().max(250, 'Máximo 250 caracteres'),
@@ -20,6 +23,8 @@ export default function validation () {
     receipt: Yup.boolean(),
     manual: Yup.boolean(),
     key_copy: Yup.boolean(),
+    color: Yup.string().max(50, 'Máximo 50 caracteres'),
+    renavan: Yup.string().max(20, 'Máximo 20 caracteres'),
     active: Yup.boolean()
   })
 

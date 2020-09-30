@@ -15,6 +15,7 @@ import InputMask from '../../../components/Inputs/InputMask'
 import InputMilhar from '../../../components/Inputs/InputMilhar'
 import BackPage from '../../../components/BackPage'
 import Options from '../List/Options'
+import ProfitExpectation from './ProfitExpectation'
 
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
@@ -30,6 +31,7 @@ const CreateEdit = () => {
   const [loading, setLoading] = useState(false)
   const [vehicle, setVehicle] = useState({})
   const [inputDate, setInputDate] = useState()
+  const [values, setValues] = useState({})
 
   useEffect(() => {
     if (id) {
@@ -68,7 +70,10 @@ const CreateEdit = () => {
         year: data.year ? priceToNumber(data.year) : 0,
         km: data.km ? priceToNumber(data.km) : 0,
         amount_oil: data.amount_oil ? priceToNumber(data.amount_oil) : 0,
-        value: data.value ? priceToNumber(data.value) : 0
+        value_sale: data.value_sale ? priceToNumber(data.value_sale) : 0,
+        value_purchase: data.value_purchase
+          ? priceToNumber(data.value_purchase)
+          : 0
       }
 
       setLoading(true)
@@ -160,11 +165,17 @@ const CreateEdit = () => {
                 />
               </div>
               <div className='field'>
-                <InputMoney name='value' label='Valor' />
+                <InputMilhar name='amount_oil' label='Quantidade de óleo' />
               </div>
             </div>
-            <div className='field'>
-              <InputMilhar name='amount_oil' label='Quantidade de óleo' />
+
+            <div className='field-group'>
+              <div className='field'>
+                <Input name='renavan' label='RENAVAN' />
+              </div>
+              <div className='field'>
+                <Input name='color' label='Cor' />
+              </div>
             </div>
             <div className='field'>
               <Input multiline name='optional' label='Opicionais' />
@@ -172,6 +183,28 @@ const CreateEdit = () => {
             <div className='field'>
               <Input multiline name='description' label='Descrição' />
             </div>
+            <div className='field-group'>
+              <div className='field'>
+                <InputMoney
+                  name='value_purchase'
+                  label='Valor de compra'
+                  onChange={e => {
+                    console.log(e.target.value)
+                    setValues({ ...values, value_purchase: e.target.value })
+                  }}
+                />
+              </div>
+              <div className='field'>
+                <InputMoney
+                  name='value_sale'
+                  label='Valor de venda'
+                  onChange={e =>
+                    setValues({ ...values, value_sale: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+            <ProfitExpectation vehicle={vehicle} values={values} />
             <div className='field'>
               <label className='alt-check'>
                 <Check name='active' />
