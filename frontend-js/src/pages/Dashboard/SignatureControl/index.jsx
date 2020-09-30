@@ -15,6 +15,9 @@ import pt from 'date-fns/locale/pt'
 
 import { signOut } from '../../../store/modules/auth/actions'
 import showToast from '../../../Utils/showToast'
+import addDays from '../../../Utils/addDays'
+
+import { InfoDays } from './styles'
 
 function SignatureControl ({ company }) {
   const dispatch = useDispatch()
@@ -33,16 +36,18 @@ function SignatureControl ({ company }) {
     const compareDate = utcToZonedTime(checkDate, timezone)
     let companyFormatedObj = {
       name: company.name,
+      expireWarning: isBefore(compareDate, addDays(10)),
       expired: isBefore(compareDate, new Date()),
       expiresFormated: `${formatDistance(
         parseISO(company.expires_at),
         new Date(),
         {
-          addSuffix: true,
+          addSuffix: false,
           locale: pt
         }
       )}`
     }
+    console.log(companyFormatedObj)
     setCompanyFormated(companyFormatedObj)
   }, [company])
 
@@ -61,8 +66,10 @@ function SignatureControl ({ company }) {
 
   return (
     <h2>
-      Olá, {companyFormated.name} sua assinatura{' expira '}
-      {companyFormated.expiresFormated}
+      Olá, {companyFormated.name} sua assinatura expira em{' '}
+      <InfoDays expireWarning={companyFormated.expireWarning}>
+        {companyFormated.expiresFormated}
+      </InfoDays>
     </h2>
   )
 }
