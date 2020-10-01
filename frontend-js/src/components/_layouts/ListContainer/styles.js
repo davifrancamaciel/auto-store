@@ -118,7 +118,7 @@ export const Actions = styled.div`
   button.delete {
     margin-right: 5px;
     border: 0;
-    background: #f04d5a;
+    background: var(--danger-color);
     border-radius: 2px;
     padding: 5px 10px;
     font-size: 13px;
@@ -147,8 +147,8 @@ export const InfoStatus = styled.div`
   justify-content: space-between;
 `
 export const ExpiredStatus = styled.span`
-  color: ${props => (props.expired ? '#f04d5a' : ' #666')};
+  color: ${props => (props.expired ? 'var(--danger-color)' : ' #666')};
 `
 export const ActiveStatus = styled.span`
-  color: ${props => (props.active ? 'var(--primary-color)' : '#f04d5a')};
+  color: ${props => (props.active ? 'var(--primary-color)' : 'var(--danger-color)')};
 `

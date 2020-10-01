@@ -59,6 +59,7 @@ export function priceToNumber (v) {
   if (!v) {
     return 0
   }
+  v = v.toString()  
   v = v.split('.').join('')
   v = v.split(',').join('.')
   return Number(v.replace(/[^0-9.]/g, ''))

@@ -10,6 +10,7 @@ export default createGlobalStyle`
         --primary-color: #00a0cb;
         --secondary-color: #ff8d08 ;
         --text-color: #6c6c80;
+        --danger-color: #f04d5a;        
     }
     * {
         margin: 0;

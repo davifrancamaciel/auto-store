@@ -60,6 +60,13 @@ const CreateEdit = () => {
     }
   }, [])
 
+  useEffect(() => {
+    setValues({
+      value_purchase: vehicle.value_purchase,
+      value_sale: vehicle.value_sale
+    })
+  }, [vehicle])
+
   async function handleSubmit (data) {
     try {
       const saveVehicle = {
@@ -96,7 +103,7 @@ const CreateEdit = () => {
 
   return (
     <Container title={'Cadastro de veículos'}>
-      <FormContainer loading={loading}>
+      <FormContainer loading={loading} large>
         <Form
           schema={validation()}
           onSubmit={handleSubmit}
@@ -188,18 +195,23 @@ const CreateEdit = () => {
                 <InputMoney
                   name='value_purchase'
                   label='Valor de compra'
-                  onChange={e => {
-                    console.log(e.target.value)
-                    setValues({ ...values, value_purchase: e.target.value })
-                  }}
+                  onKeyUp={e =>
+                    setValues({
+                      ...values,
+                      value_purchase: priceToNumber(e.target.value)
+                    })
+                  }
                 />
               </div>
               <div className='field'>
                 <InputMoney
                   name='value_sale'
                   label='Valor de venda'
-                  onChange={e =>
-                    setValues({ ...values, value_sale: e.target.value })
+                  onKeyUp={e =>
+                    setValues({
+                      ...values,
+                      value_sale: priceToNumber(e.target.value)
+                    })
                   }
                 />
               </div>
