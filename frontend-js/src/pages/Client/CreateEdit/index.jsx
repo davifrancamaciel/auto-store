@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Form, Check } from '@rocketseat/unform'
 import { useSelector } from 'react-redux'
+import { parseISO } from 'date-fns'
 
 import Container from '../../../components/_layouts/Container'
 import SubmitButton from '../../../components/SubmitButton'
 import FormContainer from '../../../components/_layouts/FormContainer'
 import Input from '../../../components/Inputs/Input'
+import Datepicker from '../../../components/Inputs/Datepicker'
 import InputMask from '../../../components/Inputs/InputMask'
 import BackPage from '../../../components/BackPage'
 
@@ -22,6 +24,7 @@ const ClientCreateEdit = () => {
   const [user, setUser] = useState({})
   const [loading, setLoading] = useState(false)
   const [zipCodeChanged, setZipCodeChanged] = useState('')
+  const [birthDate, setBirthDate] = useState()
 
   const profile = useSelector(state => state.user.profile)
 
@@ -40,6 +43,9 @@ const ClientCreateEdit = () => {
 
           setUser(response.data)
           setLoading(false)
+          if (response.data.birth_date) {
+            setBirthDate(parseISO(response.data.birth_date))
+          }
         } catch (error) {
           setLoading(false)
           getValidationErrors(error)
@@ -114,11 +120,34 @@ const ClientCreateEdit = () => {
                 <Input name='email' type='email' label='Email' />
               </div>
               <div className='field'>
+                <Input name='profession' type='text' label='Profissão' />
+              </div>
+              
+            </div>
+            <div className='field-group'>
+              <div className='field'>
                 <InputMask
                   mask='999.999.999-99'
                   name='cpf_cnpj'
                   type='tel'
                   label='CPF'
+                />
+              </div>
+
+              <div className='field'>
+                <InputMask
+                  mask='99999999999'
+                  name='cnh'
+                  type='tel'
+                  label='CNH'
+                />
+              </div>
+              <div className='field'>
+                <InputMask
+                  mask='99.999.999-9'
+                  name='rg'
+                  type='tel'
+                  label='RG'
                 />
               </div>
             </div>
@@ -137,6 +166,14 @@ const ClientCreateEdit = () => {
                   name='phone'
                   type='tel'
                   label='Telefone'
+                />
+              </div>
+              <div className='field'>
+                <Datepicker
+                  name='birth_date'
+                  label='Data de nascimento'
+                  selected={birthDate}
+                  onChange={setBirthDate}
                 />
               </div>
             </div>
@@ -186,8 +223,6 @@ const ClientCreateEdit = () => {
               />
             </div>
           </fieldset>
-
-          
 
           <SubmitButton loading={loading ? true : false} text={'Salvar'} />
         </Form>

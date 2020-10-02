@@ -35,7 +35,20 @@ module.exports = {
         type: Sequelize.STRING(20),
         allowNull: true,
       },
+      cnh: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+      },
+      rg: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+      },
       email: {
+        type: Sequelize.STRING(100),
+        allowNull: false,
+        unique: true,
+      },
+      profession: {
         type: Sequelize.STRING(100),
         allowNull: false,
         unique: true,
@@ -92,6 +105,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: true,
+      },
+      birth_date: {
+        type: Sequelize.DATE,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,

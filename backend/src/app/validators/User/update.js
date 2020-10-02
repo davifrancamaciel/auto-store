@@ -10,6 +10,9 @@ export default async (req, res, next) => {
         .email()
         .required()
         .max(100, 'Máximo 100 caracteres'),
+      profession: Yup.string()
+        .optional()
+        .max(100, 'Máximo 100 caracteres'),
       whatsapp: Yup.string()
         .required()
         .max(20, 'Máximo 20 caracteres'),
@@ -19,6 +22,13 @@ export default async (req, res, next) => {
       cpf_cnpj: Yup.string()
         .optional()
         .max(20, 'Máximo 20 caracteres'),
+      cnh: Yup.string()
+        .optional()
+        .max(20, 'Máximo 20 caracteres'),
+      rg: Yup.string()
+        .optional()
+        .max(20, 'Máximo 20 caracteres'),
+      birth_date: Yup.date().optional(),
       street: Yup.string()
         .optional()
         .max(250, 'Máximo 250 caracteres'),
