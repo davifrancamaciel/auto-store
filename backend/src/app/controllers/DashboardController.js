@@ -37,9 +37,12 @@ class DashboardController {
           },
         })
         companiesInactive = await Company.count({
-          where: { provider: false, expires_at: {
-            [Op.lte]: new Date(),
-          },},
+          where: {
+            provider: false,
+            expires_at: {
+              [Op.lte]: new Date(),
+            },
+          },
         })
       } else {
         company = await Company.findOne({
@@ -52,6 +55,9 @@ class DashboardController {
             company_id: userCompanyId,
             createdAt: {
               [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
+            },
+            expense_type_id: {
+              [Op.ne]: 7,
             },
           },
         })
@@ -113,6 +119,9 @@ class DashboardController {
         company_id: userCompanyId,
         createdAt: {
           [Op.between]: [subYears(new Date(), 1), endOfMonth(new Date())],
+        },
+        expense_type_id: {
+          [Op.ne]: 7,
         },
       },
     })

@@ -30,9 +30,9 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
           <button className='edit' onClick={() => onUpdateClick(item.id)}>
             <FiEdit size={20} color='#FFFFFF' />
           </button>
-          <button className='delete' onClick={() => onDeleteClick(item)}>
+          {/* <button className='delete' onClick={() => onDeleteClick(item)}>
             <FiDelete size={20} color='#FFFFFF' />
-          </button>
+          </button> */}
         </Actions>
       </header>
 

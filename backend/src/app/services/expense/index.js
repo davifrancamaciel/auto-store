@@ -20,6 +20,9 @@ class ExpenseIndexService {
   }) {
     let whereStatement = {
       company_id,
+      expense_type_id: {
+        [Op.ne]: 7,
+      },
     }
 
     if (vehicle_id) whereStatement.vehicle_id = vehicle_id

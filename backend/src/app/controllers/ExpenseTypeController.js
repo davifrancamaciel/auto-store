@@ -1,3 +1,4 @@
+import { Op } from 'sequelize'
 import ExpenseType from '../models/ExpenseType'
 
 class ExpenseTypeController {
@@ -5,6 +6,11 @@ class ExpenseTypeController {
     const types = await ExpenseType.findAll({
       order: ['name'],
       attributes: ['id', 'name'],
+      where: {
+        id: {
+          [Op.ne]: 7,
+        },
+      },
     })
 
     const typesFormated = types.map(c => ({
