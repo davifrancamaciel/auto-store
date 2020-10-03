@@ -7,8 +7,9 @@ import Vehicle from '../app/models/Vehicle'
 import Expense from '../app/models/Expense'
 import ExpenseType from '../app/models/ExpenseType'
 import File from '../app/models/File'
+import Sale from '../app/models/Sale'
 
-const models = [Company, User, Vehicle, Expense, ExpenseType, File]
+const models = [Company, User, Vehicle, Expense, ExpenseType, File, Sale]
 
 class Database {
   constructor () {

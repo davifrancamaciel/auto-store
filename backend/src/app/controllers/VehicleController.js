@@ -239,11 +239,13 @@ class VehicleController {
     const vehicles = await Vehicle.findAll({
       where: whereStatement,
       order: [['createdAt', 'desc']],
-      attributes: ['id', 'brand', 'model'],
+      attributes: ['id', 'brand', 'model', 'board'],
     })
 
     function formatLabel (v) {
-      return v.brand != null ? `${v.brand} ${v.model}` : `${v.model}`
+      return v.brand != null
+        ? `${v.brand} ${v.model} ${v.board}`
+        : `${v.model} ${v.board}`
     }
 
     const vehiclesFormated = vehicles.map(v => ({

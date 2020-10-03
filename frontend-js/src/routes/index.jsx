@@ -16,6 +16,7 @@ import ExpenseList from '../pages/Expense/List'
 import ExpenseCreateEdit from '../pages/Expense/CreateEdit'
 import ExpenseVehicle from '../pages/ExpenseVehicle'
 import FilesVehicle from '../pages/Vehicle/Files'
+import SaleList from '../pages/Sale/List'
 import SaleCreateEdit from '../pages/Sale/CreateEdit'
 
 import Profile from '../pages/Profile'
@@ -53,7 +54,9 @@ const Routes = () => {
       <Route exact path='/expense/create' component={ExpenseCreateEdit} isPrivate />
       <Route exact path='/expense/edit/:id' component={ExpenseCreateEdit} isPrivate />
 
-      <Route exact path='/sale' component={SaleCreateEdit} isPrivate />
+      <Route exact path='/sale' component={SaleList} isPrivate />
+      <Route exact path='/sale/create' component={SaleCreateEdit} isPrivate />
+      <Route exact path='/sale/edit/:id' component={SaleCreateEdit} isPrivate />
 
 
       <Redirect from='*' to='/' />

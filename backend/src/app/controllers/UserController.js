@@ -195,6 +195,33 @@ class UserController {
 
     return res.json({ message: `${user.name} deletado` })
   }
+
+  async list (req, res) {
+    const { userProvider, userCompanyId } = req
+
+    let whereStatement = {
+      company_id: userCompanyId,
+    }
+
+    const users = await User.findAll({
+      where: whereStatement,
+      order: [['name', 'asc']],
+      attributes: ['id', 'name', 'whatsapp'],
+    })
+
+    function formatLabel (item) {
+      return item.whatsapp != null ? `${item.name} ${item.whatsapp}` : `${item.name}`
+    }
+
+    const usersFormated = users.map(v => ({
+      id: v.id,
+      title: formatLabel(v),
+      value: v.id,
+      label: formatLabel(v),
+    }))
+
+    return res.json(usersFormated)
+  }
 }
 
 export default new UserController()

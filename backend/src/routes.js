@@ -35,6 +35,7 @@ import ExpenseTypeController from './app/controllers/ExpenseTypeController'
 import FileController from './app/controllers/FileController'
 
 import SaleController from './app/controllers/SaleController'
+import validateSaleStore from './app/validators/Sale/store'
 
 const routes = new Router()
 const upload = multer(multerConfig)
@@ -75,6 +76,7 @@ routes.put('/users', validateUserUpdate, UserController.update)
 routes.get('/users', UserController.index)
 routes.get('/users/:id', UserController.find)
 routes.delete('/users/:id', UserController.delete)
+routes.get('/users-list', UserController.list)
 
 routes.put(
   '/profile',
@@ -102,6 +104,10 @@ routes.get('/files/:id', FileController.index)
 routes.post('/files', upload.single('file'), FileController.store)
 routes.delete('/files/:id', FileController.delete)
 
-routes.post('/sales', SaleController.store)
+routes.get('/sales', SaleController.index)
+routes.get('/sales/:id', SaleController.find)
+routes.post('/sales', validateSaleStore, SaleController.store)
+routes.put('/sales', validateSaleStore, SaleController.update)
+routes.delete('/sales/:id', SaleController.delete)
 
 export default routes
