@@ -12,7 +12,9 @@ export default function validation () {
     input_value_description: Yup.string().optional(),
     vehicle_input_value: Yup.string().optional(),
     vehicle_input_value_description: Yup.string().optional(),
-    sale_date: Yup.string().optional(),
+    sale_date: Yup.date()
+      .required('A data é obrigatória')
+      .typeError('A data é obrigatória'),
     origin: Yup.string().optional(),
     last_crlv: Yup.string().optional(),
     paid_out_ipva: Yup.string().optional(),
@@ -25,7 +27,9 @@ export default function validation () {
     there_anything: Yup.string().optional(),
     discounted_sale_value: Yup.string().optional(),
     not_discounted_sale_value: Yup.string().optional(),
-    additional_note: Yup.string().optional().max(1000, 'Máximo 1000 caracteres')
+    additional_note: Yup.string()
+      .optional()
+      .max(1000, 'Máximo 1000 caracteres')
   })
 
   return schema

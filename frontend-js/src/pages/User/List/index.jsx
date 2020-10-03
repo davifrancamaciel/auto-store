@@ -56,10 +56,11 @@ const UserList = ({ provider }) => {
         }))
 
         if (page > 1) setUsers([...users, ...usersFormated])
-        else setUsers(usersFormated)
-
+        else {
+          setUsers(usersFormated)
+        }
+        setNoData(response.data.rows.length == 0)
         setTotal(response.data.count)
-        setNoData(usersFormated.length == 0)
         setLoading(false)
       } catch (error) {
         setLoading(false)

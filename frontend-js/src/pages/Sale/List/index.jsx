@@ -21,7 +21,10 @@ import { formatPrice } from '../../../Utils/formatPrice'
 
 import { Main, Ul } from '../../../components/_layouts/ListContainer/styles'
 
-const orderByOptions = [{ value: 'value', label: 'Valor' }]
+const orderByOptions = [
+  { value: 'sale_date', label: 'Data da venda' },
+  { value: 'value', label: 'Valor' },
+]
 
 const SaleList = function () {
   const { id } = useParams()
@@ -52,12 +55,14 @@ const SaleList = function () {
 
           return {
             ...sale,
-            valueFormated: formatPrice(totalVaule),
-            saleDateFormated: `Realizada no dia ${format(
-              parseISO(sale.createdAt),
-              "d 'de' MMMM",
-              { locale: pt }
-            )}`,
+            valueFormated: formatPrice(sale.value),
+            saleDateFormated: sale.sale_date
+              ? `Realizada no dia ${format(
+                  parseISO(sale.sale_date),
+                  "d 'de' MMMM",
+                  { locale: pt }
+                )}`
+              : '',
             createdAtFormated: `Cadastrada no dia ${format(
               parseISO(sale.createdAt),
               "d 'de' MMMM",
@@ -72,7 +77,7 @@ const SaleList = function () {
         setTotal(response.data.count)
         setNoData(data.length == 0)
         setLoading(false)
-      } catch (error) {
+      } catch (error) {        
         setLoading(false)
         getValidationErrors(error)
       }

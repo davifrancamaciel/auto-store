@@ -1,39 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { Form, Select } from '@rocketseat/unform'
+import React, { useState } from 'react'
+import { Form } from '@rocketseat/unform'
 import { isBefore } from 'date-fns'
 
 import Input from '../../../../components/Inputs/Input'
+import InputMask from '../../../../components/Inputs/InputMask'
 import Datepicker from '../../../../components/Inputs/Datepicker'
 import SubmitButton from '../../../../components/SubmitButton'
 import FormSearchContainer from '../../../../components/_layouts/FormSearchContainer'
 
-import api from '../../../../services/api'
-import getValidationErrors from '../../../../Utils/getValidationErrors'
 import showToast from '../../../../Utils/showToast'
 
 export default function Search ({ onSearch, setPage }) {
-  const [options, setOptions] = useState([])
   const [startDate, setStartDate] = useState()
   const [endDate, setEndDate] = useState()
-
-  useEffect(() => {
-    async function loadExpensesTypes () {
-      try {
-        const response = await api.get('expenses-types')
-        setOptions(response.data)
-      } catch (error) {
-        getValidationErrors(error)
-      }
-    }
-    loadExpensesTypes()
-  }, [])
 
   function handleSubmit (data) {
     if (isBefore(endDate, startDate)) {
       showToast.error('A data inicial não pode ser maior que a final.')
       return
     }
-    onSearch(data)
+    let board = data.vehicle_board.replace(/_/g, '')
+    onSearch({
+      ...data,
+      vehicle_board: board.length <= 4 ? board.replace(/-/g, '') : board
+    })
     setPage(1)
   }
 
@@ -41,9 +31,6 @@ export default function Search ({ onSearch, setPage }) {
     <FormSearchContainer>
       <Form onSubmit={handleSubmit}>
         <div className='field-group'>
-          <div className='field'>
-            <Select label='Tipo' name='expense_type_id' options={options} />
-          </div>
           <div className='field'>
             <Datepicker
               name='start_date'
@@ -61,9 +48,14 @@ export default function Search ({ onSearch, setPage }) {
             />
           </div>
           <div className='field'>
-            <Input name='description' label='Descrição' />
+            <Input name='user_name' label='Cliente' />
           </div>
-          
+          <div className='field'>
+            <Input name='vehicle_model' label='Veículo' />
+          </div>
+          <div className='field'>
+            <InputMask mask='***-****' type='text' name='vehicle_board' label='Placa' />
+          </div>
           <div className='field'>
             <SubmitButton text={'Buscar'} />
           </div>

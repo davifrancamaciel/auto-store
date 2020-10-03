@@ -16,7 +16,7 @@ export default function validation () {
     km: Yup.string().max(7, 'Máximo 7 caracteres'),
     value_purchase: Yup.string(),
     value_sale: Yup.string(),
-    input_date: Yup.date(),
+    input_date: Yup.date().typeError('A data é obrigatória'),
     description: Yup.string().max(250, 'Máximo 250 caracteres'),
     optional: Yup.string().max(250, 'Máximo 250 caracteres'),
     amount_oil: Yup.string(),

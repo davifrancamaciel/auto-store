@@ -87,17 +87,44 @@ class SaleController {
 
   async store (req, res) {
     try {
-      const { userProvider, userCompanyId } = req
+      const { userProvider, userCompanyId, userCompanyProvider } = req
+      const { vehicle_id, user_id } = req.body
 
       if (!userProvider) {
         return res
           .status(401)
           .json({ error: 'Usuário não tem permissão criar vendas' })
       }
+      const vehicle = await Vehicle.findByPk(vehicle_id)
+
+      if (!vehicle) {
+        return res.status(400).json({ error: 'Veículo não encontrado' })
+      }
+
+      if (!userCompanyProvider && userCompanyId !== vehicle.company_id) {
+        return res.status(401).json({
+          error: 'Você não possui permissão para vender este veículo',
+        })
+      }
+
+      const user = await User.findByPk(user_id)
+
+      if (!userCompanyProvider && userCompanyId !== user.company_id) {
+        return res.status(401).json({
+          error:
+            'Você não possui permissão para vender vender para este cliente',
+        })
+      }
 
       const sale = await Sale.create({
         ...req.body,
         company_id: userCompanyId,
+      })
+
+      await vehicle.update({
+        id: vehicle_id,
+        value_sale: sale.value,
+        active: false,
       })
 
       return res.json(sale)
@@ -110,10 +137,11 @@ class SaleController {
 
   async update (req, res) {
     try {
-      const { id } = req.body
-      const { userCompanyProvider, userCompanyId } = req
+      const { id, vehicle_id, user_id } = req.body
+      const { userProvider, userCompanyId, userCompanyProvider } = req
 
       const sale = await Sale.findByPk(id)
+
 
       if (!sale) {
         return res.status(400).json({ error: 'Venda não encontrada' })
@@ -125,12 +153,48 @@ class SaleController {
         })
       }
 
+      const vehiclePreviousId = sale.vehicle_id
+      const vehicle = await Vehicle.findByPk(vehicle_id)
+
+      if (!vehicle) {
+        return res.status(400).json({ error: 'Veículo não encontrado' })
+      }
+
+      if (!userCompanyProvider && userCompanyId !== vehicle.company_id) {
+        return res.status(401).json({
+          error: 'Você não possui permissão para vender este veículo',
+        })
+      }
+
+      const user = await User.findByPk(user_id)
+
+      if (!userCompanyProvider && userCompanyId !== user.company_id) {
+        return res.status(401).json({
+          error:
+            'Você não possui permissão para vender vender para este cliente',
+        })
+      }
+
       await sale.update({
         ...req.body,
         company_id: userCompanyId,
       })
 
       const saleEdited = await Sale.findByPk(id)
+
+      await vehicle.update({
+        id: vehicle_id,
+        value_sale: sale.value,
+        active: false,
+      })
+
+      if (vehicle_id !== vehiclePreviousId) {
+        const vehiclePrevious = await Vehicle.findByPk(vehiclePreviousId)
+        await vehiclePrevious.update({
+          id: vehiclePreviousId,
+          active: true,
+        })
+      }
 
       return res.json(saleEdited)
     } catch (error) {

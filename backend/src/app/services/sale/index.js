@@ -17,8 +17,13 @@ class SaleIndexService {
       sorting,
       vehicle_id,
       limit,
+      user_name,
+      vehicle_model,
+      vehicle_board,
     } = query
 
+    let whereStatementUser = {}
+    let whereStatementVehicle = {}
     let whereStatement = {
       company_id,
     }
@@ -27,21 +32,29 @@ class SaleIndexService {
 
     if (user_id) whereStatement.user_id = user_id
 
-    if (description)
-      whereStatement.description = {
-        [Op.iLike]: `%${description}%`,
+    if (vehicle_model)
+      whereStatementVehicle.model = {
+        [Op.iLike]: `%${vehicle_model}%`,
+      }
+    if (vehicle_board)
+      whereStatementVehicle.board = {
+        [Op.iLike]: `%${vehicle_board}%`,
+      }
+    if (user_name)
+      whereStatementUser.name = {
+        [Op.iLike]: `%${user_name}%`,
       }
 
     if (start_date)
-      whereStatement.createdAt = {
+      whereStatement.sale_date = {
         [Op.gte]: startOfDay(parseISO(start_date)),
       }
     if (end_date)
-      whereStatement.createdAt = {
+      whereStatement.sale_date = {
         [Op.lte]: endOfDay(parseISO(end_date)),
       }
     if (start_date && end_date)
-      whereStatement.createdAt = {
+      whereStatement.sale_date = {
         [Op.between]: [
           startOfDay(parseISO(start_date)),
           endOfDay(parseISO(end_date)),
@@ -61,11 +74,13 @@ class SaleIndexService {
           model: User,
           as: 'user',
           attributes: ['name'],
+          where: whereStatementUser,
         },
         {
           model: Vehicle,
           as: 'vehicle',
-          attributes: ['model', 'brand'],
+          attributes: ['model', 'brand', 'board'],
+          where: whereStatementVehicle,
         },
       ],
     })

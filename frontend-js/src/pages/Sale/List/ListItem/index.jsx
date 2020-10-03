@@ -16,7 +16,8 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
       <header>
         <Info>
           <strong>
-            {item.vehicle.brand} {item.vehicle.model}
+            {item.vehicle.brand} {item.vehicle.model}{' '}
+            <span className='as-to-uppercase'>{item.vehicle.board}</span>
           </strong>
           <span>{item.valueFormated}</span>
         </Info>
@@ -31,8 +32,6 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
       </header>
 
       <ResponsiveText>{item.user.name}</ResponsiveText>
-
-      <ResponsiveText>{item.description}</ResponsiveText>
 
       <InfoStatus>
         <ExpiredStatus>{item.createdAtFormated}</ExpiredStatus>

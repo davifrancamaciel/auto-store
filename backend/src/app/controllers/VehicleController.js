@@ -231,10 +231,12 @@ class VehicleController {
 
   async list (req, res) {
     const { userProvider, userCompanyId } = req
-
+    const { active } = req.query
     let whereStatement = {
       company_id: userCompanyId,
     }
+
+    if (active !== '' && active !== undefined) whereStatement.active = active
 
     const vehicles = await Vehicle.findAll({
       where: whereStatement,

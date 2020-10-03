@@ -102,9 +102,15 @@ class UserController {
       return res.status(400).json({ error: 'A Loja selecionada não existe' })
     }
 
-    const { id, name, email, provider, whatsapp, city, state } = await User.create(
-      newUser
-    )
+    const {
+      id,
+      name,
+      email,
+      provider,
+      whatsapp,
+      city,
+      state,
+    } = await User.create(newUser)
 
     return res.json({
       id,
@@ -201,6 +207,7 @@ class UserController {
 
     let whereStatement = {
       company_id: userCompanyId,
+      provider: false,
     }
 
     const users = await User.findAll({
@@ -210,7 +217,9 @@ class UserController {
     })
 
     function formatLabel (item) {
-      return item.whatsapp != null ? `${item.name} ${item.whatsapp}` : `${item.name}`
+      return item.whatsapp != null
+        ? `${item.name} ${item.whatsapp}`
+        : `${item.name}`
     }
 
     const usersFormated = users.map(v => ({

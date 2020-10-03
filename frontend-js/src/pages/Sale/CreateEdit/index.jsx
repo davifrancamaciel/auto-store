@@ -41,8 +41,8 @@ const SaleCreateEdit = () => {
 
           setSale(response.data)
           setLoading(false)
-          if (response.data.input_date) {
-            setSaleDate(parseISO(response.data.input_date))
+          if (response.data.sale_date) {
+            setSaleDate(parseISO(response.data.sale_date))
           }
         } catch (error) {
           setLoading(false)
@@ -59,7 +59,12 @@ const SaleCreateEdit = () => {
 
     async function loadVehicles () {
       try {
-        const response = await api.get('vehicles-list')
+        let whereStatement = {}
+        if (!id) whereStatement.active = true
+
+        const response = await api.get('vehicles-list', {
+          params: { ...whereStatement }
+        })
         setVehicles(response.data)
       } catch (error) {
         getValidationErrors(error)
@@ -79,12 +84,17 @@ const SaleCreateEdit = () => {
 
   async function handleSubmit (data) {
     try {
+      const input_value = priceToNumber(data.input_value)
+      const vehicle_input_value = priceToNumber(data.vehicle_input_value)
+      const financed_value = priceToNumber(data.financed_value)
+
       const saveSale = {
         ...data,
         id: id ? Number(id) : 0,
-        input_value: priceToNumber(data.input_value),
-        vehicle_input_value: priceToNumber(data.vehicle_input_value),
-        financed_value: priceToNumber(data.financed_value)
+        input_value,
+        vehicle_input_value,
+        financed_value,
+        value: input_value + vehicle_input_value + financed_value
       }
 
       setLoading(true)

@@ -63,7 +63,7 @@ const VehicleList = () => {
         else setVehicles(data)
 
         setTotal(response.data.count)
-        setNoData(response.data.length == 0)
+        setNoData(response.data.rows.length == 0)
         setLoading(false)
       } catch (error) {
         setLoading(false)

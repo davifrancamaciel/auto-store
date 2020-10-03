@@ -8,6 +8,7 @@ export default async (req, res, next) => {
       next_exchange_oil: Yup.string()
         .optional()
         .max(20, 'Máximo 20 caracteres'),
+      value: Yup.string().required(),
       financed_value: Yup.string().optional(),
       financed_value_description: Yup.string()
         .optional()

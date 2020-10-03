@@ -8,6 +8,7 @@ class Sale extends Model {
         vehicle_id: Sequelize.NUMBER,
         user_id: Sequelize.NUMBER,
         next_exchange_oil: Sequelize.STRING,
+        value: Sequelize.DECIMAL,
         financed_value: Sequelize.DECIMAL,
         financed_value_description: Sequelize.STRING,
         financed_value_financial: Sequelize.DECIMAL,

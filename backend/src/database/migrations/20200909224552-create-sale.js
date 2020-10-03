@@ -35,6 +35,11 @@ module.exports = {
         type: Sequelize.STRING(20),
         allowNull: true,
       },
+      value: {
+        // Valor total da venda
+        type: Sequelize.DECIMAL,
+        allowNull: false,
+      },
       financed_value: {
         // Valor a Financiar
         type: Sequelize.DECIMAL,

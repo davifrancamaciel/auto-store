@@ -14,7 +14,7 @@ const options = [
 export default function Search ({ onSearch, setPage }) {
   function handleSubmit (data) {
     let board = data.board.replace(/_/g, '')
-    console.log(board.length)
+    
     onSearch({
       ...data,
       year: data.year.replace(/\D/g, ''),
