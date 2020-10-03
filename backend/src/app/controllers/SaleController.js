@@ -188,7 +188,7 @@ class SaleController {
         active: false,
       })
 
-      if (vehicle_id !== vehiclePreviousId) {
+      if (Number(vehicle_id) !== Number(vehiclePreviousId)) {
         const vehiclePrevious = await Vehicle.findByPk(vehiclePreviousId)
         await vehiclePrevious.update({
           id: vehiclePreviousId,

@@ -153,10 +153,16 @@ class VehicleController {
       }
 
       const vehicleExist = await Vehicle.findOne({
-        where: { board: board.toUpperCase(), company_id: userCompanyId },
+        where: {
+          board: board.toUpperCase(),
+          company_id: userCompanyId,
+          id: {
+            [Op.ne]: id,
+          },
+        },
       })
 
-      if (vehicleExist && vehicleExist.id !== id) {
+      if (vehicleExist) {
         return res.status(400).json({
           error: `Já existe um veículo com a placa ${board}`,
         })
