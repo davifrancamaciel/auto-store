@@ -11,6 +11,11 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
 
+  p {
+    color: #6c6c80;
+    margin-bottom: 8px;
+  }
+
   fieldset {
     min-inline-size: auto;
     border: 0;

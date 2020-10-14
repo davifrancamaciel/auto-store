@@ -24,7 +24,6 @@ class Sale extends Model {
         checklist_delivery: Sequelize.BOOLEAN,
         checklist_auto: Sequelize.BOOLEAN,
         alienation_low: Sequelize.BOOLEAN,
-        report_take_care: Sequelize.BOOLEAN,
         report_precautionary: Sequelize.BOOLEAN,
         there_anything: Sequelize.BOOLEAN,
         discounted_sale_value: Sequelize.BOOLEAN,

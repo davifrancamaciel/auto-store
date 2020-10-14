@@ -41,6 +41,7 @@ class SaleController {
             'name',
             'email',
             'phone',
+            'whatsapp',
             'cpf_cnpj',
             'cnh',
             'rg',
@@ -50,6 +51,8 @@ class SaleController {
             'state',
             'city',
             'neighborhood',
+            'street',
+            'complement'
           ],
         },
         {
@@ -57,6 +60,7 @@ class SaleController {
           as: 'vehicle',
           attributes: [
             'brand',
+            'type',
             'model',
             'year',
             'year_model',
@@ -66,6 +70,22 @@ class SaleController {
             'optional',
             'color',
             'renavan',
+          ],
+        },
+        {
+          model: Company,
+          as: 'company',
+          attributes: [
+            'image',
+            'url',
+            'street',
+            'neighborhood',
+            'city',
+            'state',
+            'zip_code',
+            'whatsapp',
+            'site',
+            'cnpj',
           ],
         },
       ],
@@ -121,7 +141,7 @@ class SaleController {
         company_id: userCompanyId,
       })
 
-      await vehicle.update({
+      vehicle.update({
         id: vehicle_id,
         value_sale: sale.value,
         active: false,
@@ -141,7 +161,6 @@ class SaleController {
       const { userProvider, userCompanyId, userCompanyProvider } = req
 
       const sale = await Sale.findByPk(id)
-
 
       if (!sale) {
         return res.status(400).json({ error: 'Venda não encontrada' })
@@ -182,7 +201,7 @@ class SaleController {
 
       const saleEdited = await Sale.findByPk(id)
 
-      await vehicle.update({
+      vehicle.update({
         id: vehicle_id,
         value_sale: sale.value,
         active: false,
@@ -190,7 +209,7 @@ class SaleController {
 
       if (Number(vehicle_id) !== Number(vehiclePreviousId)) {
         const vehiclePrevious = await Vehicle.findByPk(vehiclePreviousId)
-        await vehiclePrevious.update({
+        vehiclePrevious.update({
           id: vehiclePreviousId,
           active: true,
         })

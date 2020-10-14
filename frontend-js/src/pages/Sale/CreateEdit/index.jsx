@@ -21,8 +21,10 @@ import Datepicker from '../../../components/Inputs/Datepicker'
 
 import Select from '../../../components/Inputs/Select'
 import BackPage from '../../../components/BackPage'
+import ProfitExpectation from './ProfitExpectation'
+import TotalSale from './TotalSale'
 import validation from './validation'
-// import { Container } from './styles';
+import { getSaleFinancial, getSaleOrigins } from '../../../Utils/saleConstants'
 
 const SaleCreateEdit = () => {
   const { id } = useParams()
@@ -31,8 +33,16 @@ const SaleCreateEdit = () => {
   const [clients, setClients] = useState([])
   const [vehicles, setVehicles] = useState([])
   const [sale, setSale] = useState({})
+  const [origins, setorigins] = useState([])
+  const [financial, setFinancial] = useState([])
+  const [selectedVehicle, setSelectedVehicle] = useState({})
+  const [values, setValues] = useState({})
+  const [valueSaleVehicle, setValueSaleVehicle] = useState(0)
 
   useEffect(() => {
+    setorigins(getSaleOrigins())
+    setFinancial(getSaleFinancial())
+
     if (id) {
       async function loadSale (id) {
         try {
@@ -40,6 +50,7 @@ const SaleCreateEdit = () => {
           const response = await api.get(`sales/${id}`)
 
           setSale(response.data)
+          setSelectedVehicle({ value: response.data.vehicle_id })
           setLoading(false)
           if (response.data.sale_date) {
             setSaleDate(parseISO(response.data.sale_date))
@@ -86,6 +97,14 @@ const SaleCreateEdit = () => {
     loadUsers()
   }, [])
 
+  useEffect(() => {
+    setValues({
+      input_value: priceToNumber(sale.input_value) || 0,
+      vehicle_input_value: priceToNumber(sale.vehicle_input_value) || 0,
+      financed_value: priceToNumber(sale.financed_value) || 0
+    })
+  }, [sale])
+
   async function handleSubmit (data) {
     try {
       const input_value = priceToNumber(data.input_value)
@@ -112,7 +131,7 @@ const SaleCreateEdit = () => {
       showToast.success(`Venda salva com sucesso!`)
 
       setLoading(false)
-      // history.push(`/sale`)
+      history.push(`/sale`)
     } catch (error) {
       getValidationErrors(error)
       setLoading(false)
@@ -134,14 +153,33 @@ const SaleCreateEdit = () => {
                 <Select label='Cliente' name='user_id' options={clients} />
               </div>
               <div className='field'>
-                <Select label='Veículo' name='vehicle_id' options={vehicles} />
+                <Select
+                  label='Veículo'
+                  name='vehicle_id'
+                  options={vehicles}
+                  onSelected={setSelectedVehicle}
+                />
               </div>
             </div>
-
             <div className='field-group'>
               <div className='field'>
-                <Input name='origin' label='Origem da venda' />
+                <Select
+                  label='Origem da venda'
+                  name='origin'
+                  options={origins}
+                />
               </div>
+
+              <div className='field'>
+                <Datepicker
+                  name='sale_date'
+                  label='Data da venda'
+                  selected={saleDate}
+                  onChange={setSaleDate}
+                />
+              </div>
+            </div>
+            <div className='field-group'>
               <div className='field'>
                 <InputMilhar
                   name='next_exchange_oil'
@@ -165,14 +203,7 @@ const SaleCreateEdit = () => {
                 />
               </div>
             </div>
-            <div className='field'>
-              <Datepicker
-                name='sale_date'
-                label='Data da venda'
-                selected={saleDate}
-                onChange={setSaleDate}
-              />
-            </div>
+
             <div className='field-group'>
               <div className='field'>
                 <label className='alt-check'>
@@ -189,7 +220,7 @@ const SaleCreateEdit = () => {
               <div className='field'>
                 <label className='alt-check'>
                   <Check name='checklist_auto' />
-                  <span>CheckAuto</span>
+                  <span>Check auto</span>
                 </label>
               </div>
             </div>
@@ -201,12 +232,7 @@ const SaleCreateEdit = () => {
                   <span>Duda Baixa Alienação</span>
                 </label>
               </div>
-              <div className='field'>
-                <label className='alt-check'>
-                  <Check name='report_take_care' />
-                  <span>Laudo Cautelar</span>
-                </label>
-              </div>
+              
               <div className='field'>
                 <label className='alt-check'>
                   <Check name='report_precautionary' />
@@ -238,14 +264,35 @@ const SaleCreateEdit = () => {
             </div>
           </fieldset>
 
+          <ProfitExpectation
+            selectedVehicle={selectedVehicle}
+            setValueSaleVehicle={setValueSaleVehicle}
+          />
           <fieldset>
             <legend>
               <h2>Valores e formas de pgto</h2>
+              <TotalSale values={values} valueSaleVehicle={valueSaleVehicle} />
             </legend>
+            <p>
+              <i>
+                Caso o valor total desta venda seja diferente do valor de venda
+                do veículo selecionado, o valor de venda do mesmo será alterado
+                para o valor total desta venda.
+              </i>
+            </p>
 
             <div className='field-group'>
               <div className='field'>
-                <InputMoney name='input_value' label='Valor de entrada' />
+                <InputMoney
+                  name='input_value'
+                  label='Valor de entrada'
+                  onKeyUp={e =>
+                    setValues({
+                      ...values,
+                      input_value: priceToNumber(e.target.value)
+                    })
+                  }
+                />
               </div>
 
               <div className='field'>
@@ -261,6 +308,12 @@ const SaleCreateEdit = () => {
                 <InputMoney
                   name='vehicle_input_value'
                   label='Valor do veículo de entrada'
+                  onKeyUp={e =>
+                    setValues({
+                      ...values,
+                      vehicle_input_value: priceToNumber(e.target.value)
+                    })
+                  }
                 />
               </div>
 
@@ -273,18 +326,31 @@ const SaleCreateEdit = () => {
             </div>
             <div className='field-group'>
               <div className='field'>
-                <InputMoney name='financed_value' label='Valor financiado' />
+                <InputMoney
+                  name='financed_value'
+                  label='Valor financiado'
+                  onKeyUp={e =>
+                    setValues({
+                      ...values,
+                      financed_value: priceToNumber(e.target.value)
+                    })
+                  }
+                />
               </div>
 
               <div className='field'>
-                <Input
-                  name='financed_value_description'
-                  label='Descrição do valor financiado'
+                <Select
+                  label='Financeira'
+                  name='financed_value_financial'
+                  options={financial}
                 />
               </div>
-              <div className='field'>
-                <Input name='financed_value_financial' label='Financeira' />
-              </div>
+            </div>
+            <div className='field'>
+              <Input
+                name='financed_value_description'
+                label='Descrição do valor financiado'
+              />
             </div>
           </fieldset>
           <fieldset>

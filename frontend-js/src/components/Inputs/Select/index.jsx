@@ -8,17 +8,17 @@ export default function ReactSelect ({
   label,
   options,
   multiple,
+  onSelected,
   ...rest
 }) {
   const ref = useRef(null)
   const { fieldName, registerField, defaultValue, error } = useField(name)
-  const [selected, setSelected] = useState(defaultValue)
   const [itemSelected, setItemSelected] = useState()
   const [valueDefault, setvalueDefault] = useState(defaultValue)
 
   function parseSelectValue (selectRef) {
     const selectValue = selectRef.props.value
-    // console.log(selectRef)
+
     if (!multiple) {
       var retorno = selectValue ? selectValue.value : ''
       return retorno
@@ -72,7 +72,7 @@ export default function ReactSelect ({
         getOptionLabel={option => option.label}
         onChange={date => {
           console.log(date)
-          setSelected(date)
+          onSelected && onSelected(date)
           setItemSelected(date)
           setvalueDefault(date.id)
         }}

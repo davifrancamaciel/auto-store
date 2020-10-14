@@ -39,12 +39,10 @@ const SaleList = function () {
   useEffect(() => {
     async function loadSales () {
       try {
-        setLoading(true)
-
-        const vehicle_id = id
+        setLoading(true)        
 
         const response = await api.get('sales', {
-          params: { ...search, page, ...onChangeOrder, vehicle_id }
+          params: { ...search, page, ...onChangeOrder }
         })
 
         const data = response.data.rows.map(sale => {

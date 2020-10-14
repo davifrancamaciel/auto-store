@@ -47,7 +47,7 @@ export default createGlobalStyle`
         text-transform: uppercase;
     }
         
-    .gf-layout-default {
+    .gf-layout-default {      
         
         textarea,
         input[type='text'],

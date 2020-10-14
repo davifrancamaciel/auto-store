@@ -125,12 +125,7 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
-      report_precautionary: {
-        //Laudo Cautelar
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
+
       there_anything: {
         //Nada Consta
         type: Sequelize.BOOLEAN,

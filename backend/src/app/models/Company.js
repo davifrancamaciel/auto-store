@@ -23,6 +23,12 @@ class Company extends Model {
         provider: Sequelize.BOOLEAN,
         active: Sequelize.BOOLEAN,
         expires_at: Sequelize.DATE,
+        url: {
+          type: Sequelize.VIRTUAL,
+          get () {
+            return `${process.env.APP_URL}/files/${this.image}`
+          },
+        },
       },
       { sequelize }
     );

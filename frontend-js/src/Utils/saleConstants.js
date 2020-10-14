@@ -1,42 +1,42 @@
 export function getSaleOrigins () {
   return [
-    { id: 'INSTAGRAN', name: 'Instagran' },
-    { id: 'FACEBOOK', name: 'Facebook' },
-    { id: 'WHATSAPP', name: 'Whatsapp' },
-    { id: 'INDICACAO', name: 'Indicação' },
-    { id: 'OLX', name: 'Olx' },
-    { id: 'WEB_MOTORS', name: 'WebMotors' },
-    { id: 'ICARROS', name: 'Icarros' },
-    { id: 'REPASSE', name: 'Repasse' },
-    { id: 'EX_CLIENTE', name: 'Ex cliente' },
-    { id: 'DIRETA', name: 'Direta' },
-    { id: 'FACHADA_DE_LOJA', name: 'Fachada de loja' }
-  ]
-}
-
-export function getSaleModels () {
-  return [
-    { id: 'A_VISTA', name: 'A vista' },
-    { id: 'FINANCIADO_COM_ENTRANDA', name: 'Financiado com entrada' },
-    { id: 'FINANCIADO_100', name: 'Financiado 100%' },
-    { id: 'TROCA_MAIS_FINANCIAMENTO', name: 'Troca mais financiamento' },
-    { id: 'TROCA_MAIS_A_VISTA', name: 'Troca mais a vista' },
-    { id: 'TROCA_COM_TROCO', name: 'Troca com troco' },
-    { id: 'REPASSE', name: 'Repasse' }
+    { value: 'INSTAGRAN', label: 'Instagran' },
+    { value: 'FACEBOOK', label: 'Facebook' },
+    { value: 'WHATSAPP', label: 'Whatsapp' },
+    { value: 'INDICACAO', label: 'Indicação' },
+    { value: 'OLX', label: 'Olx' },
+    { value: 'WEB_MOTORS', label: 'WebMotors' },
+    { value: 'ICARROS', label: 'Icarros' },
+    { value: 'REPASSE', label: 'Repasse' },
+    { value: 'EX_CLIENTE', label: 'Ex cliente' },
+    { value: 'DIRETA', label: 'Direta' },
+    { value: 'FACHADA_DE_LOJA', label: 'Fachada de loja' }
   ]
 }
 
 export function getSaleFinancial () {
   return [
-    { id: 'SANTANDER', name: 'Santander' },
-    { id: 'ITAU', name: 'Itau' },
-    { id: 'BV', name: 'BV' },
-    { id: 'BRADESCO', name: 'Bradesco' },
-    { id: 'PAN', name: 'PAN' },
-    { id: 'SAFRA', name: 'Safra' },
-    { id: 'OMMINI', name: 'Ommini' },
-    { id: 'PANNAMERICANO', name: 'Pannamericano' },
-    { id: 'CHEQUES', name: 'Cheques' },
-    { id: 'CARTAO_CREDITO', name: 'Cartão de crédito' }
+    { value: 'SANTANDER', label: 'Santander' },
+    { value: 'ITAU', label: 'Itau' },
+    { value: 'BV', label: 'BV' },
+    { value: 'BRADESCO', label: 'Bradesco' },
+    { value: 'PAN', label: 'PAN' },
+    { value: 'SAFRA', label: 'Safra' },
+    { value: 'OMMINI', label: 'Ommini' },
+    { value: 'PANNAMERICANO', label: ' PanNamericano' },
+    { value: 'CHEQUES', label: 'Cheques' },
+    { value: 'CARTAO_CREDITO', label: 'Cartão de crédito' }
   ]
 }
+
+// export function getSaleModels () {
+//   return [
+//     { value: 'A_VISTA', label: 'A vista' },
+//     { value: 'FINANCIADO_COM_ENTRANDA', label: 'Financiado com entrada' },
+//     { value: 'FINANCIADO_100', label: 'Financiado 100%' },
+//     { value: 'TROCA_MAIS_FINANCIAMENTO', label: 'Troca mais financiamento' },
+//     { value: 'TROCA_MAIS_A_VISTA', label: 'Troca mais a vista' },
+//     { value: 'TROCA_COM_TROCO', label: 'Troca com troco' },
+//     { value: 'REPASSE', label: 'Repasse' }
+//   ]
+// }

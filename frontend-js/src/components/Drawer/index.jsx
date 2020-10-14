@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
@@ -10,8 +11,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import IconButton from '@material-ui/core/IconButton'
-
-import ListSubheader from '@material-ui/core/ListSubheader'
+import { MdExpandLess, MdExpandMore, MdKeyboardArrowLeft } from 'react-icons/md'
 
 import Collapse from '@material-ui/core/Collapse'
 import { FiMenu } from 'react-icons/fi'
@@ -23,12 +23,26 @@ const useStyles = makeStyles({
   },
   fullList: {
     width: 'auto'
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end'
   }
 })
 
 export default function TemporaryDrawer ({ itensMenuUser }) {
+  const profile = useSelector(state => state.user.profile)
+
   const classes = useStyles()
-  const [state, setState] = React.useState({
+  const [open, setOpen] = useState(true)
+  const [openContracts, setOpenContracts] = useState(false)
+
+  const handleContractsClick = () => {
+    setOpenContracts(!openContracts)
+  }
+
+  const [state, setState] = useState({
     top: false,
     left: false,
     bottom: false,
@@ -44,6 +58,7 @@ export default function TemporaryDrawer ({ itensMenuUser }) {
     }
 
     setState({ ...state, [anchor]: open })
+    setOpenContracts(false)
   }
 
   const list = anchor => (
@@ -52,10 +67,13 @@ export default function TemporaryDrawer ({ itensMenuUser }) {
         [classes.fullList]: anchor === 'top' || anchor === 'bottom'
       })}
       role='presentation'
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
+      // onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List>
+      <List
+        onClick={toggleDrawer(anchor, false)}
+        onKeyDown={toggleDrawer(anchor, false)}
+      >
         {itensMenuUser.map((i, index) => (
           <ListItem
             button
@@ -66,18 +84,43 @@ export default function TemporaryDrawer ({ itensMenuUser }) {
             <ListItemText primary={i.label} />
           </ListItem>
         ))}
-
-        
       </List>
       <Divider />
+      {!profile.company_provider && (
+        <List>
+          <ListItem button onClick={handleContractsClick}>
+            {/* <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon> */}
+            <ListItemText primary='Contratos' />
+            {openContracts ? (
+              <MdExpandLess size={26} />
+            ) : (
+              <MdExpandMore size={26} />
+            )}
+          </ListItem>
+          <Collapse in={openContracts} timeout='auto' unmountOnExit>
+            <List
+              component='div'
+              disablePadding
+              onClick={toggleDrawer(anchor, false)}
+              onKeyDown={toggleDrawer(anchor, false)}
+            >
+              <ListItem
+                button
+                className={classes.nested}
+                onClick={() => history.push(`/sale`)}
+              >
+                {/* <ListItemIcon></ListItemIcon> */}
+                <ListItemText primary='Vendas' />
+              </ListItem>
+            </List>
+          </Collapse>
+        </List>
+      )}
     </div>
   )
 
-  const [open, setOpen] = React.useState(true)
-
-  const handleClick = () => {
-    setOpen(!open)
-  }
   return (
     <div>
       <React.Fragment>
@@ -89,9 +132,9 @@ export default function TemporaryDrawer ({ itensMenuUser }) {
           open={state['left']}
           onClose={toggleDrawer('left', false)}
         >
-          <div className={''}>
-            <IconButton onClick={toggleDrawer('left', true)}>
-              <FiMenu color={'#fff'} size={26} />
+          <div className={classes.drawerHeader}>
+            <IconButton onClick={toggleDrawer('left', false)}>
+              <MdKeyboardArrowLeft color={'var(--text-color)'} size={26} />
             </IconButton>
           </div>
           <Divider />

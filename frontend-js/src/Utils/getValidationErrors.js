@@ -8,4 +8,6 @@ export default function getValidationErrors (err) {
   const message = err.response.data.error
   
   showToast.error(message)  
+
+  console.error(err)
 }

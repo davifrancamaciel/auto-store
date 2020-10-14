@@ -10,7 +10,7 @@ import {
   ExpiredStatus
 } from '../../../../components/_layouts/ListContainer/styles'
 
-function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
+function Item ({ item, onDeleteClick, onUpdateClick }) {
   return (
     <Li>
       <header>
@@ -32,6 +32,10 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
       </header>
 
       <ResponsiveText>{item.user.name}</ResponsiveText>
+      {/* <InfoStatus>
+        <ResponsiveText>{item.user.name}</ResponsiveText>
+        <span>Ver contrato</span>
+      </InfoStatus> */}
 
       <InfoStatus>
         <ExpiredStatus>{item.createdAtFormated}</ExpiredStatus>

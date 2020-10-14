@@ -82,14 +82,13 @@ const Header = () => {
               {i.label}
             </Link>
           ))}
-          <ContractsMenu />
+          {!profile.company_provider && <ContractsMenu />}
         </nav>
         <aside>
           {/* <Notifications /> */}
           <Profile>
             <div>
               <strong>{profileFormated.name}</strong>
-              {/* <Link to='/profile'>Meu perfil</Link> */}
               <ProfileMenu />
             </div>
             <img src={profileFormated.image} alt={profileFormated.name} />
