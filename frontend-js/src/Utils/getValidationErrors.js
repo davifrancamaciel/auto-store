@@ -2,6 +2,8 @@ import showToast from './showToast'
 
 export default function getValidationErrors (err) {
 
+  console.error(err)
+  
   if (!err || !err.response || !err.response.data || !err.response.data.error) {
     return
   }
@@ -9,5 +11,4 @@ export default function getValidationErrors (err) {
   
   showToast.error(message)  
 
-  console.error(err)
 }

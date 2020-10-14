@@ -13,11 +13,22 @@ import { getSaleFinancial, getSaleOrigins } from '../../../Utils/saleConstants'
 import checkReport from '../../../Utils/checkReport'
 
 import ContractReport from '../../../components/Report/Sale'
+import Container from '../../../components/_layouts/Container'
 
 const Contract = function () {
   const { id } = useParams()
   const [sale, setSale] = useState()
   const [loading, setLoading] = useState(false)
+
+  function handleGetSaleOrigin (originValue) {
+    const orgin = getSaleOrigins().find(x => x.value === originValue)
+    return orgin ? orgin.label : ''
+  }
+
+  function handleGetSaleFinancial (financialValue) {
+    const financial = getSaleFinancial().find(x => x.value === financialValue)
+    return financial ? financial.label : ''
+  }
 
   useEffect(() => {
     console.log(checkReport(true))
@@ -33,12 +44,10 @@ const Contract = function () {
           financed_value: formatPrice(data.financed_value),
           input_value: formatPrice(data.input_value),
           vehicle_input_value: formatPrice(data.vehicle_input_value),
-          origin:
-            getSaleOrigins().find(x => x.value === data.origin).label || '',
-          financed_value_financial:
-            getSaleFinancial().find(
-              x => x.value === data.financed_value_financial
-            ).label || '',
+          origin: handleGetSaleOrigin(data.origin),
+          financed_value_financial: handleGetSaleFinancial(
+            data.financed_value_financial
+          ),
           delivered_receipt: checkReport(data.delivered_receipt),
           delivery_receipt: checkReport(!data.delivered_receipt),
           alienation_low: checkReport(data.alienation_low),
@@ -50,6 +59,9 @@ const Contract = function () {
           ),
           checklist_auto: checkReport(data.checklist_auto),
           checklist_delivery: checkReport(data.checklist_delivery),
+          sale_date: format(parseISO(data.sale_date), "d 'de' MMMM 'de' yyyy", {
+            locale: pt
+          }),
           vehicle: {
             ...data.vehicle,
             km: formatValueWhithOutDecimalCase(data.vehicle.km)
@@ -77,7 +89,11 @@ const Contract = function () {
     console.log(sale)
   }, [sale])
 
-  return <div>{!!sale && <ContractReport sale={sale} />}</div>
+  return (
+    <Container loading={loading ? Boolean(loading) : undefined}>
+      {!!sale && <ContractReport sale={sale} />}
+    </Container>
+  )
 }
 
 export default Contract

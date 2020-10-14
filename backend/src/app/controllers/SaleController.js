@@ -86,6 +86,7 @@ class SaleController {
             'whatsapp',
             'site',
             'cnpj',
+            'name'
           ],
         },
       ],

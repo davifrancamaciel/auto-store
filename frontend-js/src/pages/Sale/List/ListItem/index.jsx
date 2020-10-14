@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { FiEdit, FiDelete } from 'react-icons/fi'
 
 import {
@@ -32,14 +33,10 @@ function Item ({ item, onDeleteClick, onUpdateClick }) {
       </header>
 
       <ResponsiveText>{item.user.name}</ResponsiveText>
-      {/* <InfoStatus>
-        <ResponsiveText>{item.user.name}</ResponsiveText>
-        <span>Ver contrato</span>
-      </InfoStatus> */}
 
       <InfoStatus>
-        <ExpiredStatus>{item.createdAtFormated}</ExpiredStatus>
         <ExpiredStatus>{item.saleDateFormated}</ExpiredStatus>
+        <Link to={`/sale/contract/${item.id}`}>Ver contrato</Link>
       </InfoStatus>
     </Li>
   )
