@@ -6,12 +6,18 @@ export default function validation () {
     user_id: Yup.string().required('O cliente é obrigatório'),
     next_exchange_oil: Yup.string().optional(),
     financed_value: Yup.string().optional(),
-    financed_value_description: Yup.string().optional(),
+    financed_value_description: Yup.string()
+      .optional()
+      .max(50, 'Máximo 50 caracteres'),
     financed_value_financial: Yup.string().optional(),
     input_value: Yup.string().optional(),
-    input_value_description: Yup.string().optional(),
+    input_value_description: Yup.string()
+      .optional()
+      .max(50, 'Máximo 50 caracteres'),
     vehicle_input_value: Yup.string().optional(),
-    vehicle_input_value_description: Yup.string().optional(),
+    vehicle_input_value_description: Yup.string()
+      .optional()
+      .max(50, 'Máximo 50 caracteres'),
     sale_date: Yup.date()
       .required('A data é obrigatória')
       .typeError('A data é obrigatória'),

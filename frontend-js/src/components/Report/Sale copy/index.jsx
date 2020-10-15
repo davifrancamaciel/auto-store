@@ -1,30 +1,26 @@
-import React, { useRef } from 'react'
-import { useReactToPrint } from 'react-to-print'
-import { FiPrinter } from 'react-icons/fi'
+import React, { createRef } from 'react'
+import Pdf from 'react-to-pdf'
+import { FiDownload } from 'react-icons/fi'
 
 import BackPage from '../../BackPage'
 
 import { Container, Header, Page, PdfContainer } from './styles'
-
+const ref = createRef()
 const Report = ({ sale }) => {
-  const componentRef = useRef()
-
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: 'CONTRATO DE VENDAS'
-  })
-
   return (
     <Container>
-      <header>
-        <button onClick={handlePrint}>
-          <FiPrinter /> <span>Imprimir contrato</span>
-        </button>
-        <BackPage />
-      </header>
-
+      <Pdf targetRef={ref} filename='CONTRATO-DE-VENDA.pdf'>
+        {({ toPdf }) => (
+          <header>
+            <button onClick={toPdf}>
+              <FiDownload /> <span>Baixar contrato</span>
+            </button>
+            <BackPage />
+          </header>
+        )}
+      </Pdf>
       <PdfContainer>
-        <Page ref={componentRef}>
+        <Page ref={ref}>
           <Header>
             <img src={sale.company.url} alt='' />
             <div>
@@ -47,85 +43,54 @@ const Report = ({ sale }) => {
                 <p>
                   Nome:<span>{sale.user.name}</span>
                 </p>
-              </div>
-              <div>
                 <p>
-                  Email:<span>{sale.user.email}</span>
+                  Endereço:
+                  <span>
+                    {sale.user.street} {sale.user.complement}
+                  </span>
                 </p>
-              </div>
-            </div>
-            <div>
-              <div>
+                <p>
+                  Bairro:<span>{sale.user.neighborhood}</span>
+                </p>
                 <p>
                   Telefones:
                   <span>
                     {sale.user.whatsapp} / {sale.user.phone}
                   </span>
                 </p>
-              </div>
-              <div>
                 <p>
-                  Data de nascimento:<span>{sale.user.birth_date}</span>
+                  Email:<span>{sale.user.email}</span>
                 </p>
               </div>
-            </div>
-
-            <div>
-              <div>
-                <p>
-                  CPF:<span>{sale.user.cpf_cnpj}</span>
-                </p>
-              </div>
-              <div>
-                <p>
-                  RG:<span>{sale.user.rg}</span>
-                </p>
-              </div>
-              <div>
-                <p>
-                  CNH:<span>{sale.user.cnh}</span>
-                </p>
-              </div>
-            </div>
-            <div>
-              <div>
-                <p>
-                  Profissão:<span>{sale.user.profession}</span>
-                </p>
-              </div>
-              <div>
-                <p>
-                  Origem da Venda:<span>{sale.origin}</span>
-                </p>
-              </div>
-            </div>
-            <div>
               <div>
                 <p>
                   Cep:<span>{sale.user.zip_code}</span>
                 </p>
-              </div>
-              <div>
                 <p>
                   Cidade/UF:
                   <span>
                     {sale.user.city}/{sale.user.state}
                   </span>
                 </p>
-              </div>
-              <div>
                 <p>
-                  Bairro:<span>{sale.user.neighborhood}</span>
+                  Profissão:<span>{sale.user.profession}</span>
+                </p>
+                <p>
+                  Origem da Venda:<span>{sale.origin}</span>
                 </p>
               </div>
-            </div>
-            <div>
               <div>
                 <p>
-                  Endereço:
-                  <span>
-                    {sale.user.street} {sale.user.complement}
-                  </span>
+                  CPF:<span>{sale.user.cpf_cnpj}</span>
+                </p>
+                <p>
+                  RG:<span>{sale.user.rg}</span>
+                </p>
+                <p>
+                  Data de nascimento:<span>{sale.user.birth_date}</span>
+                </p>
+                <p>
+                  CNH:<span>{sale.user.cnh}</span>
                 </p>
               </div>
             </div>
@@ -138,6 +103,12 @@ const Report = ({ sale }) => {
                 <p>
                   Marca:<span>{sale.vehicle.brand} </span>
                 </p>
+                <p>
+                  Placa:<span>{sale.vehicle.board}</span>
+                </p>
+                <p>
+                  Renavam:<span>{sale.vehicle.renavan}</span>
+                </p>
               </div>
               <div>
                 <p>
@@ -145,6 +116,12 @@ const Report = ({ sale }) => {
                   <span>
                     {sale.vehicle.model} {sale.vehicle.type}
                   </span>
+                </p>
+                <p>
+                  Opcionais:<span>{sale.vehicle.optional}</span>
+                </p>
+                <p>
+                  Quilometragem atual:<span>{sale.vehicle.km}</span>
                 </p>
               </div>
               <div>
@@ -154,41 +131,11 @@ const Report = ({ sale }) => {
                     {sale.vehicle.year}/{sale.vehicle.year_model}
                   </span>
                 </p>
-              </div>
-            </div>
-            <div>
-              <div>
                 <p>
                   Cor:<span>{sale.vehicle.color}</span>
                 </p>
-              </div>
-              <div>
                 <p>
-                  Renavam:<span>{sale.vehicle.renavan}</span>
-                </p>
-              </div>
-              <div>
-                <p>
-                  Placa:<span className='as-to-uppercase'>{sale.vehicle.board}</span>
-                </p>
-              </div>
-            </div>
-            <div>
-              <div>
-                <p>
-                  Opcionais:<span>{sale.vehicle.optional}</span>
-                </p>
-              </div>
-            </div>
-            <div>
-              <div>
-                <p>
-                  Quilometragem atual:<span>{sale.vehicle.km}</span>
-                </p>
-              </div>
-              <div>
-                <p>
-                  Próxima troca de óleo:<span>{sale.next_exchange_oil}</span>
+                  Próxima troca de Óleo:<span>{sale.next_exchange_oil}</span>
                 </p>
               </div>
             </div>
@@ -243,8 +190,6 @@ const Report = ({ sale }) => {
                   Nada Consta:<span>{sale.there_anything}</span>
                 </p>
               </div>
-            </div>
-            <div>
               <div>
                 <p>
                   Abatidas do Valor do Carro (Loja a pagar):

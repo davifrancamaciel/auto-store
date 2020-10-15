@@ -32,10 +32,6 @@ export const Container = styled.div`
 export const PdfContainer = styled.div`
   display: flex;
   justify-content: center;
-  overflow-x: auto;
-  @media (max-width: 800px) {
-    display: block;
-  }
 `
 export const Page = styled.div`
   background-color: #fff;
@@ -43,8 +39,8 @@ export const Page = styled.div`
   color: #333;
   width: 770px;
   min-width: 770px;
-  p {
-    font-size: 17px;
+  h2, p {
+    font-size: 14px;
   }
 
   span {
@@ -64,8 +60,8 @@ export const Page = styled.div`
       display: flex;
       justify-content: space-between;
       margin-bottom: 10px;
-      > div + div {
-        margin-left: 10px;
+      > div {
+        margin: 0px 10px;
       }
       table {
         border-collapse: collapse;
@@ -101,34 +97,6 @@ export const Page = styled.div`
         }
       }
     }
-  }
-
-  @media all {
-    .page-break {
-      display: none;
-    }
-  }
-
-  @media print {
-    html,
-    body {
-      height: initial !important;
-      overflow: initial !important;
-      -webkit-print-color-adjust: exact;
-    }
-  }
-
-  @media print {
-    .page-break {
-      margin-top: 1rem;
-      display: block;
-      page-break-before: auto;
-    }
-  }
-
-  @page {
-    size: auto;
-    margin: 20mm 10mm;
   }
 `
 

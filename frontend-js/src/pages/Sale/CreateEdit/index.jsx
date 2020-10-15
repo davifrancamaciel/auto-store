@@ -208,7 +208,7 @@ const SaleCreateEdit = () => {
               <div className='field'>
                 <label className='alt-check'>
                   <Check name='delivered_receipt' />
-                  <span>Recibo (CRV) Entregue</span>
+                  <span>Recibo (CRV) entregue</span>
                 </label>
               </div>
               <div className='field'>
@@ -229,23 +229,24 @@ const SaleCreateEdit = () => {
               <div className='field'>
                 <label className='alt-check'>
                   <Check name='alienation_low' />
-                  <span>Duda Baixa Alienação</span>
+                  <span>Duda Baixa alienação</span>
                 </label>
               </div>
-              
+
               <div className='field'>
                 <label className='alt-check'>
                   <Check name='report_precautionary' />
-                  <span>Laudo Cautelar</span>
+                  <span>Laudo cautelar</span>
                 </label>
               </div>
+              <div className='field'></div>
             </div>
 
             <div className='field-group'>
               <div className='field'>
                 <label className='alt-check'>
                   <Check name='there_anything' />
-                  <span>Nada Consta</span>
+                  <span>Nada consta</span>
                 </label>
               </div>
               <div className='field'>
@@ -254,7 +255,6 @@ const SaleCreateEdit = () => {
                   <span>Abatidas do valor da venda (cliente pagar)</span>
                 </label>
               </div>
-
               <div className='field'>
                 <label className='alt-check'>
                   <Check name='not_discounted_sale_value' />
@@ -270,7 +270,7 @@ const SaleCreateEdit = () => {
           />
           <fieldset>
             <legend>
-              <h2>Valores e formas de pgto</h2>
+              <h2>Valores e formas de pagamento</h2>
               <TotalSale values={values} valueSaleVehicle={valueSaleVehicle} />
             </legend>
             <p>

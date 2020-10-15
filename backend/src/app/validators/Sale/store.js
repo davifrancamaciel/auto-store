@@ -12,7 +12,7 @@ export default async (req, res, next) => {
       financed_value: Yup.string().optional(),
       financed_value_description: Yup.string()
         .optional()
-        .max(20, 'Máximo 20 caracteres'),
+        .max(50, 'Máximo 50 caracteres'),
       financed_value_financial: Yup.string().optional(),
       input_value: Yup.string().optional(),
       input_value_description: Yup.string()

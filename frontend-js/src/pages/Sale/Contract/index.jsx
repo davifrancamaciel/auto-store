@@ -31,7 +31,7 @@ const Contract = function () {
   }
 
   useEffect(() => {
-    console.log(checkReport(true))
+    
     async function loadSale (id) {
       try {
         setLoading(true)
@@ -72,10 +72,9 @@ const Contract = function () {
               ? format(parseISO(data.user.birth_date), 'dd/MM/yyyy')
               : ''
           }
-        }
-        console.log(saleFormated)
+        }       
+        
         setSale(saleFormated)
-
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -83,11 +82,7 @@ const Contract = function () {
       }
     }
     loadSale(id)
-  }, [id])
-
-  useEffect(() => {
-    console.log(sale)
-  }, [sale])
+  }, [id]) 
 
   return (
     <Container loading={loading ? Boolean(loading) : undefined}>
