@@ -15,6 +15,7 @@ import VehicleCreateEdit from '../pages/Vehicle/CreateEdit'
 import ExpenseList from '../pages/Expense/List'
 import ExpenseCreateEdit from '../pages/Expense/CreateEdit'
 import ExpenseVehicle from '../pages/ExpenseVehicle'
+import ExpenseVehicleTrafficTicket from '../pages/ExpenseVehicleTrafficTicket'
 import FilesVehicle from '../pages/Vehicle/Files'
 import SaleList from '../pages/Sale/List'
 import SaleCreateEdit from '../pages/Sale/CreateEdit'
@@ -50,6 +51,7 @@ const Routes = () => {
       <Route exact path='/vehicle/edit/:id' component={VehicleCreateEdit} isPrivate />
       <Route exact path='/vehicle/:id/expense' component={ExpenseVehicle} isPrivate />
       <Route exact path='/vehicle/:id/files' component={FilesVehicle} isPrivate />
+      <Route exact path='/vehicle/:id/traffic-ticket' component={ExpenseVehicleTrafficTicket} isPrivate />
 
       <Route exact path='/expense' component={ExpenseList} isPrivate />
       <Route exact path='/expense/create' component={ExpenseCreateEdit} isPrivate />

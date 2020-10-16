@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import Link from '@material-ui/core/Link'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Grow from '@material-ui/core/Grow'
@@ -10,23 +10,17 @@ import MenuList from '@material-ui/core/MenuList'
 import history from '../../../../services/browserhistory'
 
 export default function MenuListComposition ({ id }) {
-  const [open, setOpen] = React.useState(false)
-  const anchorRef = React.useRef(null)
+  const [open, setOpen] = useState(false)
+  const anchorRef = useRef(null)
 
   const handleToggle = () => {
     setOpen(prevOpen => !prevOpen)
   }
 
-  const handleExpenses = id => {
-    history.push(`/vehicle/${id}/expense`)
+  const handleClick = (id, path) => {
+    history.push(`/vehicle/${id}/${path}`)
     setOpen(prevOpen => !prevOpen)
   }
-
-  const handleFiles = id => {
-    history.push(`/vehicle/${id}/files`)
-    setOpen(prevOpen => !prevOpen)
-  }
-
 
   const handleClose = event => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -44,8 +38,8 @@ export default function MenuListComposition ({ id }) {
   }
 
   // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open)
-  React.useEffect(() => {
+  const prevOpen = useRef(open)
+  useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current.focus()
     }
@@ -70,11 +64,13 @@ export default function MenuListComposition ({ id }) {
         role={undefined}
         transition
         disablePortal
+        // style={{ zIndex: 1 }}
       >
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
             style={{
+              // zIndex: 1,
               transformOrigin:
                 placement === 'bottom' ? 'center top' : 'center bottom'
             }}
@@ -86,9 +82,14 @@ export default function MenuListComposition ({ id }) {
                   id='menu-list-grow'
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={() => handleFiles(id)}>Fotos</MenuItem>
-                  <MenuItem onClick={() => handleExpenses(id)}>
+                  <MenuItem onClick={() => handleClick(id, 'files')}>
+                    Fotos
+                  </MenuItem>
+                  <MenuItem onClick={() => handleClick(id, 'expense')}>
                     Despesas
+                  </MenuItem>
+                  <MenuItem onClick={() => handleClick(id, 'traffic-ticket')}>
+                    Multas
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>

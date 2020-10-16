@@ -7,8 +7,13 @@ class ExpenseTypeController {
       order: ['name'],
       attributes: ['id', 'name'],
       where: {
-        id: {
-          [Op.ne]: 7,
+        constant: {
+          [Op.notIn]: [
+            'DESPESA_VEICULO_VENDIDO',
+            'DESPESA_VEICULO_NAO_VENDIDO',
+            'MULTA_PAGA',
+            'MULTA_NAO_PAGA',
+          ],
         },
       },
     })

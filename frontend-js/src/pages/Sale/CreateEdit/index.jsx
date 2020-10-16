@@ -131,7 +131,7 @@ const SaleCreateEdit = () => {
       showToast.success(`Venda salva com sucesso!`)
 
       setLoading(false)
-      history.push(`/sale`)
+      // history.push(`/sale`)
     } catch (error) {
       getValidationErrors(error)
       setLoading(false)

@@ -2,6 +2,7 @@ import Company from '../models/Company'
 import User from '../models/User'
 import Vehicle from '../models/Vehicle'
 import Sale from '../models/Sale'
+import Expense from '../models/Expense'
 import SaleIndexService from '../services/sale/index'
 
 class SaleController {
@@ -52,7 +53,7 @@ class SaleController {
             'city',
             'neighborhood',
             'street',
-            'complement'
+            'complement',
           ],
         },
         {
@@ -86,7 +87,7 @@ class SaleController {
             'whatsapp',
             'site',
             'cnpj',
-            'name'
+            'name',
           ],
         },
       ],
@@ -148,6 +149,28 @@ class SaleController {
         active: false,
       })
 
+      Expense.update(
+        { expense_type_id: 8 },
+        {
+          where: {
+            expense_type_id: 7,
+            vehicle_id,
+          },
+        }
+      )
+
+      // 9 multa paga
+      // 10 multa não paga
+      Expense.update(
+        { expense_type_id: not_discounted_sale_value === 'true' ? 9 : 10 },
+        {
+          where: {
+            expense_type_id: not_discounted_sale_value === 'true' ? 10 : 9,
+            vehicle_id,
+          },
+        }
+      )
+
       return res.json(sale)
     } catch (error) {
       return res
@@ -158,7 +181,7 @@ class SaleController {
 
   async update (req, res) {
     try {
-      const { id, vehicle_id, user_id } = req.body
+      const { id, vehicle_id, user_id, not_discounted_sale_value } = req.body
       const { userProvider, userCompanyId, userCompanyProvider } = req
 
       const sale = await Sale.findByPk(id)
@@ -214,7 +237,38 @@ class SaleController {
           id: vehiclePreviousId,
           active: true,
         })
+        Expense.update(
+          { expense_type_id: 7 },
+          {
+            where: {
+              expense_type_id: 8,
+              vehicle_id: vehiclePreviousId,
+            },
+          }
+        )
       }
+
+      Expense.update(
+        { expense_type_id: 8 },
+        {
+          where: {
+            expense_type_id: 7,
+            vehicle_id,
+          },
+        }
+      )
+
+      // 9 multa paga
+      // 10 multa não paga
+      Expense.update(
+        { expense_type_id: not_discounted_sale_value === 'true' ? 9 : 10 },
+        {
+          where: {
+            expense_type_id: not_discounted_sale_value === 'true' ? 10 : 9,
+            vehicle_id,
+          },
+        }
+      )
 
       return res.json(saleEdited)
     } catch (error) {
@@ -236,6 +290,28 @@ class SaleController {
     const { id } = req.params
 
     const sale = await Sale.findByPk(id)
+
+    Expense.update(
+      { expense_type_id: 7 },
+      {
+        where: {
+          expense_type_id: 8,
+          vehicle_id: sale.vehicle_id,
+        },
+      }
+    )
+
+    // 9 multa paga
+    // 10 multa não paga
+    Expense.update(
+      { expense_type_id: 10 },
+      {
+        where: {
+          expense_type_id: 9,
+          vehicle_id: sale.vehicle_id,
+        },
+      }
+    )
 
     if (!sale) {
       return res.status(400).json({ error: 'Venda não encontrada' })

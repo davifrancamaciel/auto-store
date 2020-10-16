@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Form } from '@rocketseat/unform'
 import { uniqueId } from 'lodash'
 import filesize from 'filesize'
@@ -9,6 +9,7 @@ import FormContainer from '../../../components/_layouts/FormContainer'
 import Dropzone from '../../../components/Inputs/Dropzone'
 import FileList from '../../../components/FileList'
 import BackPage from '../../../components/BackPage'
+import Options from '../List/Options'
 
 import api from '../../../services/api'
 import history from '../../../services/browserhistory'
@@ -157,7 +158,7 @@ const Files = () => {
         <Form>
           <fieldset>
             <legend>
-              <Link to={`/vehicle/${id}/expense`}>Despesas</Link>
+              <Options id={id} />
               <BackPage />
             </legend>
             <Dropzone multiple onUpload={handleUpload} />

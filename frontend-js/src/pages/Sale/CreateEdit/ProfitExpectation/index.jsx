@@ -13,7 +13,15 @@ const ProfitExpectation = ({ selectedVehicle, setValueSaleVehicle }) => {
     async function loadExpenses () {
       try {
         const response = await api.get('expenses', {
-          params: { limit: 50, vehicle_id: selectedVehicle.value }
+          params: {
+            limit: 50,
+            vehicle_id: selectedVehicle.value,
+            constant: [
+              'MULTA_PAGA',
+              'DESPESA_VEICULO_NAO_VENDIDO',
+              'DESPESA_VEICULO_VENDIDO'
+            ]
+          }
         })
         setExpensesList(response.data.rows)
       } catch (error) {}

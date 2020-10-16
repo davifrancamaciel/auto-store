@@ -19,6 +19,8 @@ const Contract = function () {
   const { id } = useParams()
   const [sale, setSale] = useState()
   const [loading, setLoading] = useState(false)
+  const [expensesList, setExpensesList] = useState([])
+  const [totalExpenseValue, setTotalExpenseValue] = useState(0)
 
   function handleGetSaleOrigin (originValue) {
     const orgin = getSaleOrigins().find(x => x.value === originValue)
@@ -31,7 +33,6 @@ const Contract = function () {
   }
 
   useEffect(() => {
-    
     async function loadSale (id) {
       try {
         setLoading(true)
@@ -72,8 +73,8 @@ const Contract = function () {
               ? format(parseISO(data.user.birth_date), 'dd/MM/yyyy')
               : ''
           }
-        }       
-        
+        }
+
         setSale(saleFormated)
         setLoading(false)
       } catch (error) {
@@ -82,11 +83,46 @@ const Contract = function () {
       }
     }
     loadSale(id)
-  }, [id]) 
+  }, [id])
+
+  useEffect(() => {
+    async function loadExpenses () {
+      try {
+        const response = await api.get('expenses', {
+          params: {
+            limit: 50,
+            vehicle_id: sale.vehicle_id,
+            constant: ['MULTA_PAGA', 'MULTA_NAO_PAGA']
+          }
+        })
+
+        const data = response.data.rows.map(expense => ({
+          ...expense,
+          value: formatPrice(expense.value)
+        }))
+        setExpensesList(data)
+      } catch (error) {}
+    }
+
+    !!sale && loadExpenses()
+  }, [sale])
+
+  useEffect(() => {
+    const total = expensesList.reduce((totalSum, expense) => {
+      return Number(totalSum) + Number(expense.value)
+    }, 0)
+    setTotalExpenseValue(formatPrice(total))
+  }, [expensesList])
 
   return (
     <Container loading={loading ? Boolean(loading) : undefined}>
-      {!!sale && <ContractReport sale={sale} />}
+      {!!sale && (
+        <ContractReport
+          sale={sale}
+          expensesList={expensesList}
+          totalExpenseValue={totalExpenseValue}
+        />
+      )}
     </Container>
   )
 }

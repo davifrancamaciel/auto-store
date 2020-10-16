@@ -67,18 +67,24 @@ export const Page = styled.div`
       > div + div {
         margin-left: 10px;
       }
-      table {
-        border-collapse: collapse;
-        tr {
-          height: 20px;
-          th:last-child {
-            width: 100px;
-          }
+      div > {
+        ul {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0px 10px;
+          li {
+            display: flex;
+            width: 340px;
+            justify-content: space-between;
+            p {
+              border: 1px solid #333;
+              text-align: center;
+              min-width: 170px;
+              white-space: nowrap;
+            }            
+          }          
         }
-        td {
-          border: 1px solid #333;
-        }
-      }
+      }      
     }
   }
 

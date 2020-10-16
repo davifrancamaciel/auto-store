@@ -17,19 +17,28 @@ class ExpenseIndexService {
     sorting,
     vehicle_id,
     limit,
+    constant,
   }) {
     let whereStatement = {
       company_id,
     }
+    let whereStatementType = {}
 
     if (!vehicle_id)
-      whereStatement.expense_type_id = {
-        [Op.ne]: 7,
+      whereStatementType.constant = {
+        [Op.notIn]: [
+          'DESPESA_VEICULO_VENDIDO',
+          'DESPESA_VEICULO_NAO_VENDIDO',
+          'MULTA_PAGA',
+          'MULTA_NAO_PAGA',
+        ],
       }
 
     if (vehicle_id) whereStatement.vehicle_id = vehicle_id
 
     if (expense_type_id) whereStatement.expense_type_id = expense_type_id
+
+    if (constant) whereStatementType.constant = constant
 
     if (description)
       whereStatement.description = {
@@ -65,6 +74,7 @@ class ExpenseIndexService {
           model: ExpenseType,
           as: 'type',
           attributes: ['name'],
+          where: whereStatementType,
         },
         {
           model: Vehicle,

@@ -13,6 +13,8 @@ import Company from '../models/Company'
 import User from '../models/User'
 import Vehicle from '../models/Vehicle'
 import Expense from '../models/Expense'
+import ExpenseType from '../models/ExpenseType'
+import Sale from '../models/Sale'
 
 class DashboardController {
   async index (req, res) {
@@ -24,6 +26,7 @@ class DashboardController {
       let companiesActive = 0
       let company = null
       let expenses = null
+      let sales = null
 
       if (!userCompanyProvider) whereStatement.company_id = userCompanyId
 
@@ -56,10 +59,19 @@ class DashboardController {
             createdAt: {
               [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
             },
-            expense_type_id: {
-              [Op.ne]: 7,
-            },
           },
+          include: [
+            {
+              model: ExpenseType,
+              as: 'type',
+              attributes: [],
+              where: {
+                constant: {
+                  [Op.notIn]: ['DESPESA_VEICULO_NAO_VENDIDO', 'MULTA_NAO_PAGA'],
+                },
+              },
+            },
+          ],
         })
 
         const total = rows.reduce((totalSum, expense) => {
@@ -70,6 +82,7 @@ class DashboardController {
           principal_text: count,
           secondary_text: total,
         }
+        // sales = await getSales(userCompanyId)
       }
 
       const clientsActive = await User.count({
@@ -120,10 +133,19 @@ class DashboardController {
         createdAt: {
           [Op.between]: [subYears(new Date(), 1), endOfMonth(new Date())],
         },
-        expense_type_id: {
-          [Op.ne]: 7,
-        },
       },
+      include: [
+        {
+          model: ExpenseType,
+          as: 'type',
+          attributes: [],
+          where: {
+            constant: {
+              [Op.notIn]: ['DESPESA_VEICULO_NAO_VENDIDO', 'MULTA_NAO_PAGA'],
+            },
+          },
+        },
+      ],
     })
 
     const expenses = rows.map(expense => {
@@ -148,6 +170,28 @@ class DashboardController {
     }, {})
 
     return res.json(result)
+  }
+
+  async getSales (company_id) {
+    const { count, rows } = await Sale.findAndCountAll({
+      attributes: ['value'],
+      where: {
+        company_id,
+        createdAt: {
+          [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
+        },
+      },
+    })
+
+    const total = rows.reduce((totalSum, expense) => {
+      return Number(totalSum) + Number(expense.value)
+    }, 0)
+
+    const sales = {
+      principal_text: count,
+      secondary_text: total,
+    }
+    return sales
   }
 }
 export default new DashboardController()

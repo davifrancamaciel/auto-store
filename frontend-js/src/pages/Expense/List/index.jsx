@@ -24,7 +24,7 @@ import { Main, Ul } from '../../../components/_layouts/ListContainer/styles'
 const orderByOptions = [{ value: 'value', label: 'Valor' }]
 
 const ExpenseList = function () {
-  const { id } = useParams()
+  
   const [loading, setLoading] = useState(false)
   const [search, setSearch] = useState()
   const [noData, setNoData] = useState(false)
@@ -36,12 +36,10 @@ const ExpenseList = function () {
   useEffect(() => {
     async function loadExpenses () {
       try {
-        setLoading(true)
-
-        const vehicle_id = id;
+        setLoading(true)       
 
         const response = await api.get('expenses', {
-          params: { ...search, page, ...onChangeOrder, vehicle_id }
+          params: { ...search, page, ...onChangeOrder }
         })
 
         const data = response.data.rows.map(expense => ({

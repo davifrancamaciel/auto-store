@@ -12,7 +12,15 @@ const ProfitExpectation = ({ vehicle, values }) => {
     async function loadExpenses () {
       try {
         const response = await api.get('expenses', {
-          params: { limit: 50, vehicle_id: vehicle.id }
+          params: {
+            limit: 50,
+            vehicle_id: vehicle.id,
+            constant: [
+              'MULTA_PAGA',
+              'DESPESA_VEICULO_NAO_VENDIDO',
+              'DESPESA_VEICULO_VENDIDO'
+            ]
+          }
         })
         setExpensesList(response.data.rows)
       } catch (error) {}
@@ -34,7 +42,7 @@ const ProfitExpectation = ({ vehicle, values }) => {
     const value_expense_formated = formatPrice(totalExpenseValue || 0)
     const value_profit =
       values.value_sale - values.value_purchase - totalExpenseValue || 0
-    const value_profit_formated = formatPrice(value_profit)    
+    const value_profit_formated = formatPrice(value_profit)
 
     return (
       <tr>

@@ -5,6 +5,7 @@ class ExpenseType extends Model {
     super.init(
       {
         name: Sequelize.STRING,
+        constant: Sequelize.STRING,
       },
       { sequelize }
     );

@@ -1,5 +1,6 @@
 import File from '../models/File'
 import removeFile from '../utils/removeFile'
+// import filehelper from '../utils/file-helper'
 
 class FileController {
   async index (req, res) {
@@ -15,14 +16,31 @@ class FileController {
   async store (req, res) {
     const { originalname: name, filename: path, size } = req.file
 
-    const file = await File.create({
-      name,
-      path,
-      size,
-      vehicle_id: Number(req.body.vehicle_id),
-    })
+    try {
+      const file = await File.create({
+        name,
+        path: newPath,
+        size,
+        vehicle_id: Number(req.body.vehicle_id),
+      })
+      return res.json(file)
 
-    return res.json(file)
+      // filehelper.compressImage(req.file, 100)
+
+      // .then(newPath => {
+      // // Vamos continuar normalmente, exibindo o novo caminho
+      // const file = await File.create({
+      //   name,
+      //   path: newPath,
+      //   size,
+      //   vehicle_id: Number(req.body.vehicle_id),
+      // })
+      // return res.json(file)
+      //  })
+      // .catch(err => console.log(err) );
+    } catch (err) {
+      return res.json({ error: 'Houve erro no upload!', err })
+    }
   }
 
   async delete (req, res) {

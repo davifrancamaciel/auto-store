@@ -6,7 +6,7 @@ import BackPage from '../../BackPage'
 
 import { Container, Header, Page, PdfContainer } from './styles'
 
-const Report = ({ sale }) => {
+const Report = ({ sale, expensesList, totalExpenseValue }) => {
   const componentRef = useRef()
 
   const handlePrint = useReactToPrint({
@@ -169,7 +169,8 @@ const Report = ({ sale }) => {
               </div>
               <div>
                 <p>
-                  Placa:<span className='as-to-uppercase'>{sale.vehicle.board}</span>
+                  Placa:
+                  <span className='as-to-uppercase'>{sale.vehicle.board}</span>
                 </p>
               </div>
             </div>
@@ -260,77 +261,24 @@ const Report = ({ sale }) => {
             </div>
             <div>
               <div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Auto de Infração</th>
-                      <th> Valor</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Auto de Infração</th>
-                      <th> Valor</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Auto de Infração</th>
-                      <th> Valor</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
+                <ul>
+                  <li>
+                    <p>Auto de Infração</p>
+                    <p>Valor</p>
+                  </li>
+                  <li>
+                    <p>Auto de Infração</p>
+                    <p>Valor</p>
+                  </li>                  
+                </ul>
+                <ul>
+                  {expensesList.map(expense => (
+                    <li key={expense.id}>
+                      <p>{expense.description}</p>
+                      <p>{expense.value}</p>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>

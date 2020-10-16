@@ -29,7 +29,7 @@ const ExpenseList = function ({ setExpensesList, setExpense, expensesList }) {
           params: {
             limit: 50,
             vehicle_id: id,
-            constant: ['DESPESA_VEICULO_NAO_VENDIDO', 'DESPESA_VEICULO_VENDIDO']
+            constant: ['MULTA_PAGA', 'MULTA_NAO_PAGA']
           }
         })
 
@@ -57,7 +57,7 @@ const ExpenseList = function ({ setExpensesList, setExpense, expensesList }) {
   async function handleDelete (item) {
     ShowConfirm(
       'Atenção',
-      `Confirma a remoção da despesa de ${formatPrice(item.value)}?`,
+      `Confirma a remoção do auto de infração ${item.description}?`,
       () => handleDeleteConfirm(item.id)
     )
   }
@@ -67,7 +67,7 @@ const ExpenseList = function ({ setExpensesList, setExpense, expensesList }) {
       setLoading(true)
       await api.delete(`expenses/${id}`)
 
-      showToast.success('Despesa excluída com sucesso!')
+      showToast.success('Multa excluída com sucesso!')
       const updateExpenses = expensesList.filter(c => c.id !== id)
       setExpensesList(updateExpenses)
       setLoading(false)

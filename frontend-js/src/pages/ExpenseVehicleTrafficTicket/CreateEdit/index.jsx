@@ -8,7 +8,7 @@ import SubmitButton from '../../../components/SubmitButton'
 import FormContainer from '../../../components/_layouts/FormContainer'
 import BackPage from '../../../components/BackPage'
 import InputMoney from '../../../components/Inputs/InputMoney'
-import TextArea from '../../../components/Inputs/TextArea'
+import Input from '../../../components/Inputs/Input'
 import Options from '../../Vehicle/List/Options'
 
 import api from '../../../services/api'
@@ -36,7 +36,7 @@ export default function CreateEdit ({
   const vehicle_id = Number(id)
   const [loading, setLoading] = useState(false)
 
-
+ 
   async function handleSubmit (data) {
     try {
       const saveExpense = {
@@ -45,7 +45,7 @@ export default function CreateEdit ({
         id: expense ? Number(expense.id) : 0,
         expense_type_id: expense.expense_type_id
           ? Number(expense.expense_type_id)
-          : 7, //type: { name: 'Despesa de veículo não vendido' },
+          : 10, // type: { name: 'Multa não paga' },
         vehicle_id
       }
       setExpense(saveExpense)
@@ -70,7 +70,7 @@ export default function CreateEdit ({
         const responseNew = await api.post('expenses', saveExpense)
         const newExpense = {
           ...responseNew.data,
-          type: { name: 'Despesa de veículo não vendido' },
+          type: { name: 'Multa não paga' },
           valueFormated: formatPrice(responseNew.data.value),
           createdAtFormatedDate: `Cadastrada no dia ${format(
             parseISO(responseNew.data.createdAt),
@@ -82,7 +82,7 @@ export default function CreateEdit ({
         setExpense(INITIAL_STATE)
       }
 
-      showToast.success(`Despesa salva com sucesso!`)
+      showToast.success(`Multa salva com sucesso!`)
 
       setLoading(false)
     } catch (error) {
@@ -106,11 +106,10 @@ export default function CreateEdit ({
             </legend>
 
             <div className='field'>
-              <InputMoney name='value' label='Valor' />
+              <Input name='description' label='Auto de infração' />
             </div>
-
             <div className='field'>
-              <TextArea name='description' label='Descrição' />
+              <InputMoney name='value' label='Valor' />
             </div>
           </fieldset>
 
