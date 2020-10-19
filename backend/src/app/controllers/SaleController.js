@@ -4,6 +4,7 @@ import Vehicle from '../models/Vehicle'
 import Sale from '../models/Sale'
 import Expense from '../models/Expense'
 import SaleIndexService from '../services/sale/index'
+import ExpenseTypeEnum from '../enums/expenseTypes'
 
 class SaleController {
   async index (req, res) {
@@ -150,22 +151,28 @@ class SaleController {
       })
 
       Expense.update(
-        { expense_type_id: 8 },
+        { expense_type_id: ExpenseTypeEnum.DESPESA_VEICULO_VENDIDO },
         {
           where: {
-            expense_type_id: 7,
+            expense_type_id: ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
             vehicle_id,
           },
         }
       )
 
-      // 9 multa paga
-      // 10 multa não paga
       Expense.update(
-        { expense_type_id: not_discounted_sale_value === 'true' ? 9 : 10 },
+        {
+          expense_type_id:
+            not_discounted_sale_value === 'true'
+              ? ExpenseTypeEnum.MULTA_PAGA
+              : ExpenseTypeEnum.MULTA_NAO_PAGA,
+        },
         {
           where: {
-            expense_type_id: not_discounted_sale_value === 'true' ? 10 : 9,
+            expense_type_id:
+              not_discounted_sale_value === 'true'
+                ? ExpenseTypeEnum.MULTA_NAO_PAGA
+                : ExpenseTypeEnum.MULTA_PAGA,
             vehicle_id,
           },
         }
@@ -237,11 +244,12 @@ class SaleController {
           id: vehiclePreviousId,
           active: true,
         })
+
         Expense.update(
-          { expense_type_id: 7 },
+          { expense_type_id: ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO },
           {
             where: {
-              expense_type_id: 8,
+              expense_type_id: ExpenseTypeEnum.DESPESA_VEICULO_VENDIDO,
               vehicle_id: vehiclePreviousId,
             },
           }
@@ -249,22 +257,28 @@ class SaleController {
       }
 
       Expense.update(
-        { expense_type_id: 8 },
+        { expense_type_id: ExpenseTypeEnum.DESPESA_VEICULO_VENDIDO },
         {
           where: {
-            expense_type_id: 7,
+            expense_type_id: ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
             vehicle_id,
           },
         }
       )
 
-      // 9 multa paga
-      // 10 multa não paga
       Expense.update(
-        { expense_type_id: not_discounted_sale_value === 'true' ? 9 : 10 },
+        {
+          expense_type_id:
+            not_discounted_sale_value === 'true'
+              ? ExpenseTypeEnum.MULTA_PAGA
+              : ExpenseTypeEnum.MULTA_NAO_PAGA,
+        },
         {
           where: {
-            expense_type_id: not_discounted_sale_value === 'true' ? 10 : 9,
+            expense_type_id:
+              not_discounted_sale_value === 'true'
+                ? ExpenseTypeEnum.MULTA_NAO_PAGA
+                : ExpenseTypeEnum.MULTA_PAGA,
             vehicle_id,
           },
         }
@@ -291,28 +305,6 @@ class SaleController {
 
     const sale = await Sale.findByPk(id)
 
-    Expense.update(
-      { expense_type_id: 7 },
-      {
-        where: {
-          expense_type_id: 8,
-          vehicle_id: sale.vehicle_id,
-        },
-      }
-    )
-
-    // 9 multa paga
-    // 10 multa não paga
-    Expense.update(
-      { expense_type_id: 10 },
-      {
-        where: {
-          expense_type_id: 9,
-          vehicle_id: sale.vehicle_id,
-        },
-      }
-    )
-
     if (!sale) {
       return res.status(400).json({ error: 'Venda não encontrada' })
     }
@@ -326,6 +318,26 @@ class SaleController {
     await Sale.destroy({
       where: { id },
     })
+
+    Expense.update(
+      { expense_type_id: ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO },
+      {
+        where: {
+          expense_type_id: ExpenseTypeEnum.DESPESA_VEICULO_VENDIDO,
+          vehicle_id: sale.vehicle_id,
+        },
+      }
+    )
+
+    Expense.update(
+      { expense_type_id: ExpenseTypeEnum.MULTA_NAO_PAGA },
+      {
+        where: {
+          expense_type_id: ExpenseTypeEnum.MULTA_PAGA,
+          vehicle_id: sale.vehicle_id,
+        },
+      }
+    )
 
     return res.json('ok')
   }

@@ -248,13 +248,13 @@ const Report = ({ sale, expensesList, totalExpenseValue }) => {
             <div>
               <div>
                 <p>
-                  Abatidas do Valor do Carro (Loja a pagar):
+                  Abatidas do valor da venda (cliente pagar):
                   <span>{sale.discounted_sale_value}</span>
                 </p>
               </div>
               <div>
                 <p>
-                  Não abatidas (Cliente a pagar):
+                  Não abatidas (Loja pagar):
                   <span>{sale.not_discounted_sale_value}</span>
                 </p>
               </div>
@@ -269,7 +269,7 @@ const Report = ({ sale, expensesList, totalExpenseValue }) => {
                   <li>
                     <p>Auto de Infração</p>
                     <p>Valor</p>
-                  </li>                  
+                  </li>
                 </ul>
                 <ul>
                   {expensesList.map(expense => (

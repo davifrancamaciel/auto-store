@@ -38,7 +38,7 @@ const SaleCreateEdit = () => {
   const [selectedVehicle, setSelectedVehicle] = useState({})
   const [values, setValues] = useState({})
   const [valueSaleVehicle, setValueSaleVehicle] = useState(0)
-
+  
   useEffect(() => {
     setorigins(getSaleOrigins())
     setFinancial(getSaleFinancial())

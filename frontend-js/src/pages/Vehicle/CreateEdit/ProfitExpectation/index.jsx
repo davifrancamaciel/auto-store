@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import api from '../../../../services/api'
 import { formatPrice } from '../../../../Utils/formatPrice'
+import ExpenseTypeEnum from '../../../../enums/expenseTypes'
 
 import { Container, Td } from './styles'
 
@@ -15,10 +16,10 @@ const ProfitExpectation = ({ vehicle, values }) => {
           params: {
             limit: 50,
             vehicle_id: vehicle.id,
-            constant: [
-              'MULTA_PAGA',
-              'DESPESA_VEICULO_NAO_VENDIDO',
-              'DESPESA_VEICULO_VENDIDO'
+            expense_type_id: [
+              ExpenseTypeEnum.MULTA_PAGA,
+              ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+              ExpenseTypeEnum.DESPESA_VEICULO_VENDIDO
             ]
           }
         })

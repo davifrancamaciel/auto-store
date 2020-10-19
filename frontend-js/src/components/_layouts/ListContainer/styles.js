@@ -16,8 +16,10 @@ export const Ul = styled.ul`
 `
 
 export const Li = styled.li`
-  opacity: ${props => (props.active == false ? 0.5 : 1)};
-  background: #fff;
+  // opacity: ${props => (props.active == false ? 0.5 : 1)};
+  // background: #fff;
+  background: ${props => (props.active == false ? '#00000000' : '#fff')} ;
+  
   box-shadow: 0 0 14px 0 #00000033;
   border-radius: 2px;
   padding: 20px;

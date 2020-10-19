@@ -12,6 +12,7 @@ import api from '../../../services/api'
 import getValidationErrors from '../../../Utils/getValidationErrors'
 import showToast from '../../../Utils/showToast'
 import { formatPrice } from '../../../Utils/formatPrice'
+import ExpenseTypeEnum from '../../../enums/expenseTypes'
 
 import { Ul } from '../../../components/_layouts/ListContainer/styles'
 import { Main } from './styles'
@@ -29,7 +30,10 @@ const ExpenseList = function ({ setExpensesList, setExpense, expensesList }) {
           params: {
             limit: 50,
             vehicle_id: id,
-            constant: ['DESPESA_VEICULO_NAO_VENDIDO', 'DESPESA_VEICULO_VENDIDO']
+            expense_type_id: [
+              ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+              ExpenseTypeEnum.DESPESA_VEICULO_VENDIDO
+            ]
           }
         })
 

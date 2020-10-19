@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import api from '../../../../services/api'
 import { formatPrice } from '../../../../Utils/formatPrice'
+import ExpenseTypeEnum from '../../../../enums/expenseTypes'
 
 import { Container, Td } from './styles'
 
-const ProfitExpectation = ({ selectedVehicle, setValueSaleVehicle }) => {
+const ProfitExpectation = ({ selectedVehicle, setValueSaleVehicle,  }) => {
   const [expensesList, setExpensesList] = useState([])
   const [totalExpenseValue, setTotalExpenseValue] = useState(0)
   const [vehicle, setVehicle] = useState({})
@@ -16,11 +17,12 @@ const ProfitExpectation = ({ selectedVehicle, setValueSaleVehicle }) => {
           params: {
             limit: 50,
             vehicle_id: selectedVehicle.value,
-            constant: [
-              'MULTA_PAGA',
-              'DESPESA_VEICULO_NAO_VENDIDO',
-              'DESPESA_VEICULO_VENDIDO'
-            ]
+            expense_type_id: [
+              ExpenseTypeEnum.MULTA_PAGA,
+              // ExpenseTypeEnum.MULTA_NAO_PAGA,
+              ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+              ExpenseTypeEnum.DESPESA_VEICULO_VENDIDO
+            ]            
           }
         })
         setExpensesList(response.data.rows)

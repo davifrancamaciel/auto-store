@@ -16,6 +16,7 @@ import getValidationErrors from '../../../Utils/getValidationErrors'
 import { priceToNumber } from '../../../Utils/formatPrice'
 import showToast from '../../../Utils/showToast'
 import { formatPrice } from '../../../Utils/formatPrice'
+import ExpenseTypeEnum from '../../../enums/expenseTypes'
 import validation from './validation'
 
 import { ContainerExpenseVehicleForm } from './styles'
@@ -45,7 +46,7 @@ export default function CreateEdit ({
         id: expense ? Number(expense.id) : 0,
         expense_type_id: expense.expense_type_id
           ? Number(expense.expense_type_id)
-          : 7, //type: { name: 'Despesa de veículo não vendido' },
+          : ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
         vehicle_id
       }
       setExpense(saveExpense)

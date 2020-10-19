@@ -1,5 +1,6 @@
 import { Op } from 'sequelize'
 import ExpenseType from '../models/ExpenseType'
+import ExpenseTypeEnum from '../enums/expenseTypes'
 
 class ExpenseTypeController {
   async index (req, res) {
@@ -7,12 +8,12 @@ class ExpenseTypeController {
       order: ['name'],
       attributes: ['id', 'name'],
       where: {
-        constant: {
+        id: {
           [Op.notIn]: [
-            'DESPESA_VEICULO_VENDIDO',
-            'DESPESA_VEICULO_NAO_VENDIDO',
-            'MULTA_PAGA',
-            'MULTA_NAO_PAGA',
+            ExpenseTypeEnum.DESPESA_VEICULO_VENDIDO,
+            ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+            ExpenseTypeEnum.MULTA_PAGA,
+            ExpenseTypeEnum.MULTA_NAO_PAGA,
           ],
         },
       },

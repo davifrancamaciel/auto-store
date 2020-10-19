@@ -3,6 +3,7 @@ import { Op } from 'sequelize'
 import Expense from '../../models/Expense'
 import ExpenseType from '../../models/ExpenseType'
 import Vehicle from '../../models/Vehicle'
+import ExpenseTypeEnum from '../../enums/expenseTypes'
 import { startOfDay, endOfDay, parseISO } from 'date-fns'
 
 class ExpenseIndexService {
@@ -17,28 +18,24 @@ class ExpenseIndexService {
     sorting,
     vehicle_id,
     limit,
-    constant,
   }) {
     let whereStatement = {
       company_id,
     }
-    let whereStatementType = {}
 
     if (!vehicle_id)
-      whereStatementType.constant = {
+      whereStatement.expense_type_id = {
         [Op.notIn]: [
-          'DESPESA_VEICULO_VENDIDO',
-          'DESPESA_VEICULO_NAO_VENDIDO',
-          'MULTA_PAGA',
-          'MULTA_NAO_PAGA',
+          // ExpenseTypeEnum.DESPESA_VEICULO_VENDIDO,
+          ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+          // ExpenseTypeEnum.MULTA_PAGA,
+          ExpenseTypeEnum.MULTA_NAO_PAGA,
         ],
       }
 
     if (vehicle_id) whereStatement.vehicle_id = vehicle_id
 
     if (expense_type_id) whereStatement.expense_type_id = expense_type_id
-
-    if (constant) whereStatementType.constant = constant
 
     if (description)
       whereStatement.description = {
@@ -74,12 +71,11 @@ class ExpenseIndexService {
           model: ExpenseType,
           as: 'type',
           attributes: ['name'],
-          where: whereStatementType,
         },
         {
           model: Vehicle,
           as: 'vehicle',
-          attributes: ['model', 'brand'],
+          attributes: ['model', 'brand', 'board'],
         },
       ],
     })

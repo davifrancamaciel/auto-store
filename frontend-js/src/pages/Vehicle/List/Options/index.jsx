@@ -64,13 +64,15 @@ export default function MenuListComposition ({ id }) {
         role={undefined}
         transition
         disablePortal
-        // style={{ zIndex: 1 }}
+        style={{
+          zIndex: 1,
+          opacity: 1
+        }}
       >
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
             style={{
-              // zIndex: 1,
               transformOrigin:
                 placement === 'bottom' ? 'center top' : 'center bottom'
             }}

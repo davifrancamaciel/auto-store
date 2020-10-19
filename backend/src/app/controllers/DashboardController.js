@@ -13,7 +13,7 @@ import Company from '../models/Company'
 import User from '../models/User'
 import Vehicle from '../models/Vehicle'
 import Expense from '../models/Expense'
-import ExpenseType from '../models/ExpenseType'
+import ExpenseTypeEnum from '../enums/expenseTypes'
 import Sale from '../models/Sale'
 
 class DashboardController {
@@ -56,22 +56,16 @@ class DashboardController {
           attributes: ['value'],
           where: {
             company_id: userCompanyId,
+            expense_type_id: {
+              [Op.notIn]: [
+                ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+                ExpenseTypeEnum.MULTA_NAO_PAGA,
+              ],
+            },
             createdAt: {
               [Op.between]: [startOfMonth(new Date()), endOfMonth(new Date())],
             },
           },
-          include: [
-            {
-              model: ExpenseType,
-              as: 'type',
-              attributes: [],
-              where: {
-                constant: {
-                  [Op.notIn]: ['DESPESA_VEICULO_NAO_VENDIDO', 'MULTA_NAO_PAGA'],
-                },
-              },
-            },
-          ],
         })
 
         const total = rows.reduce((totalSum, expense) => {
@@ -130,22 +124,16 @@ class DashboardController {
       order: [['createdAt', 'ASC']],
       where: {
         company_id: userCompanyId,
+        expense_type_id: {
+          [Op.notIn]: [
+            ExpenseTypeEnum.DESPESA_VEICULO_NAO_VENDIDO,
+            ExpenseTypeEnum.MULTA_NAO_PAGA,
+          ],
+        },
         createdAt: {
           [Op.between]: [subYears(new Date(), 1), endOfMonth(new Date())],
         },
       },
-      include: [
-        {
-          model: ExpenseType,
-          as: 'type',
-          attributes: [],
-          where: {
-            constant: {
-              [Op.notIn]: ['DESPESA_VEICULO_NAO_VENDIDO', 'MULTA_NAO_PAGA'],
-            },
-          },
-        },
-      ],
     })
 
     const expenses = rows.map(expense => {

@@ -16,6 +16,7 @@ import getValidationErrors from '../../../Utils/getValidationErrors'
 import { priceToNumber } from '../../../Utils/formatPrice'
 import showToast from '../../../Utils/showToast'
 import { formatPrice } from '../../../Utils/formatPrice'
+import ExpenseTypeEnum from '../../../enums/expenseTypes'
 import validation from './validation'
 
 import { ContainerExpenseVehicleForm } from './styles'
@@ -36,7 +37,6 @@ export default function CreateEdit ({
   const vehicle_id = Number(id)
   const [loading, setLoading] = useState(false)
 
- 
   async function handleSubmit (data) {
     try {
       const saveExpense = {
@@ -45,7 +45,7 @@ export default function CreateEdit ({
         id: expense ? Number(expense.id) : 0,
         expense_type_id: expense.expense_type_id
           ? Number(expense.expense_type_id)
-          : 10, // type: { name: 'Multa não paga' },
+          : ExpenseTypeEnum.MULTA_NAO_PAGA,
         vehicle_id
       }
       setExpense(saveExpense)

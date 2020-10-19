@@ -29,7 +29,8 @@ function Item ({ item, onDeleteClick, onUpdateClick, provider }) {
       </header>
       {item.vehicle && (
         <ResponsiveText>
-          {`${item.vehicle.brand} ${item.vehicle.model}`}{' '}
+          {`${item.vehicle.brand} ${item.vehicle.model} `}
+          <span className='as-to-uppercase'>{item.vehicle.board}</span>
         </ResponsiveText>
       )}
       <ResponsiveText>{item.description}</ResponsiveText>

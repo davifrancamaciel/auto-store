@@ -11,6 +11,7 @@ import {
 } from '../../../Utils/formatPrice'
 import { getSaleFinancial, getSaleOrigins } from '../../../Utils/saleConstants'
 import checkReport from '../../../Utils/checkReport'
+import ExpenseTypeEnum from '../../../enums/expenseTypes'
 
 import ContractReport from '../../../components/Report/Sale'
 import Container from '../../../components/_layouts/Container'
@@ -92,7 +93,10 @@ const Contract = function () {
           params: {
             limit: 50,
             vehicle_id: sale.vehicle_id,
-            constant: ['MULTA_PAGA', 'MULTA_NAO_PAGA']
+            expense_type_id: [
+              ExpenseTypeEnum.MULTA_PAGA,
+              ExpenseTypeEnum.MULTA_NAO_PAGA
+            ]
           }
         })
 

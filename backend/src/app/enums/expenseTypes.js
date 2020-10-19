@@ -1,0 +1,14 @@
+const ExpenseType = {
+  DESPESAS: 1,
+  FOLHA: 2,
+  IMPOSTOS: 3,
+  DESPESAS_VARIAVEIS: 4,
+  POS_VENDA: 5,
+  PUBLICIDADE: 6,
+  DESPESA_VEICULO_NAO_VENDIDO: 7,
+  DESPESA_VEICULO_VENDIDO: 8,
+  MULTA_PAGA: 9,
+  MULTA_NAO_PAGA: 10,
+}
+
+export default ExpenseType
