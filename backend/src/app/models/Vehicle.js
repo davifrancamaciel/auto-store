@@ -23,7 +23,7 @@ class Vehicle extends Model {
         manual: Sequelize.BOOLEAN,
         key_copy: Sequelize.BOOLEAN,
         color: Sequelize.STRING,
-        renavan: Sequelize.STRING,
+        renavam: Sequelize.STRING,
         active: Sequelize.BOOLEAN,
       },
       { sequelize }

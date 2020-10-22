@@ -32,7 +32,7 @@ export default async (req, res, next) => {
         .max(250, 'Máximo 250 caracteres'),
       value_sale: Yup.string().optional(),
       value_purchase: Yup.string().optional(),
-      renavan: Yup.string()
+      renavam: Yup.string()
         .optional()
         .max(20, 'Máximo 20 caracteres'),
       color: Yup.string()

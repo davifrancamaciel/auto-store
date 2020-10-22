@@ -87,7 +87,7 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: true,
       },
-      renavan: {
+      renavam: {
         type: Sequelize.STRING(50),
         allowNull: true,
       },

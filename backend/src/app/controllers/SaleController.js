@@ -71,7 +71,7 @@ class SaleController {
             'value_sale',
             'optional',
             'color',
-            'renavan',
+            'renavam',
           ],
         },
         {
