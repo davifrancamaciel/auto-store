@@ -38,7 +38,7 @@ function Dropzone ({ onFileSelectedUpload, image, multiple, onUpload }) {
 
   return (
     <div>
-      <Container {...getRootProps()} className='gf-dropzone'>
+      <Container {...getRootProps()} className='as-dropzone'>
         <input
           {...getInputProps()}
           // isDragActive={isDragActive}

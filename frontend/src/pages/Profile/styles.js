@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { darken } from 'polished'
 
 export const ProfileContainer = styled.div`
-  .gf-dropzone {
+  .as-dropzone {
     width: 200px;
     border-radius: 50%;
     margin: auto;

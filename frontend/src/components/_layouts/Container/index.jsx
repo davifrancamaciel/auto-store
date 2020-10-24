@@ -9,7 +9,7 @@ function WrapperContainer ({ loading = false, children, title }) {
   return (
     <Container loading={_loading ? _loading.toString() : undefined}>
       {title && <h1>{title}</h1>}
-      <div className='gf-loading'>
+      <div className='as-loading'>
         <AiOutlineLoading3Quarters size={90} />
       </div>
       {children}

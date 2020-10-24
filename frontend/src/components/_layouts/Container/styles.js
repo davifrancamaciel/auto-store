@@ -46,7 +46,7 @@ export const Container = styled.div`
       }
     }
   }
-  .gf-loading {
+  .as-loading {
     display: none;
     ${props =>
       props.loading &&
