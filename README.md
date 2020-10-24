@@ -21,7 +21,6 @@
 -  [Git](https://git-scm.com)
 -  [Node](https://nodejs.org/)
 -  [Yarn](https://yarnpkg.com/)
--  Ambiente para desenvolvimento mobile configurado conforme sistema operacional utilizado
 
 ### :arrow_down_small: Clonando o repositório
 Pelo terminal, acesse o diretório em que deseja ter o repositório clonado e execute o comando a seguir.
@@ -32,13 +31,30 @@ git clone https://github.com/davifrancamaciel/auto-store.git
 ### :computer: Iniciando o projeto
 
 
-Pelo terminal, acesse o diretório auto-store do repositório clonado e execute os seguintes comandos separadamente.
+Pelo terminal, acesse o diretório auto-store/frontend do repositório clonado e execute os seguintes comandos separadamente para executar a aplicação (frontend).
+Obs antes de rodar os comandos abaixo copie e cole o arquivo .env.example remomei o mesmo para somente .env e adicione as configurações de sua preferência
 ```bash
 # instalando as dependências
 yarn install
 
 # iniciando a aplicação
 yarn start
+```
+
+Pelo terminal, acesse o diretório auto-store/backend do repositório clonado e execute os seguintes comandos separadamente para executar a API (backend). 
+Obs antes de rodar os comandos abaixo copie e cole o arquivo .env.example remomei o mesmo para somente .env e adicione as configurações de sua preferência
+```bash
+# instalando as dependências
+yarn install
+
+# criando as tabelas no banco de dados
+yarn migrate
+
+# inserindo dados default nas tabelas criadas no banco de dados
+yarn seeds
+
+# iniciando a api
+yarn dev
 ```
 
 
@@ -55,5 +71,7 @@ yarn start
 -  [React Redux](https://react-redux.js.org/)
 -  [Redux](https://redux.js.org/)
 -  [Redux Saga](https://redux-saga.js.org/)
+-  [Docker](https://www.docker.com/)
+-  [PostgreSQL](https://www.postgresql.org/)
 
 
