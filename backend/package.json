@@ -5,10 +5,16 @@
   "license": "MIT",
   "scripts": {
     "migrate": "yarn sequelize db:migrate",
+    "migrate:prod": "env-cmd -f.env.production yarn sequelize db:migrate",
     "undo": "yarn sequelize db:migrate:undo:all",
     "seeds": "yarn sequelize db:seed:all",
+    "seeds:prod": "env-cmd -f.env.production yarn sequelize db:seed:all",
     "dev": "nodemon src/server.js",
-    "build": "sucrase ./src -d ./dist --transforms imports"
+    "dev:prod": "env-cmd -f.env.production nodemon src/server.js",
+    "build": "sucrase ./src -d ./dist --transforms imports",
+    "build:prod": "env-cmd -f.env.production sucrase ./src -d ./dist --transforms imports",
+    "start": "node dist/server.js",
+    "start:prod": "env-cmd -f.env.production node dist/server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -17,6 +23,7 @@
     "crypto": "^1.0.1",
     "date-fns": "^2.15.0",
     "dotenv": "^8.0.0",
+    "env-cmd": "^10.1.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
