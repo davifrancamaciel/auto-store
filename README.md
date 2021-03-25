@@ -12,9 +12,9 @@
   O projeto foi desenvolvido com a finalidade de gerenciar lojas automotivas
 </h3>
 
-  Funcionalidades:
+ Crie sua conta no link abaixo:
 
-  -  
+ -  [Demo](https://gestao-flex.web.app)
 
 ### :heavy_check_mark: Configurações necessárias
 
