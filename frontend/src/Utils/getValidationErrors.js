@@ -11,4 +11,9 @@ export default function getValidationErrors (err) {
   
   showToast.error(message)  
 
+  if (err.response.status === 401) {
+		const btnLogout = document.getElementById('logout');
+		btnLogout && btnLogout.click();
+	}
+
 }

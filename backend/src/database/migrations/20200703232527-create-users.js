@@ -50,8 +50,7 @@ module.exports = {
       },
       profession: {
         type: Sequelize.STRING(100),
-        allowNull: false,
-        unique: true,
+        allowNull: true,
       },
       neighborhood: {
         type: Sequelize.STRING(100),

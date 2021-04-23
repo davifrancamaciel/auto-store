@@ -28,6 +28,14 @@ class User extends Model {
         password_hash: Sequelize.STRING,
         provider: Sequelize.BOOLEAN,
         active: Sequelize.BOOLEAN,
+        url: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            return `${process.env.APP_URL}/files/${
+              this.image ? this.image : 'avatar.png'
+            }`;
+          },
+        },
       },
       { sequelize }
     );

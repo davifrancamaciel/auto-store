@@ -1,10 +1,10 @@
+import avatar from '../assets/avatar.png'
 export default function getImage (image, name) {
-  const urlDefault = `https://api.adorable.io/avatar/50/${name}.png`
   try {
     return image
       ? `${process.env.REACT_APP_API_URL}/files/${image}`
-      : urlDefault
+      : avatar
   } catch (error) {
-    return urlDefault
+    return avatar
   }
 }

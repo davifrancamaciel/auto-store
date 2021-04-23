@@ -119,7 +119,7 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
-      report_take_care: {
+      report_precautionary: {
         //Laudo Cautelar
         type: Sequelize.BOOLEAN,
         allowNull: false,

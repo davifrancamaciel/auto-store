@@ -54,7 +54,7 @@ export default function SimpleMenu () {
         {!profile.company_provider && (
           <MenuItem onClick={() => handleClose('company')}>Minha Loja</MenuItem>
         )}
-        <MenuItem onClick={() => handleClose('logout')}>Sair</MenuItem>
+        <MenuItem id="logout" onClick={() => handleClose('logout')}>Sair</MenuItem>
       </Menu>
     </div>
   )
