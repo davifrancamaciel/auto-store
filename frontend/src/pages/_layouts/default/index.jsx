@@ -1,15 +1,19 @@
-import React from 'react'
+import React from 'react';
 
-import Header from '../../../components/Header'
-import { Wrapper } from './styles'
+import Header from '../../../components/Header';
+import Splash from '../../../components/Splash';
+
+import { Wrapper } from './styles';
 
 const DefaultLayout = ({ children }) => {
-  return (
-    <Wrapper className='as-layout-default'>
-      <Header />
-      {children}
-    </Wrapper>
-  )
-}
+	return (
+		<Splash>
+			<Wrapper className="as-layout-default">
+				<Header />
+				{children}
+			</Wrapper>
+		</Splash>
+	);
+};
 
-export default DefaultLayout
+export default DefaultLayout;

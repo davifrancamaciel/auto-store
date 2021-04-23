@@ -13,11 +13,11 @@ const RouterWrapper = ({
   const { signed } = store.getState().auth
   
   if (!signed && isPrivate) {
-    return <Redirect to='/' />
+    return <Redirect to='/?r=true' />
   }
 
   if (signed && !isPrivate) {
-    return <Redirect to='/dashboard' />
+    return <Redirect to='/dashboard?r=true' />
   }
 
   const Layout = signed ? DefaultLayout : AuthLayout
@@ -27,7 +27,7 @@ const RouterWrapper = ({
       {...rest}
       render={props => (
         <Layout>          
-          <Component {...props} {...rest} />
+          <Component {...props} />
         </Layout>
       )}
     />
