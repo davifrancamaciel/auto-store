@@ -12,7 +12,7 @@
   O projeto foi desenvolvido com a finalidade de gerenciar lojas automotivas
 </h3>
 
- Crie sua conta no link abaixo:
+## Crie sua conta no link abaixo:
 
  -  [Demo](https://gestao-flex.web.app)
 
@@ -73,5 +73,4 @@ yarn dev
 -  [Redux Saga](https://redux-saga.js.org/)
 -  [Docker](https://www.docker.com/)
 -  [PostgreSQL](https://www.postgresql.org/)
-
-
+-  [Firebase hosting](https://firebase.google.com/products/hosting)
